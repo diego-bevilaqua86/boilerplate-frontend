@@ -1,0 +1,10 @@
+{
+  "name": "@boilerplate-frontend/boilerplate-frontend-e2e",
+  "version": "0.0.1",
+  "private": true,
+  "nx": {
+    "implicitDependencies": [
+      "@boilerplate-frontend/boilerplate-frontend"
+    ]
+  }
+}
