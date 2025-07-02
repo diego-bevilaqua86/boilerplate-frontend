@@ -4,10 +4,13 @@
   "files": [],
   "references": [
     {
-      "path": "./apps/boilerplate-frontend-e2e"
+      "path": "./apps/authentication-e2e"
     },
     {
-      "path": "./apps/boilerplate-frontend"
+      "path": "./apps/authentication"
+    },
+    {
+      "path": "./libs/utils"
     }
   ]
 }
