@@ -6,17 +6,12 @@ type BaseTextInputProps = TextInputProps & {
   error?: string;
 };
 
-type ControlledTextInputProps = BaseTextInputProps & {
-  reactHookForm?: false;
-};
+type GenericTextInputProps = BaseTextInputProps;
 
 type HookFormTextInputProps = BaseTextInputProps &
   Partial<UseControllerProps> & {
-    reactHookForm: true;
     name: string;
   };
-
-type TextInputComponentProps = ControlledTextInputProps | HookFormTextInputProps;
 
 const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
   ({ error, ...props }, ref) => {
@@ -24,11 +19,26 @@ const BaseTextInput = forwardRef<HTMLInputElement, BaseTextInputProps>(
   }
 );
 
-export const TestTextInput = (props: TextInputComponentProps) => {
-  if (props.reactHookForm) {
-    const { reactHookForm, name, control, defaultValue, rules, ...rest } = props;
+// Alteração: agora os dois TextInputs são exportados com ref. preservada
+// Alteração: adicionado erro caso control não seja repassado ao HookFormTextInput
+
+export const GenericTextInput = forwardRef<HTMLInputElement, GenericTextInputProps>(
+  (props, ref) => {
+    return <BaseTextInput {...props} ref={ref} />;
+  }
+);
+
+export const HookFormTextInput = forwardRef<HTMLInputElement, HookFormTextInputProps>(
+  ({ name, control, defaultValue, rules, ...rest }, ref) => {
     const formContext = useFormContext();
-    
+
+    if (!control && !formContext) {
+      console.error(
+        'HookFormTextInput: Deve fornecer control ou usar dentro de FormProvider'
+      );
+      return <BaseTextInput error="Erro de configuração" {...rest} ref={ref} />;
+    }
+
     const {
       field,
       fieldState: { error },
@@ -39,13 +49,6 @@ export const TestTextInput = (props: TextInputComponentProps) => {
       rules,
     });
 
-    if (!control && !formContext) {
-      console.error('TestTextInput: Quando reactHookForm=true, você deve fornecer control ou usar dentro de FormProvider');
-      return <BaseTextInput error="Erro de configuração" {...rest} />;
-    }
-
-    return <BaseTextInput {...field} error={error?.message} {...rest} />;
+    return <BaseTextInput {...field} error={error?.message} {...rest} ref={ref} />;
   }
-
-  return <BaseTextInput {...props} />;
-};
+);
