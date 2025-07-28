@@ -1,8 +1,8 @@
 import { MantineProvider } from '@mantine/core';
 import { FC } from 'react';
 import { theme } from './theme';
-import { TestTextInput } from './ui/atoms/TestTextInput/TestTextInput';
 import { useForm } from 'react-hook-form';
+import { HookFormTextInput, GenericTextInput } from '../src/ui/atoms/TestTextInput/TestTextInput';
 
 export const App: FC<unknown> = () => {
   const { control } = useForm();
@@ -12,11 +12,10 @@ export const App: FC<unknown> = () => {
       Is it better now?
       
       {/* Versão sem react-hook-form */}
-      <TestTextInput />
+      <GenericTextInput />
       
       {/* Versão com react-hook-form, passando control */}
-      <TestTextInput 
-        reactHookForm 
+      <HookFormTextInput 
         name="teste" 
         control={control}
       />
