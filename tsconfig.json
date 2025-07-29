@@ -12,5 +12,12 @@
     {
       "path": "./libs/utils"
     }
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "es6",
+      "moduleResolution": "node10",
+      "customConditions": null
+    }
+  }
 }
