@@ -1,4 +1,5 @@
 /// <reference types='vitest' />
+import { lingui } from '@lingui/vite-plugin';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 
@@ -6,14 +7,19 @@ export default defineConfig(() => ({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/authentication',
   server: {
-    port: 4200,
+    port: 8080,
     host: 'localhost',
   },
   preview: {
-    port: 4200,
+    port: 8080,
     host: 'localhost',
   },
-  plugins: [react()],
+  plugins: [
+    react({
+      plugins: [['@lingui/swc-plugin', {}]],
+    }),
+    lingui(),
+  ],
   // Uncomment this if you are using workers.
   // worker: {
   //  plugins: [ nxViteTsPaths() ],

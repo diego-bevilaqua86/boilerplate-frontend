@@ -11,6 +11,28 @@
     },
     {
       "path": "./libs/utils"
+    },
+    {
+      "path": "./libs/api-authentication-data-access"
+    },
+    {
+      "path": "./libs/types"
+    },
+    {
+      "path": "./libs/api-client-data-access"
+    },
+    {
+      "path": "./libs/ui"
+    },
+    {
+      "path": "./libs/i18n"
     }
-  ]
+  ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "moduleResolution": "node10",
+      "customConditions": null
+    }
+  }
 }

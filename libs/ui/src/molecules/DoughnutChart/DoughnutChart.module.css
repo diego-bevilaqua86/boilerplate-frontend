@@ -1,0 +1,7 @@
+.doughnut-chart__legend-text {
+  font-size: var(--mantine-font-size-sm, 0.75rem);
+  line-height: var(--mantine-line-height-sm, 1.25);
+  color: var(--mantine-color-text);
+  display: inline-flex;
+  text-align: end;
+}

@@ -1,0 +1,55 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2025-10-23 11:59-0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: pt\n"
+
+#: libs/types/src/validators/Authentication.validators.ts:70
+msgid "As senhas digitadas não coincidem."
+msgstr "As senhas digitadas não coincidem."
+
+#: libs/types/src/validators/Default.validators.ts:49
+msgid "E-mail é requerido."
+msgstr "E-mail é requerido."
+
+#: libs/types/src/validators/Authentication.validators.ts:91
+msgid "Falha na autenticação: token de autorização não recebido / inválido."
+msgstr "Falha na autenticação: token de autorização não recebido / inválido."
+
+#: libs/types/src/validators/Default.validators.ts:43
+#: libs/types/src/validators/Default.validators.ts:46
+msgid "Informe um MongoID válido."
+msgstr "Informe um MongoID válido."
+
+#: libs/types/src/validators/Default.validators.ts:49
+#: libs/types/src/validators/Default.validators.ts:63
+msgid "Insira um e-mail válido."
+msgstr "Insira um e-mail válido."
+
+#: libs/types/src/validators/Default.validators.ts:5
+#: libs/types/src/validators/Default.validators.ts:15
+msgid "Insira um texto válido."
+msgstr "Insira um texto válido."
+
+#: libs/types/src/validators/Default.validators.ts:27
+#: libs/types/src/validators/Default.validators.ts:40
+msgid "Insira uma data válida."
+msgstr "Insira uma data válida."
+
+#: libs/types/src/validators/Authentication.validators.ts:21
+msgid "Preencha completamente o código."
+msgstr "Preencha completamente o código."
+
+#: libs/types/src/validators/Authentication.validators.ts:13
+#: libs/types/src/validators/Authentication.validators.ts:34
+#: libs/types/src/validators/Authentication.validators.ts:50
+msgid "Senha deve ter no mínimo 8 caracteres."
+msgstr "Senha deve ter no mínimo 8 caracteres."
+
+#: libs/types/src/validators/Authentication.validators.ts:45
+#: libs/types/src/validators/Authentication.validators.ts:61
+msgid "Senha deve ter no mínimo um caractere maiúsculo, um caractere minúsculo e um número."
+msgstr "Senha deve ter no mínimo um caractere maiúsculo, um caractere minúsculo e um número."

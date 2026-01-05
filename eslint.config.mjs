@@ -1,11 +1,11 @@
 import nx from '@nx/eslint-plugin';
-import mantine from 'eslint-config-mantine';
+// import mantine from 'eslint-config-mantine';
 
 export default [
   ...nx.configs['flat/base'],
   ...nx.configs['flat/typescript'],
   ...nx.configs['flat/javascript'],
-  ...mantine,
+  // ...mantine,
   {
     ignores: ['**/dist', '**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*', '**/test-output'],
   },

@@ -6,6 +6,12 @@
       "path": "../../libs/utils"
     },
     {
+      "path": "../../libs/ui"
+    },
+    {
+      "path": "../../libs/i18n"
+    },
+    {
       "path": "./tsconfig.app.json"
     },
     {
