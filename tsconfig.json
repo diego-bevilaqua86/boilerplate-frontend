@@ -26,6 +26,12 @@
     },
     {
       "path": "./libs/i18n"
+    },
+    {
+      "path": "./apps/admin-e2e"
+    },
+    {
+      "path": "./apps/admin"
     }
   ],
   "ts-node": {

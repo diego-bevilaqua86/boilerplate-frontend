@@ -19,18 +19,18 @@ export const REPORT_QUERY_KEYS: QueryKeys<ReportQueryKey> = {
 
 export type PerformanceSelectFn<TData> = (data: PerformanceDTO) => TData;
 
-export const fetchPerformanceQueryOptions = <TData = PerformanceDTO>(
+export const fetchPerformanceQueryOptions = (
   filter: FetchPerformanceFilterDTO,
-  select?: PerformanceSelectFn<TData>,
-): UseSuspenseQueryOptions<PerformanceDTO, Error, TData> => ({
+  select?: PerformanceSelectFn<PerformanceDTO>,
+): UseSuspenseQueryOptions<PerformanceDTO, Error, PerformanceDTO> => ({
   queryKey: REPORT_QUERY_KEYS.fetchPerformance(filter.period, filter.groupingId, filter.walletId, filter.securityId),
   queryFn: async () => fetchPerformance(filter),
   select,
 });
 
-export const useFetchPerformance = <TData = PerformanceDTO>(
+export const useFetchPerformance = (
   filter: FetchPerformanceFilterDTO,
-  select?: PerformanceSelectFn<TData>,
+  select?: PerformanceSelectFn<PerformanceDTO>,
 ) => {
   return useSuspenseQuery(fetchPerformanceQueryOptions(filter, select));
-}
+};

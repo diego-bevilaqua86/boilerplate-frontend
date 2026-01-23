@@ -6,6 +6,7 @@ export * from './types/Authentication.types';
 export * from './types/Charts.types';
 export * from './types/ClientReport.types';
 export * from './types/Default.types';
+export * from './types/WalletGroupings.types';
 
 export * from './validators/Authentication.validators';
 export * from './validators/ClientReport.validators';

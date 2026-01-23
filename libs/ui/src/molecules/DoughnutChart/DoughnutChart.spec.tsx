@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { DoughnutChart } from './DoughnutChart';
-import { doughnutChartDataMock } from './DoughnutChart.stories';
+import { doughnutChartDataMock } from './mock';
 
 describe('DoughnutChart', () => {
   it('should render successfully', () => {

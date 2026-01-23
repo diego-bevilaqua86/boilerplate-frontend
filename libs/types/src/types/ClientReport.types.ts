@@ -1,8 +1,5 @@
 import { z } from 'zod';
-import { REPORT_PERIODS } from '../mappings/ClientReport.mappings';
 import { ClientReportFilterValidators, ClientReportValidators } from '../validators/ClientReport.validators';
-
-export type ReportPeriod = (typeof REPORT_PERIODS)[number];
 
 export type PerformanceByClassificationDTO = z.infer<
   ReturnType<typeof ClientReportValidators>['PerformanceByClassificationDTOSchema']
@@ -13,3 +10,47 @@ export type PerformanceDTO = z.infer<ReturnType<typeof ClientReportValidators>['
 export type FetchPerformanceFilterDTO = z.infer<
   ReturnType<typeof ClientReportFilterValidators>['FetchPerformanceFilterDTOSchema']
 >;
+
+export type FetchNetWorthOverPeriodFilter = z.infer<
+  ReturnType<typeof ClientReportFilterValidators>['FetchNetWorthOverPeriodFilterSchema']
+>;
+
+export type PositionDTO = {
+  _id: string;
+  name: string;
+  currency: string;
+  dataset: [
+    {
+      label: string;
+      value: number;
+    },
+  ];
+};
+
+export type NetWorthOverPeriods = {
+  _id: string;
+  name: string;
+  currency: string;
+  dataset: Array<{
+    classification: string;
+    dates: Array<string>;
+    values: Array<number>;
+  }>;
+};
+
+export type Performance = {
+  refersTo: string;
+  securityId: string | null;
+  values: Array<number>;
+  isBenchmark: boolean;
+};
+
+export type PerformanceOverPeriods = {
+  _id: string;
+  name: string;
+  currency: string;
+  initialDate: string;
+  finalDate: string;
+  dates: Array<string>;
+  performance: Array<Performance>;
+};

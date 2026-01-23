@@ -1,12 +1,13 @@
+import { isDate } from 'validator';
 import { z } from 'zod';
-import {
-  RequiredISODateSchema,
-  RequiredStringSchema,
-  OptionalMongoIDStringSchema,
-  RequiredMongoIDStringSchema,
-  OptionalISODateSchema,
-} from './Default.validators';
 import { PERFORMANCE_ITEM_TYPES, REPORT_PERIODS } from '../mappings/ClientReport.mappings';
+import {
+  OptionalISODateSchema,
+  OptionalMongoIDStringSchema,
+  RequiredISODateSchema,
+  RequiredMongoIDStringSchema,
+  RequiredStringSchema,
+} from './Default.validators';
 
 export const ClientReportFilterValidators = () => {
   const FetchPerformanceFilterDTOSchema = z
@@ -18,21 +19,40 @@ export const ClientReportFilterValidators = () => {
     })
     .strict();
 
-  const FetchPerformanceByClassificationDTOSchema = z.object({
-    groupingId: RequiredMongoIDStringSchema('Selecione um agrupamento válido.'),
-    period: z.enum(REPORT_PERIODS).default(REPORT_PERIODS[0]),
-    finalDate: OptionalISODateSchema('Informe uma data válida.')
-  }).strict();
+  const FetchPerformanceByClassificationDTOSchema = z
+    .object({
+      groupingId: RequiredMongoIDStringSchema('Selecione um agrupamento válido.'),
+      period: z.enum(REPORT_PERIODS).default(REPORT_PERIODS[0]),
+      finalDate: OptionalISODateSchema('Informe uma data válida.'),
+    })
+    .strict();
 
-  return { FetchPerformanceFilterDTOSchema, FetchPerformanceByClassificationDTOSchema };
+  const FetchNetWorthOverPeriodFilterSchema = z
+    .object({
+      clientId: OptionalMongoIDStringSchema('Selecione um cliente válido.'),
+      groupingId: RequiredMongoIDStringSchema('Selecione um agrupamento válido.'),
+      period: RequiredStringSchema('Selecione um ano válido.').refine(
+        (period) => isDate(period, { format: 'yyyy', strictMode: true }),
+        'Selecione um ano válido.',
+      ),
+    })
+    .strict();
+
+  return {
+    FetchPerformanceFilterDTOSchema,
+    FetchPerformanceByClassificationDTOSchema,
+    FetchNetWorthOverPeriodFilterSchema,
+  };
 };
 
 export const ClientReportValidators = () => {
-  const PerformanceItemSchema = z.object({
-    refersTo: RequiredStringSchema('Informe a classe/benchmark da performance'),
-    values: z.array(z.number(), 'Informe os valores de performance da classe/benchmark.'),
-    isBenchmark: z.boolean('Informe se esta é a performance de um benchmark'),
-  }).strict();
+  const PerformanceItemSchema = z
+    .object({
+      refersTo: RequiredStringSchema('Informe a classe/benchmark da performance'),
+      values: z.array(z.number(), 'Informe os valores de performance da classe/benchmark.'),
+      isBenchmark: z.boolean('Informe se esta é a performance de um benchmark'),
+    })
+    .strict();
 
   const PerformanceByClassificationDTOSchema = z
     .object({
@@ -58,14 +78,16 @@ export const ClientReportValidators = () => {
     })
     .strict();
 
-  const PerformanceDTOSchema = z.object({
-    currency: RequiredStringSchema('Informe a moeda dos dados de performance.'),
-    dates: z.array(
-      RequiredISODateSchema('Informe uma data válida.'),
-      'Informe as datas para as quais há dados de performance.',
-    ),
-    performance: z.array(PerformanceDataSchema, 'Informe os dados de performances.'),
-  }).strict();
+  const PerformanceDTOSchema = z
+    .object({
+      currency: RequiredStringSchema('Informe a moeda dos dados de performance.'),
+      dates: z.array(
+        RequiredISODateSchema('Informe uma data válida.'),
+        'Informe as datas para as quais há dados de performance.',
+      ),
+      performance: z.array(PerformanceDataSchema, 'Informe os dados de performances.'),
+    })
+    .strict();
 
   return { PerformanceByClassificationDTOSchema, PerformanceDTOSchema };
 };

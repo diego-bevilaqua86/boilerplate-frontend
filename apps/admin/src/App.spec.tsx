@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import VertBarChart from './VertBarChart';
+import App from './App';
 
-describe('VertBarChart', () => {
+describe('App', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<VertBarChart />);
+    const { baseElement } = render(<App />);
     expect(baseElement).toBeTruthy();
   });
 });
