@@ -19,7 +19,7 @@ const meta = {
     dataKey: 'itemLabel',
     seriesKeys: ['ItemA', 'ItemB', 'ItemC'],
     seriesLabels: ['Série A', 'Série B', 'Série C'],
-    seriesColors: ['paletteA.2', 'paletteA.6', 'paletteA.10'],
+    seriesColors: ['brand.2', 'brand.6', 'brand.10'],
     isStacked: false,
   },
   render: Render,

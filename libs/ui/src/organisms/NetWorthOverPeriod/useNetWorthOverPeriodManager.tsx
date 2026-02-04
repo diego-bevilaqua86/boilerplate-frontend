@@ -40,7 +40,7 @@ export const useNetWorthOverPeriodManager: UseNetWorthOverPeriodManagerFn = ({ n
       seriesColors.push(themeColors[index]);
     } else {
       // @ts-expect-error Não vai ser nulo.
-      seriesColors.push(BeehusTheme.colors?.paletteA[index]);
+      seriesColors.push(BeehusTheme.colors?.brand[index]);
     }
     data.push(dataItem);
   });

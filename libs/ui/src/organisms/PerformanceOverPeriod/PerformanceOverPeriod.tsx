@@ -36,7 +36,7 @@ const PerformanceOverPeriodDataRequest: FC<unknown> = () => {
     dataKey: 'itemLabel',
     seriesKeys: ['ItemA', 'ItemB', 'ItemC'],
     seriesLabels: ['Série A', 'Série B', 'Série C'],
-    seriesColors: ['paletteA.0', 'paletteA.2', 'paletteA.4'],
+    seriesColors: ['brand.0', 'brand.2', 'brand.4'],
   };
   return (
     <Box w={'100%'} h={320}>
