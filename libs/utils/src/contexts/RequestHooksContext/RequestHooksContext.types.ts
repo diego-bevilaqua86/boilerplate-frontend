@@ -2,6 +2,8 @@ import {
   FetchNetWorthOverPeriodFilter,
   NetWorthOverPeriods,
   PerformanceOverPeriods,
+  SecurityPositionByClass,
+  SecurityPositionByClassFilter,
 } from '@boilerplate-frontend/types';
 import { UseSuspenseQueryResult } from '@tanstack/react-query';
 
@@ -12,4 +14,7 @@ export type RequestHooksContextValue = {
   useFetchNetWorthOverPeriods: (
     filter: FetchNetWorthOverPeriodFilter,
   ) => UseSuspenseQueryResult<NetWorthOverPeriods, Error>;
+  useFetchSecurityPositionByClass: (
+    filter: SecurityPositionByClassFilter,
+  ) => UseSuspenseQueryResult<SecurityPositionByClass, Error>;
 };

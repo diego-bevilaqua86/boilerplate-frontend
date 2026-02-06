@@ -1,3 +1,4 @@
+import { SecurityPositionByClass } from '@boilerplate-frontend/types';
 import { RequestHooksProvider, RequestHooksProviderProps } from '@boilerplate-frontend/utils';
 import { ReactRenderer } from '@storybook/react';
 import { DateTime } from 'luxon';
@@ -61,6 +62,34 @@ export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story
           return;
         }),
     }),
+    useFetchSecurityPositionByClass: () => ({
+      data: securityPositionByClassMock,
+      dataUpdatedAt: Date.now(),
+      error: null,
+      errorUpdateCount: 0,
+      errorUpdatedAt: Date.now(),
+      isError: false,
+      isFetched: true,
+      isFetching: false,
+      isFetchedAfterMount: true,
+      isInitialLoading: false,
+      isLoading: false,
+      isLoadingError: false,
+      isPaused: false,
+      isRefetching: false,
+      isRefetchError: false,
+      isPending: false,
+      isSuccess: true,
+      isStale: false,
+      status: 'success',
+      failureCount: 0,
+      failureReason: null,
+      fetchStatus: 'idle',
+      refetch: () =>
+        new Promise(() => {
+          return;
+        }),
+    }),
   };
 
   return (
@@ -68,6 +97,38 @@ export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story
       <Story />
     </RequestHooksProvider>
   );
+};
+
+export const securityPositionByClassMock: SecurityPositionByClass = {
+  _id: '64f8a5b2c9d8e7a1b3c4d5e6',
+  name: 'Carteira de Ações - Cliente XPTO',
+  currency: 'BRL',
+  dataset: [
+    {
+      label: 'Ações',
+      value: 45000,
+    },
+    {
+      label: 'Fundos Imobiliários',
+      value: 28000,
+    },
+    {
+      label: 'Renda Fixa',
+      value: 32000,
+    },
+    {
+      label: 'ETFs',
+      value: 15000,
+    },
+    {
+      label: 'BDRs',
+      value: 8000,
+    },
+    {
+      label: 'Fundos de Investimento',
+      value: 12000,
+    },
+  ],
 };
 
 const netWorthMock = {

@@ -6,6 +6,7 @@ import ReactGridLayout, {
   ResponsiveLayouts,
   useContainerWidth,
 } from 'react-grid-layout';
+import { ChartGroupingPositionByClassification } from '../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
 import { NetWorthOverPeriod } from '../organisms/NetWorthOverPeriod/NetWorthOverPeriod';
 import { PerformanceOverPeriod } from '../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
 import styles from './GridTemplate.module.css';
@@ -78,7 +79,7 @@ export const GridTemplate: FC<unknown> = () => {
             <PerformanceOverPeriod />
           </div>
           <div key="c" style={{ backgroundColor: 'gray' }} className={styles['grid-template__item']}>
-            c
+            <ChartGroupingPositionByClassification />
           </div>
           <div key="d" style={{ backgroundColor: 'teal' }} className={styles['grid-template__item']}>
             d
@@ -99,7 +100,7 @@ export const GridTemplate: FC<unknown> = () => {
               <PerformanceOverPeriod />
             </div>
             <div key="c" style={{ backgroundColor: 'gray' }} className={styles['grid-template__item']}>
-              c
+              <ChartGroupingPositionByClassification />
             </div>
             <div key="d" style={{ backgroundColor: 'teal' }} className={styles['grid-template__item']}>
               d

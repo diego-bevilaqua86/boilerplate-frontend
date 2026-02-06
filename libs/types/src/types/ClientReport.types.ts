@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ClientReportFilterValidators, ClientReportValidators } from '../validators/ClientReport.validators';
+import { DataSet } from './Common.types';
 
 export type PerformanceByClassificationDTO = z.infer<
   ReturnType<typeof ClientReportValidators>['PerformanceByClassificationDTOSchema']
@@ -53,4 +54,17 @@ export type PerformanceOverPeriods = {
   finalDate: string;
   dates: Array<string>;
   performance: Array<Performance>;
+};
+
+export type SecurityPositionByClass = {
+  _id: string;
+  name: string;
+  currency: 'BRL';
+  dataset: Array<DataSet>;
+};
+
+export type SecurityPositionByClassFilter = {
+  groupingId: string;
+  select: (data: SecurityPositionByClass) => SecurityPositionByClass;
+  finalDate?: string;
 };

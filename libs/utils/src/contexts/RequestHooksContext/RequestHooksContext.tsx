@@ -9,14 +9,16 @@ const RequestHooksContext = createContext<RequestHooksContextValue | null>(null)
 export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
   useFetchPerformanceOverPeriod,
   useFetchNetWorthOverPeriods,
+  useFetchSecurityPositionByClass,
   children,
 }) => {
   const value = useMemo<RequestHooksContextValue>(
     () => ({
       useFetchPerformanceOverPeriod,
       useFetchNetWorthOverPeriods,
+      useFetchSecurityPositionByClass,
     }),
-    [useFetchPerformanceOverPeriod, useFetchNetWorthOverPeriods],
+    [useFetchPerformanceOverPeriod, useFetchNetWorthOverPeriods, useFetchSecurityPositionByClass],
   );
   return <RequestHooksContext.Provider value={value}>{children}</RequestHooksContext.Provider>;
 };

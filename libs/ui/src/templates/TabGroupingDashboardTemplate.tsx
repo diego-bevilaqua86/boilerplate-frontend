@@ -2,18 +2,16 @@
 import { msg } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { ErrorCard, WithdrawalDepositsTablePlaceholder } from '@mfo-management-frontend/ui';
-import { globalMobileWidth } from '@mfo-management-frontend/utils';
 import { FC, Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Breakpoints, Responsive, ResponsiveLayouts, useContainerWidth } from 'react-grid-layout';
-import { useMediaQuery } from 'usehooks-ts';
-import { GroupingNetWorthChartCard } from '../../molecules/GroupingNetWorthChartCard/GroupingNetWorthChartCard';
-import { GroupingPerformanceChartCard } from '../../molecules/GroupingPerformanceChartCard/GroupingPerformanceChartCard';
-import { GroupingPositionChartCard } from '../../molecules/GroupingPositionChartCard/GroupingPositionChartCard';
-import { GroupingRentabilityTableCard } from '../../molecules/GroupingRentabilityTableCard/GroupingRentabilityTableCard';
-import { GroupingStockEarningsTableCard } from '../../molecules/GroupingStockEarningsTableCard/GroupingStockEarningsTableCard';
-import { GroupingWithdrawalDepositsTableCard } from '../../molecules/GroupingWithdrawalDepositsTableCard/GroupingWithdrawalDepositsTableCard';
-import { RentabilityHistoryCard } from '../../molecules/RentabilityHistoryCard/RentabilityHistoryCard';
+// import { GroupingNetWorthChartCard } from '../../molecules/GroupingNetWorthChartCard/GroupingNetWorthChartCard';
+// import { GroupingPerformanceChartCard } from '../../molecules/GroupingPerformanceChartCard/GroupingPerformanceChartCard';
+// import { GroupingPositionChartCard } from '../../molecules/GroupingPositionChartCard/GroupingPositionChartCard';
+// import { GroupingRentabilityTableCard } from '../../molecules/GroupingRentabilityTableCard/GroupingRentabilityTableCard';
+// import { GroupingStockEarningsTableCard } from '../../molecules/GroupingStockEarningsTableCard/GroupingStockEarningsTableCard';
+// import { GroupingWithdrawalDepositsTableCard } from '../../molecules/GroupingWithdrawalDepositsTableCard/GroupingWithdrawalDepositsTableCard';
+// import { RentabilityHistoryCard } from '../../molecules/RentabilityHistoryCard/RentabilityHistoryCard';
 import styles from './TabGroupingDashboardTemplate.module.css';
 
 type BreakpointKey = 'desktop' | 'tablet' | 'mobile';
@@ -31,9 +29,7 @@ export const TabGroupingDashboardTemplate: FC<TabGroupingDashboardTemplateProps>
 }) => {
   const { width, containerRef, mounted } = useContainerWidth();
   const { _ } = useLingui();
-  const isMobile = useMediaQuery(`(max-width: ${globalMobileWidth})`);
 
-  // Configurações responsivas
   const breakpoints: Breakpoints<BreakpointKey> = {
     desktop: 1280,
     tablet: 768,
@@ -46,7 +42,6 @@ export const TabGroupingDashboardTemplate: FC<TabGroupingDashboardTemplateProps>
     mobile: 4,
   };
 
-  // Layouts otimizados para cada breakpoint (coordenadas testadas)
   const responsiveLayouts: ResponsiveLayouts<BreakpointKey> = useMemo(
     () => ({
       desktop: [
