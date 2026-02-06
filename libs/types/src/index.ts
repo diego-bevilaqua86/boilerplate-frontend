@@ -5,6 +5,7 @@ export * from './types/API.types';
 export * from './types/Authentication.types';
 export * from './types/Charts.types';
 export * from './types/ClientReport.types';
+export * from './types/Common.types';
 export * from './types/Default.types';
 export * from './types/WalletGroupings.types';
 
