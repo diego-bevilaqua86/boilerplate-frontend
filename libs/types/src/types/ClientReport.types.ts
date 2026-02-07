@@ -136,3 +136,23 @@ export type StockEarningsOverPeriods = {
   referenceDate: string | Date;
   stockEarnings: Array<StockEarnings>;
 };
+
+export type WithdrawalDepositsOverPeriods = {
+  _id: string;
+  name: string;
+  currency: string;
+  initialDate: string | Date;
+  finalDate: string | Date;
+  withdrawalsDeposits: Array<WithdrawalDepositPeriod>;
+};
+
+export type WithdrawalDepositPeriod = {
+  period: PeriodType;
+  values: Array<{ refersTo: 'deposits' | 'withdrawals'; value: number }>;
+};
+
+export type GroupingSelectFinalDateFilter<T = unknown> = {
+  groupingId: string;
+  select?: (data: T) => T;
+  finalDate?: string;
+};
