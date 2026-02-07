@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { ClientReportFilterValidators, ClientReportValidators } from '../validators/ClientReport.validators';
-import { DataSet } from './Common.types';
+import { DataSet, PeriodType } from './Common.types';
 
 export type PerformanceByClassificationDTO = z.infer<
   ReturnType<typeof ClientReportValidators>['PerformanceByClassificationDTOSchema']
@@ -44,6 +44,13 @@ export type Performance = {
   securityId: string | null;
   values: Array<number>;
   isBenchmark: boolean;
+};
+
+export type FetchPeformanceFilter = {
+  groupingId: string;
+  period: PeriodType;
+  select: (data: PerformanceOverPeriods) => PerformanceOverPeriods;
+  finalDate?: string;
 };
 
 export type PerformanceOverPeriods = {

@@ -1,5 +1,6 @@
 import {
   FetchNetWorthOverPeriodFilter,
+  FetchPeformanceFilter,
   NetWorthOverPeriods,
   PerformanceOverPeriods,
   RentabilityFilter,
@@ -21,6 +22,7 @@ export type RequestHooksContextValue = {
   useFetchSecurityPositionByClass: (
     filter: SecurityPositionByClassFilter,
   ) => UseSuspenseQueryResult<SecurityPositionByClass, Error>;
+  useFetchPerformance: (filter: FetchPeformanceFilter) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
   useFetchRentability: (filter: RentabilityFilter) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
   useFetchStockEarnings: (filter: StockEarningsFilter) => UseSuspenseQueryResult<StockEarningsOverPeriods, Error>;
 };
