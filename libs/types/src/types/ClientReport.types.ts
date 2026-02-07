@@ -75,10 +75,28 @@ export type Rentability = {
   values: Array<RentabilityValue>;
 };
 
-export type RentabilityFilter = {
+export type FetchRentabilityFilter = {
   groupingId: string;
   select: (data: RentabilityOverPeriods) => RentabilityOverPeriods;
   finalDate?: string;
+};
+
+export type FetchPerformanceHistoryFilter = {
+  clientId: string;
+  groupingId: string;
+  walletId?: string;
+  securityId?: string;
+  benchmarks?: string;
+};
+
+export type RentabilityHistory = {
+  initialDate: string;
+  finalDate: string;
+  periodType: 'month' | 'year';
+  rentability: number;
+  itemType: string;
+  itemId: string;
+  itemName: string;
 };
 
 export type RentabilityOverPeriods = {
@@ -94,7 +112,7 @@ export type RentabilityValue = {
   value: number;
 };
 
-export type SecurityPositionByClassFilter = {
+export type FetchSecurityPositionByClassFilter = {
   groupingId: string;
   select: (data: SecurityPositionByClass) => SecurityPositionByClass;
   finalDate?: string;
@@ -105,7 +123,7 @@ export type StockEarnings = {
   value: number;
 };
 
-export type StockEarningsFilter = {
+export type FetchStockEarningsFilter = {
   groupingId: string;
   select?: (data: StockEarningsOverPeriods) => StockEarningsOverPeriods;
   finalDate?: string;

@@ -1,13 +1,15 @@
 import {
   FetchNetWorthOverPeriodFilter,
   FetchPeformanceFilter,
+  FetchPerformanceHistoryFilter,
+  FetchRentabilityFilter,
+  FetchSecurityPositionByClassFilter,
+  FetchStockEarningsFilter,
   NetWorthOverPeriods,
   PerformanceOverPeriods,
-  RentabilityFilter,
+  RentabilityHistory,
   RentabilityOverPeriods,
   SecurityPositionByClass,
-  SecurityPositionByClassFilter,
-  StockEarningsFilter,
   StockEarningsOverPeriods,
 } from '@boilerplate-frontend/types';
 import { UseSuspenseQueryResult } from '@tanstack/react-query';
@@ -20,9 +22,12 @@ export type RequestHooksContextValue = {
     filter: FetchNetWorthOverPeriodFilter,
   ) => UseSuspenseQueryResult<NetWorthOverPeriods, Error>;
   useFetchSecurityPositionByClass: (
-    filter: SecurityPositionByClassFilter,
+    filter: FetchSecurityPositionByClassFilter,
   ) => UseSuspenseQueryResult<SecurityPositionByClass, Error>;
   useFetchPerformance: (filter: FetchPeformanceFilter) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
-  useFetchRentability: (filter: RentabilityFilter) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
-  useFetchStockEarnings: (filter: StockEarningsFilter) => UseSuspenseQueryResult<StockEarningsOverPeriods, Error>;
+  useFetchRentability: (filter: FetchRentabilityFilter) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
+  useFetchStockEarnings: (filter: FetchStockEarningsFilter) => UseSuspenseQueryResult<StockEarningsOverPeriods, Error>;
+  useFetchPerformanceHistory: (
+    filter: FetchPerformanceHistoryFilter,
+  ) => UseSuspenseQueryResult<RentabilityHistory, Error>;
 };
