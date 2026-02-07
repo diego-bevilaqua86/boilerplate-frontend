@@ -2,6 +2,8 @@ import {
   FetchNetWorthOverPeriodFilter,
   NetWorthOverPeriods,
   PerformanceOverPeriods,
+  RentabilityFilter,
+  RentabilityOverPeriods,
   SecurityPositionByClass,
   SecurityPositionByClassFilter,
 } from '@boilerplate-frontend/types';
@@ -17,4 +19,5 @@ export type RequestHooksContextValue = {
   useFetchSecurityPositionByClass: (
     filter: SecurityPositionByClassFilter,
   ) => UseSuspenseQueryResult<SecurityPositionByClass, Error>;
+  useFetchRentability: (filter: RentabilityFilter) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
 };

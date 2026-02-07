@@ -63,6 +63,30 @@ export type SecurityPositionByClass = {
   dataset: Array<DataSet>;
 };
 
+export type Rentability = {
+  period: 'month' | 'twelveMonths' | 'sinceInception';
+  values: Array<RentabilityValue>;
+};
+
+export type RentabilityFilter = {
+  groupingId: string;
+  select: (data: RentabilityOverPeriods) => RentabilityOverPeriods;
+  finalDate?: string;
+};
+
+export type RentabilityOverPeriods = {
+  _id: string;
+  name: string;
+  currency: string;
+  referenceDate: string;
+  rentabilities: Array<Rentability>;
+};
+
+export type RentabilityValue = {
+  refersTo: 'CDI' | 'portfolio';
+  value: number;
+};
+
 export type SecurityPositionByClassFilter = {
   groupingId: string;
   select: (data: SecurityPositionByClass) => SecurityPositionByClass;
