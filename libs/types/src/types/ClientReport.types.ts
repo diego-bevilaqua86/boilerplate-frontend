@@ -92,3 +92,22 @@ export type SecurityPositionByClassFilter = {
   select: (data: SecurityPositionByClass) => SecurityPositionByClass;
   finalDate?: string;
 };
+
+export type StockEarnings = {
+  period: 'totalEarnings' | 'couponDividendEarnings';
+  value: number;
+};
+
+export type StockEarningsFilter = {
+  groupingId: string;
+  select?: (data: StockEarningsOverPeriods) => StockEarningsOverPeriods;
+  finalDate?: string;
+};
+
+export type StockEarningsOverPeriods = {
+  _id: string;
+  name: string;
+  currency: string;
+  referenceDate: string | Date;
+  stockEarnings: Array<StockEarnings>;
+};

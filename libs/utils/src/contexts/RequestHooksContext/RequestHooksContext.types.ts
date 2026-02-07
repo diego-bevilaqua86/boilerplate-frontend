@@ -6,6 +6,8 @@ import {
   RentabilityOverPeriods,
   SecurityPositionByClass,
   SecurityPositionByClassFilter,
+  StockEarningsFilter,
+  StockEarningsOverPeriods,
 } from '@boilerplate-frontend/types';
 import { UseSuspenseQueryResult } from '@tanstack/react-query';
 
@@ -20,4 +22,5 @@ export type RequestHooksContextValue = {
     filter: SecurityPositionByClassFilter,
   ) => UseSuspenseQueryResult<SecurityPositionByClass, Error>;
   useFetchRentability: (filter: RentabilityFilter) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
+  useFetchStockEarnings: (filter: StockEarningsFilter) => UseSuspenseQueryResult<StockEarningsOverPeriods, Error>;
 };
