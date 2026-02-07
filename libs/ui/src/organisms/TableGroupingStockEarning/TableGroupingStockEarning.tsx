@@ -1,5 +1,5 @@
 import { useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
-import { Badge, Box, Switch } from '@mantine/core';
+import { Badge, Box } from '@mantine/core';
 import { Suspense } from 'react';
 import { Text } from 'recharts';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
@@ -8,10 +8,7 @@ export const TableGroupingStockEarning = () => {
   return (
     <BaseWidget>
       <BaseWidget.Header>
-        <div className="flex flex-row w-100">
-          <Text>Rentabilidade</Text>
-          <Switch onLabel="ON" offLabel="OFF" size="lg" aria-label={'teste'} />
-        </div>
+        <Text>Rentabilidade</Text>
       </BaseWidget.Header>
       <BaseWidget.Content>
         <Suspense>
