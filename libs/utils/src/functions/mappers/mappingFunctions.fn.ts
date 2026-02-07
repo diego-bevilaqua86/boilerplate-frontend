@@ -105,7 +105,7 @@ const basicInfo = dataMapperMultiToObject(users, ['id', 'name']); // Pick<User, 
 // * console.log(basicInfo) >> [{"id": 1,"name": "John"}, {"id": 2,"name": "Jane"}]
 
 const contactInfo = dataMapperMultiToObject(users, ['name', 'email']); // Pick<User, 'name' | 'email'>[] = { name: string; email: string }[]
-// * console.log(userContact) >> [{"name": "John", "email": "john@example.com"}, {"name": "Jane", "email": "jane@example.com"}]
+// * console.log(contactInfo) >> [{"name": "John", "email": "john@example.com"}, {"name": "Jane", "email": "jane@example.com"}]
 
 interface ChartData {
   category: string;
@@ -119,7 +119,7 @@ const chartData: ChartData[] = [
 ];
 
 const byQuantity = dataSetMapper(chartData, 'category', 'quantity'); // DataSet[] = [{ label: 'A', value: 10 }, ...]
-// * console.log(userContact) >>  [{"label": "A", "value": 10}, {"label": "B", "value": 20}]
+// * console.log(byQuantity) >>  [{"label": "A", "value": 10}, {"label": "B", "value": 20}]
 
 const byRevenue = dataSetMapper(chartData, 'category', 'revenue'); // DataSet[] = [{ label: 'A', value: 1000 }, ...]
-// * console.log(userContact) >> [{"label": "A", "value": 1000}, {"label": "B", "value": 2500}]
+// * console.log(byRevenue) >> [{"label": "A", "value": 1000}, {"label": "B", "value": 2500}]
