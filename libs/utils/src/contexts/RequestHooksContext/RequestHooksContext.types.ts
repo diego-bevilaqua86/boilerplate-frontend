@@ -16,28 +16,29 @@ import {
 } from '@boilerplate-frontend/types';
 import { UseSuspenseQueryResult } from '@tanstack/react-query';
 
-// TODO: Padronização:
-// TODO: deve incluir finalDate?
+// * Organizei em ordem alfabética
+// TODO: Padronização?
+// TODO: finalDate deve ser opcional?
 // TODO: select deve ser opcional?
-// TODO: {groupingId, select, finalDate} é comum a muitos filtros (o select talvez possa ser (data: unknown) => unknown)?)
+// TODO: {groupingId, select, finalDate} é comum a muitos filtros, GroupingSelectFinalDateFilter criado
 
 export type RequestHooksContextValue = {
-  useFetchPerformanceOverPeriod: (
-    filter: FetchNetWorthOverPeriodFilter,
-  ) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
   useFetchNetWorthOverPeriods: (
     filter: FetchNetWorthOverPeriodFilter,
   ) => UseSuspenseQueryResult<NetWorthOverPeriods, Error>;
-  useFetchSecurityPositionByClass: (
-    filter: FetchSecurityPositionByClassFilter,
-  ) => UseSuspenseQueryResult<SecurityPositionByClass, Error>;
+  useFetchPerformanceOverPeriod: (
+    filter: FetchNetWorthOverPeriodFilter,
+  ) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
   useFetchPerformance: (filter: FetchPeformanceFilter) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
-  useFetchRentability: (filter: FetchRentabilityFilter) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
-  useFetchStockEarnings: (filter: FetchStockEarningsFilter) => UseSuspenseQueryResult<StockEarningsOverPeriods, Error>;
   useFetchPerformanceHistory: (
     filter: FetchPerformanceHistoryFilter,
   ) => UseSuspenseQueryResult<RentabilityHistory, Error>;
+  useFetchRentability: (filter: FetchRentabilityFilter) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
+  useFetchSecurityPositionByClass: (
+    filter: FetchSecurityPositionByClassFilter,
+  ) => UseSuspenseQueryResult<SecurityPositionByClass, Error>;
+  useFetchStockEarnings: (filter: FetchStockEarningsFilter) => UseSuspenseQueryResult<StockEarningsOverPeriods, Error>;
   useFetchWithdrawalDeposits: (
-    filter: GroupingSelectFinalDateFilter,
+    filter: GroupingSelectFinalDateFilter, // Confere essa tipagem que criei
   ) => UseSuspenseQueryResult<WithdrawalDepositsOverPeriods, Error>;
 };
