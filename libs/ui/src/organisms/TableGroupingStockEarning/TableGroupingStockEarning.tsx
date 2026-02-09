@@ -26,8 +26,6 @@ const TableGroupingStockEarningDataRequest = () => {
     groupingId: selectedGrouping,
   });
 
-  console.log(groupingStockEarningData);
-
   return (
     <Box w={'100%'} h={'100%'}>
       <Group gap="md" align="stretch" h={'100%'}>
