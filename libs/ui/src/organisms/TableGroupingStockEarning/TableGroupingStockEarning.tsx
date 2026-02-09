@@ -1,15 +1,12 @@
 import { useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
-import { Badge, Box } from '@mantine/core';
+import { Box, Group } from '@mantine/core';
 import { Suspense } from 'react';
-import { Text } from 'recharts';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 
 export const TableGroupingStockEarning = () => {
   return (
     <BaseWidget>
-      <BaseWidget.Header>
-        <Text>Rentabilidade</Text>
-      </BaseWidget.Header>
+      <BaseWidget.Header></BaseWidget.Header>
       <BaseWidget.Content>
         <Suspense>
           <TableGroupingStockEarningDataRequest />
@@ -31,18 +28,29 @@ const TableGroupingStockEarningDataRequest = () => {
 
   return (
     <Box w={'100%'} h={320}>
-      <Badge>
-        <Text>{groupingStockEarningData.referenceDate as string}</Text>
-      </Badge>
-      <hr />
-      <Badge>
-        <Text>{groupingStockEarningData.referenceDate as string}</Text>
-      </Badge>
-      <hr />
-      <Badge>
-        <Text>{groupingStockEarningData.referenceDate as string}</Text>
-      </Badge>
-      <hr />
+      <Group gap="md" align="stretch" h={'100%'}>
+        <Box
+          h={'100%'}
+          p="md"
+          style={{
+            borderRadius: 8,
+            border: '1px solid #dee2e6',
+            flex: 1,
+          }}
+        >
+          oi
+        </Box>
+        <Box
+          p="md"
+          style={{
+            borderRadius: 8,
+            border: '1px solid #dee2e6',
+            flex: 1,
+          }}
+        >
+          oi
+        </Box>
+      </Group>
     </Box>
   );
 };

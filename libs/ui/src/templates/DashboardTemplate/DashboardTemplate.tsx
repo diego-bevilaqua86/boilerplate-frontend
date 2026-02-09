@@ -77,10 +77,10 @@ export const DashboardTemplate: FC<unknown> = () => {
             <ChartGroupingPositionByClassification />
           </div>
           <div key="b" style={{ backgroundColor: 'blue' }} className={styles['grid-template__item']}>
-            <TableGroupingStockEarning />
+            <ChartGroupingPositionByClassification />
           </div>
           <div key="c" style={{ backgroundColor: 'gray' }} className={styles['grid-template__item']}>
-            <ChartGroupingPositionByClassification />
+            <TableGroupingStockEarning />
           </div>
           <div key="d" style={{ backgroundColor: 'teal' }} className={styles['grid-template__item']}>
             <PerformanceOverPeriod />
@@ -98,10 +98,10 @@ export const DashboardTemplate: FC<unknown> = () => {
               <ChartGroupingPositionByClassification />
             </div>
             <div key="b" style={{ backgroundColor: 'blue' }} className={styles['grid-template__item']}>
-              <TableGroupingStockEarning />
+              <ChartGroupingPositionByClassification />
             </div>
             <div key="c" style={{ backgroundColor: 'gray' }} className={styles['grid-template__item']}>
-              <ChartGroupingPositionByClassification />
+              <TableGroupingStockEarning />
             </div>
             <div key="d" style={{ backgroundColor: 'teal' }} className={styles['grid-template__item']}>
               <PerformanceOverPeriod />
