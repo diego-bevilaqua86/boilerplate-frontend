@@ -287,12 +287,12 @@ export const mockStockEarningsOverPeriods: StockEarningsOverPeriods = {
   referenceDate: '2024-01-15',
   stockEarnings: [
     {
-      period: 'totalEarnings',
-      value: 12500.75,
-    },
-    {
       period: 'couponDividendEarnings',
       value: 8900.5,
+    },
+    {
+      period: 'totalEarnings',
+      value: 12500.75,
     },
   ],
 };
