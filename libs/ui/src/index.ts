@@ -1,3 +1,4 @@
+export * from './templates/DashboardTemplate/DashboardTemplate';
 export * from './organisms/TableGroupingStockEarning/TableGroupingStockEarning';
 export * from './molecules/BarChart/BarChart';
 export * from './molecules/BaseWidget/BaseWidget';
