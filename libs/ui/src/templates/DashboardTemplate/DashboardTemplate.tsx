@@ -10,6 +10,7 @@ import {
 import { ChartGroupingPositionByClassification } from '../../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
 import { PerformanceOverPeriod } from '../../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
 import { TableGroupingStockEarning } from '../../organisms/TableGroupingStockEarning/TableGroupingStockEarning';
+import { TableRentabilityHistory } from '../../organisms/TableRentabilityHistory/TableRentabilityHistory';
 import styles from './DashboardTemplate.module.css';
 
 type BreakpointKey = 'desktop' | 'tablet' | 'mobile';
@@ -38,6 +39,7 @@ export const DashboardTemplate: FC<unknown> = () => {
     { i: 'b', x: 251, y: 0, w: 130, h: 7 },
     { i: 'c', x: 251, y: 7, w: 130, h: 5 },
     { i: 'd', x: 10, y: 12, w: 371, h: 12 },
+    { i: 'e', x: 10, y: 24, w: 371, h: 3 },
   ];
 
   const responsiveLayouts: ResponsiveLayouts<BreakpointKey> = {
@@ -85,6 +87,9 @@ export const DashboardTemplate: FC<unknown> = () => {
           <div key="d" style={{ backgroundColor: 'teal' }} className={styles['grid-template__item']}>
             <PerformanceOverPeriod />
           </div>
+          <div key="e" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
+            <TableRentabilityHistory />
+          </div>
         </Responsive>
       ) : (
         mounted && (
@@ -105,6 +110,9 @@ export const DashboardTemplate: FC<unknown> = () => {
             </div>
             <div key="d" style={{ backgroundColor: 'teal' }} className={styles['grid-template__item']}>
               <PerformanceOverPeriod />
+            </div>
+            <div key="e" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
+              <TableRentabilityHistory />
             </div>
           </ReactGridLayout>
         )

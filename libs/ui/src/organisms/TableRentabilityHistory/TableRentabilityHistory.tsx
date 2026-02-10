@@ -1,5 +1,4 @@
 import { percentFormatter, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
-import { useLingui } from '@lingui/react';
 import { ScrollArea, Table, Text } from '@mantine/core';
 import { Suspense, useCallback } from 'react';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
@@ -19,7 +18,6 @@ export const TableRentabilityHistory = () => {
 };
 
 const TableRentabilityHistoryDataRequest = () => {
-  const { i18n } = useLingui();
   const { selectedGrouping, selectedClient } = useContentRequest();
   const { useFetchPerformanceHistory } = useRequestHooks();
   const { data: rentabilityHistoryData } = useFetchPerformanceHistory({
