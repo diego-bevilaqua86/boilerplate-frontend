@@ -60,6 +60,16 @@ const TableWithdrawalDepositsDataRequest = () => {
         <strong>{currencyFormatter(twelveMonthsDeposits, 2, i18n.locale, withdrawalDepositsData.currency)}</strong>
       </div>
       <hr />
+      <div className="d-flex flex-column">
+        <span>Resgates</span>
+        <strong className={'flex-fill'}>
+          {currencyFormatter(monthWithdrawals, 2, i18n.locale, withdrawalDepositsData.currency)}
+        </strong>
+        <small className="order-1 order-lg-0">
+          <span>Em 12 meses</span>
+        </small>
+        <strong>{currencyFormatter(twelveMonthsWithdrawals, 2, i18n.locale, withdrawalDepositsData.currency)}</strong>
+      </div>
     </div>
   );
 };

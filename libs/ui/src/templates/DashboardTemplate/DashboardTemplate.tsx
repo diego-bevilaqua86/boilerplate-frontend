@@ -12,6 +12,7 @@ import { NetWorthOverPeriod } from '../../organisms/NetWorthOverPeriod/NetWorthO
 import { PerformanceOverPeriod } from '../../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
 import { TableGroupingStockEarning } from '../../organisms/TableGroupingStockEarning/TableGroupingStockEarning';
 import { TableRentabilityHistory } from '../../organisms/TableRentabilityHistory/TableRentabilityHistory';
+import { TableWithdrawalDeposits } from '../../organisms/TableWithdrawalDeposits/TableWithdrawalDeposits';
 import styles from './DashboardTemplate.module.css';
 
 type BreakpointKey = 'desktop' | 'tablet' | 'mobile';
@@ -42,6 +43,7 @@ export const DashboardTemplate: FC<unknown> = () => {
     { i: 'd', x: 10, y: 12, w: 371, h: 12 },
     { i: 'e', x: 10, y: 24, w: 371, h: 3 },
     { i: 'f', x: 10, y: 27, w: 240, h: 9 },
+    { i: 'g', x: 251, y: 27, w: 130, h: 9 },
   ];
 
   const responsiveLayouts: ResponsiveLayouts<BreakpointKey> = {
@@ -95,6 +97,9 @@ export const DashboardTemplate: FC<unknown> = () => {
           <div key="f" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
             <NetWorthOverPeriod />
           </div>
+          <div key="g" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
+            <TableWithdrawalDeposits />
+          </div>
         </Responsive>
       ) : (
         mounted && (
@@ -121,6 +126,9 @@ export const DashboardTemplate: FC<unknown> = () => {
             </div>
             <div key="f" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
               <NetWorthOverPeriod />
+            </div>
+            <div key="g" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
+              <TableWithdrawalDeposits />
             </div>
           </ReactGridLayout>
         )
