@@ -8,6 +8,7 @@ import {
   useContainerWidth,
 } from 'react-grid-layout';
 import { ChartGroupingPositionByClassification } from '../../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
+import { NetWorthOverPeriod } from '../../organisms/NetWorthOverPeriod/NetWorthOverPeriod';
 import { PerformanceOverPeriod } from '../../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
 import { TableGroupingStockEarning } from '../../organisms/TableGroupingStockEarning/TableGroupingStockEarning';
 import { TableRentabilityHistory } from '../../organisms/TableRentabilityHistory/TableRentabilityHistory';
@@ -40,6 +41,7 @@ export const DashboardTemplate: FC<unknown> = () => {
     { i: 'c', x: 251, y: 7, w: 130, h: 5 },
     { i: 'd', x: 10, y: 12, w: 371, h: 12 },
     { i: 'e', x: 10, y: 24, w: 371, h: 3 },
+    { i: 'f', x: 10, y: 27, w: 240, h: 9 },
   ];
 
   const responsiveLayouts: ResponsiveLayouts<BreakpointKey> = {
@@ -90,6 +92,9 @@ export const DashboardTemplate: FC<unknown> = () => {
           <div key="e" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
             <TableRentabilityHistory />
           </div>
+          <div key="f" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
+            <NetWorthOverPeriod />
+          </div>
         </Responsive>
       ) : (
         mounted && (
@@ -113,6 +118,9 @@ export const DashboardTemplate: FC<unknown> = () => {
             </div>
             <div key="e" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
               <TableRentabilityHistory />
+            </div>
+            <div key="f" style={{ backgroundColor: 'orange' }} className={styles['grid-template__item']}>
+              <NetWorthOverPeriod />
             </div>
           </ReactGridLayout>
         )
