@@ -1,6 +1,7 @@
-import { useContentRequest, useNumberFormatters, useRequestHooks } from '@boilerplate-frontend/utils';
+import { percentFormatter, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
-import { Suspense } from 'react';
+import { ScrollArea, Table, Text } from '@mantine/core';
+import { Suspense, useCallback } from 'react';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { useTableRentabilityHistory } from './useTableRentabilityHistory';
 
@@ -21,7 +22,6 @@ const TableRentabilityHistoryDataRequest = () => {
   const { i18n } = useLingui();
   const { selectedGrouping, selectedClient } = useContentRequest();
   const { useFetchPerformanceHistory } = useRequestHooks();
-  const { percentFormatter } = useNumberFormatters({ locale: i18n.locale });
   const { data: rentabilityHistoryData } = useFetchPerformanceHistory({
     clientId: selectedClient as string,
     groupingId: selectedGrouping,
@@ -34,39 +34,62 @@ const TableRentabilityHistoryDataRequest = () => {
     return yearB - yearA;
   });
 
+  const getCellContent = useCallback((value: number | null) => {
+    const isNegative = value != null && value < 0;
+    return (
+      <Text c={isNegative ? 'red.6' : 'inherit'} fw={isNegative ? 500 : 'inherit'} span size="sm">
+        {percentFormatter(value)}
+      </Text>
+    );
+  }, []);
+
   return (
-    <div className="table-rentability-history">
-      <div className="table-responsive" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
-        <table className="w-100">
-          <thead>
-            <tr>
-              <th>Ano</th>
-              {months.map((mes) => (
-                <th key={mes}>{mes}</th>
-              ))}
-              <th>Ano</th>
-            </tr>
-          </thead>
-          <tbody>
-            {adaptedData.map((yearData) => (
-              <tr key={yearData.year}>
-                <td>{yearData.year}</td>
-                {yearData.months.map((monthData) => (
-                  <td
-                    className={monthData.rentability && monthData.rentability < 0 ? 'text-danger' : ''}
-                    key={`${yearData.year}-${monthData.month}`}
-                  >
-                    {percentFormatter(monthData.rentability)}
-                  </td>
-                ))}
-                <td className={yearData.rentability && yearData.rentability < 0 ? 'text-danger' : ''}>
-                  {percentFormatter(yearData.rentability)}
-                </td>
-              </tr>
+    <ScrollArea
+      type="auto"
+      scrollbarSize={8}
+      styles={{
+        viewport: {
+          WebkitOverflowScrolling: 'touch',
+          overflowX: 'auto',
+        },
+      }}
+    >
+      <Table
+        withTableBorder
+        withColumnBorders
+        horizontalSpacing="md"
+        verticalSpacing="xs"
+        miw={1000}
+        stickyHeader
+        highlightOnHover
+      >
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Ano</Table.Th>
+            {months.map((mes) => (
+              <Table.Th key={mes} ta="center">
+                {mes}
+              </Table.Th>
             ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+            <Table.Th ta="center">Total Anual</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {adaptedData.map((yearData) => (
+            <Table.Tr key={yearData.year}>
+              <Table.Td fw={600}>{yearData.year}</Table.Td>
+              {yearData.months.map((monthData) => (
+                <Table.Td key={`${yearData.year}-${monthData.month}`} ta="center">
+                  {getCellContent(monthData.rentability)}
+                </Table.Td>
+              ))}
+              <Table.Td ta="center" fw={600}>
+                {getCellContent(yearData.rentability)}
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </ScrollArea>
   );
 };
