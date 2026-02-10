@@ -11,6 +11,8 @@ export {
 } from './contexts/RequestHooksContext/RequestHooksContext';
 export { type RequestHooksContextValue } from './contexts/RequestHooksContext/RequestHooksContext.types';
 
+export { currencyFormatter } from './functions/formatters/currencyFormatter.fn';
+export { monthFormatter } from './functions/formatters/monthFormatter.fn';
 export { percentFormatter } from './functions/formatters/percentFormatter.fn';
 export { isEmptyArr } from './functions/isEmptyArr.fn';
 export { isEmptyStr } from './functions/isEmptyStr.fn';
