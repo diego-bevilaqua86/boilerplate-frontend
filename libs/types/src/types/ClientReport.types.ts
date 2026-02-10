@@ -87,6 +87,7 @@ export type FetchPerformanceHistoryFilter = {
   walletId?: string;
   securityId?: string;
   benchmarks?: string;
+  select: (data: Array<RentabilityHistory>) => Array<RentabilityHistory>;
 };
 
 export type RentabilityHistory = {
