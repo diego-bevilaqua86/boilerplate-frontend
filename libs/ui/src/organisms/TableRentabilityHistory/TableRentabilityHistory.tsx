@@ -1,4 +1,5 @@
 import { useContentRequest, useNumberFormatters, useRequestHooks } from '@boilerplate-frontend/utils';
+import { useLingui } from '@lingui/react';
 import { Suspense } from 'react';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { useTableRentabilityHistory } from './useTableRentabilityHistory';
@@ -17,9 +18,10 @@ export const TableRentabilityHistory = () => {
 };
 
 const TableRentabilityHistoryDataRequest = () => {
+  const { i18n } = useLingui();
   const { selectedGrouping, selectedClient } = useContentRequest();
   const { useFetchPerformanceHistory } = useRequestHooks();
-  const { percentFormatter } = useNumberFormatters();
+  const { percentFormatter } = useNumberFormatters({ locale: i18n.locale });
   const { data: rentabilityHistoryData } = useFetchPerformanceHistory({
     clientId: selectedClient as string,
     groupingId: selectedGrouping,

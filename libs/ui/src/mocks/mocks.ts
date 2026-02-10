@@ -270,15 +270,44 @@ export const mockWithdrawalDepositsOverPeriods: WithdrawalDepositsOverPeriods = 
   ],
 };
 
-export const mockRentabilityHistory: RentabilityHistory = {
-  initialDate: '2024-01-01',
-  finalDate: '2024-01-31',
-  periodType: 'month',
-  rentability: 2.5,
-  itemType: 'portfolio',
-  itemId: 'port-001',
-  itemName: 'Portfólio Principal',
-};
+export const mockRentabilityHistory: Array<RentabilityHistory> = [
+  {
+    initialDate: '2025-03-31',
+    finalDate: '2025-04-30',
+    periodType: 'month',
+    rentability: -0.03973641839252229,
+    itemType: 'groupingId',
+    itemId: '68824774957ca1276cf77e0f',
+    itemName: '48 SZ [Brasil]',
+  },
+  {
+    initialDate: '2025-04-30',
+    finalDate: '2025-05-30',
+    periodType: 'month',
+    rentability: 0.012527015807190178,
+    itemType: 'groupingId',
+    itemId: '68824774957ca1276cf77e0f',
+    itemName: '48 SZ [Brasil]',
+  },
+  {
+    initialDate: '2025-05-30',
+    finalDate: '2025-06-30',
+    periodType: 'month',
+    rentability: 0.02584147096005074,
+    itemType: 'groupingId',
+    itemId: '68824774957ca1276cf77e0f',
+    itemName: '48 SZ [Brasil]',
+  },
+  {
+    initialDate: '2025-03-31',
+    finalDate: '2025-06-30',
+    periodType: 'year',
+    rentability: -0.002581704688243369,
+    itemType: 'groupingId',
+    itemId: '68824774957ca1276cf77e0f',
+    itemName: '48 SZ [Brasil]',
+  },
+];
 
 export const mockStockEarningsOverPeriods: StockEarningsOverPeriods = {
   _id: 'earnings-001',
