@@ -32,7 +32,7 @@ export type RequestHooksContextValue = {
   useFetchPerformance: (filter: FetchPeformanceFilter) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
   useFetchPerformanceHistory: (
     filter: FetchPerformanceHistoryFilter,
-  ) => UseSuspenseQueryResult<RentabilityHistory, Error>;
+  ) => UseSuspenseQueryResult<Array<RentabilityHistory>, Error>;
   useFetchRentability: (filter: FetchRentabilityFilter) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
   useFetchSecurityPositionByClass: (
     filter: FetchSecurityPositionByClassFilter,

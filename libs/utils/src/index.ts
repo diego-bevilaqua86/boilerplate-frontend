@@ -11,6 +11,7 @@ export {
 } from './contexts/RequestHooksContext/RequestHooksContext';
 export { type RequestHooksContextValue } from './contexts/RequestHooksContext/RequestHooksContext.types';
 
+export { percentFormatter } from './functions/formatters/percentFormatter.fn';
 export { isEmptyArr } from './functions/isEmptyArr.fn';
 export { isEmptyStr } from './functions/isEmptyStr.fn';
 export { isNullOrUndefined } from './functions/isNullOrUndefined.fn';
