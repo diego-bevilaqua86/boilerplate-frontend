@@ -1,3 +1,4 @@
+export * from './organisms/CardRentability/CardRentability';
 export * from './organisms/TableRentabilityHistory/TableRentabilityHistory';
 export * from './organisms/TableGroupingRentability/TableGroupingRentability';
 export * from './templates/DashboardTemplate/DashboardTemplate';

@@ -10,6 +10,7 @@ import {
 import { ChartGroupingPositionByClassification } from '../../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
 import { NetWorthOverPeriod } from '../../organisms/NetWorthOverPeriod/NetWorthOverPeriod';
 import { PerformanceOverPeriod } from '../../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
+import { TableGroupingRentability } from '../../organisms/TableGroupingRentability/TableGroupingRentability';
 import { TableGroupingStockEarning } from '../../organisms/TableGroupingStockEarning/TableGroupingStockEarning';
 import { TableRentabilityHistory } from '../../organisms/TableRentabilityHistory/TableRentabilityHistory';
 import { TableWithdrawalDeposits } from '../../organisms/TableWithdrawalDeposits/TableWithdrawalDeposits';
@@ -83,7 +84,7 @@ export const DashboardTemplate: FC<unknown> = () => {
             <ChartGroupingPositionByClassification />
           </div>
           <div key="b" style={{ backgroundColor: 'blue' }} className={styles['grid-template__item']}>
-            <ChartGroupingPositionByClassification />
+            <TableGroupingRentability />
           </div>
           <div key="c" style={{ backgroundColor: 'gray' }} className={styles['grid-template__item']}>
             <TableGroupingStockEarning />
@@ -113,7 +114,7 @@ export const DashboardTemplate: FC<unknown> = () => {
               <ChartGroupingPositionByClassification />
             </div>
             <div key="b" style={{ backgroundColor: 'blue' }} className={styles['grid-template__item']}>
-              <ChartGroupingPositionByClassification />
+              <TableGroupingRentability />
             </div>
             <div key="c" style={{ backgroundColor: 'gray' }} className={styles['grid-template__item']}>
               <TableGroupingStockEarning />
