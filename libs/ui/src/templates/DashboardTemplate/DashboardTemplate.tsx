@@ -1,5 +1,5 @@
-import { DEFAULT_BREAKPOINTS, DEFAULT_COLS, useRenderWidget } from '@boilerplate-frontend/utils';
-import { FC } from 'react';
+import { BreakpointKey, DEFAULT_BREAKPOINTS, DEFAULT_COLS, useRenderWidget } from '@boilerplate-frontend/utils';
+import { FC, useState } from 'react';
 import {
   Responsive,
   useContainerWidth
@@ -9,8 +9,11 @@ import { DEFAULT_DASHBOARD_TEMPLATE } from '../../../../utils/src/constants/temp
 export const DashboardTemplate: FC<unknown> = () => {
   const { width, containerRef, mounted } = useContainerWidth();
   const { renderWidget } = useRenderWidget();
+  const [currentBreakpoint, setCurrentBreakpoint] = useState<BreakpointKey>('desktop');
 
   if (!mounted) return <div ref={containerRef} />;
+
+  const currentLayout = DEFAULT_DASHBOARD_TEMPLATE[currentBreakpoint] ?? [];
 
   return (
     <div ref={containerRef}>
@@ -21,8 +24,9 @@ export const DashboardTemplate: FC<unknown> = () => {
         cols={DEFAULT_COLS}
         rowHeight={32}
         style={{ backgroundColor: '#E9ECEF' }}
+        onBreakpointChange={(bp) => setCurrentBreakpoint(bp as BreakpointKey)}
       >
-        {DEFAULT_DASHBOARD_TEMPLATE.desktop?.map((item) => renderWidget(item))}
+        {currentLayout.map((item) => renderWidget(item))}
       </Responsive>
     </div>
   );
