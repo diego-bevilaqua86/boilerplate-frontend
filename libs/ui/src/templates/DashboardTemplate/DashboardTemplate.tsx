@@ -1,8 +1,7 @@
-import { FC, useMemo } from 'react';
+import { FC } from 'react';
 import {
   Breakpoints,
   LayoutItem,
-  ReactGridLayout,
   Responsive,
   ResponsiveLayouts,
   useContainerWidth,
@@ -11,34 +10,52 @@ import { BaseWidgetProps, widgetRegistry } from '../../registry/widgetRegistry';
 
 type BreakpointKey = 'desktop' | 'tablet' | 'mobile';
 
+// Grid de 12 colunas lógicas
+// Widgets lado a lado: chart-grouping (col 0-7) + tabelas (col 8-11)
+const layouts: ResponsiveLayouts<BreakpointKey> = {
+  desktop: [
+    { i: 'chart-grouping-position',   x: 0, y: 0,  w: 8, h: 12 },
+    { i: 'table-grouping-rentability', x: 8, y: 0,  w: 4, h: 7  },
+    { i: 'table-stock-earning',        x: 8, y: 7,  w: 4, h: 5  },
+    { i: 'chart-performance',          x: 0, y: 12, w: 12, h: 12 },
+    { i: 'table-rentability-history',  x: 0, y: 24, w: 12, h: 3  },
+    { i: 'chart-net-worth',            x: 0, y: 27, w: 8, h: 9  },
+    { i: 'table-withdrawal-deposits',  x: 8, y: 27, w: 4, h: 9  },
+  ],
+  tablet: [
+    { i: 'chart-grouping-position',   x: 0, y: 0,  w: 5, h: 10 },
+    { i: 'table-grouping-rentability', x: 5, y: 0,  w: 3, h: 6  },
+    { i: 'table-stock-earning',        x: 5, y: 6,  w: 3, h: 4  },
+    { i: 'chart-performance',          x: 0, y: 10, w: 8, h: 10 },
+    { i: 'table-rentability-history',  x: 0, y: 20, w: 8, h: 3  },
+    { i: 'chart-net-worth',            x: 0, y: 23, w: 5, h: 8  },
+    { i: 'table-withdrawal-deposits',  x: 5, y: 23, w: 3, h: 8  },
+  ],
+  mobile: [
+    { i: 'chart-grouping-position',   x: 0, y: 0,  w: 6, h: 10 },
+    { i: 'table-grouping-rentability', x: 0, y: 10, w: 6, h: 6  },
+    { i: 'table-stock-earning',        x: 0, y: 16, w: 6, h: 5  },
+    { i: 'chart-performance',          x: 0, y: 21, w: 6, h: 10 },
+    { i: 'table-rentability-history',  x: 0, y: 31, w: 6, h: 3  },
+    { i: 'chart-net-worth',            x: 0, y: 34, w: 6, h: 8  },
+    { i: 'table-withdrawal-deposits',  x: 0, y: 42, w: 6, h: 8  },
+  ],
+};
+
+const breakpoints: Breakpoints<BreakpointKey> = {
+  desktop: 1280,
+  tablet: 728,
+  mobile: 0,
+};
+
+const cols: Breakpoints<BreakpointKey> = {
+  desktop: 12,
+  tablet: 8,
+  mobile: 6,
+};
+
 export const DashboardTemplate: FC<unknown> = () => {
   const { width, containerRef, mounted } = useContainerWidth();
-
-  const roundedWidth = useMemo<number>(() => Math.floor(width / 4), [width]);
-
-  const responsive = false;
-
-  const breakpoints: Breakpoints<BreakpointKey> = {
-    desktop: 1280,
-    tablet: 728,
-    mobile: 0,
-  };
-
-  const cols: Breakpoints<BreakpointKey> = {
-    desktop: 12,
-    tablet: 8,
-    mobile: 6,
-  };
-
-  const singleLayout: LayoutItem[] = [
-    { i: 'chart-grouping-position', x: 10, y: 0, w: 240, h: 12 },
-    { i: 'table-grouping-rentability', x: 251, y: 0, w: 130, h: 7 },
-    { i: 'table-stock-earning', x: 251, y: 7, w: 130, h: 5 },
-    { i: 'chart-performance', x: 10, y: 12, w: 371, h: 12 },
-    { i: 'table-rentability-history', x: 10, y: 24, w: 371, h: 3 },
-    { i: 'chart-net-worth', x: 10, y: 27, w: 240, h: 9 },
-    { i: 'table-withdrawal-deposits', x: 251, y: 27, w: 130, h: 9 },
-  ];
 
   const renderItem = (item: LayoutItem) => {
     const Component = widgetRegistry.get(item.i);
@@ -52,68 +69,34 @@ export const DashboardTemplate: FC<unknown> = () => {
       isStatic: item.static ?? false,
     };
 
-    if (!Component) {
-      return (
-        <div key={item.i} style={{ padding: 10, background: '#ffcccc' }}>
-          Componente não encontrado: {item.i}
-        </div>
-      );
-    } else {
-      return (
-        <div key={item.i}>
+    return (
+      <div key={item.i} style={{ height: '100%' }}>
+        {Component ? (
           <Component {...widgetProps} />
-        </div>
-      );
-    }
+        ) : (
+          // Substituir por Widget de erro exibindo devida mensagem
+          <div style={{ padding: 10, background: '#ffcccc' }}>
+            Componente não encontrado: {item.i}
+          </div>
+        )}
+      </div>
+    );
   };
 
-  const responsiveLayouts: ResponsiveLayouts<BreakpointKey> = {
-    desktop: [
-      { i: 'a', x: 0, y: 0, w: 10, h: 4, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-      { i: 'b', x: 2, y: 0, w: 3, h: 4, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-      { i: 'c', x: 5, y: 0, w: 2, h: 2, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-      { i: 'd', x: 5, y: 2, w: 2, h: 2, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-    ],
-    tablet: [
-      { i: 'a', x: 0, y: 0, w: 2, h: 4, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-      { i: 'b', x: 2, y: 0, w: 3, h: 4, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-      { i: 'c', x: 5, y: 0, w: 2, h: 2, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-      { i: 'd', x: 5, y: 2, w: 2, h: 2, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-    ],
-    mobile: [
-      { i: 'a', x: 0, y: 0, w: 2, h: 4, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-      { i: 'b', x: 2, y: 0, w: 3, h: 4, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-      { i: 'c', x: 5, y: 0, w: 2, h: 2, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-      { i: 'd', x: 5, y: 2, w: 2, h: 2, resizeHandles: ['ne', 'nw', 'se', 'sw'] },
-    ],
-  };
+  if (!mounted) return <div ref={containerRef} />;
 
   return (
     <div ref={containerRef}>
-      Largura do conteiner: {width}px
-      {responsive ? (
-        <Responsive
-          layouts={responsiveLayouts}
-          width={width}
-          breakpoints={breakpoints}
-          cols={cols}
-          style={{ backgroundColor: 'antiquewhite' }}
-          rowHeight={32}
-        >
-          {singleLayout.map((item) => renderItem(item))}
-        </Responsive>
-      ) : (
-        mounted && (
-          <ReactGridLayout
-            layout={singleLayout}
-            width={width}
-            gridConfig={{ cols: roundedWidth, rowHeight: 32 }}
-            style={{ backgroundColor: 'antiquewhite' }}
-          >
-            {singleLayout.map((item) => renderItem(item))}
-          </ReactGridLayout>
-        )
-      )}
+      <Responsive
+        layouts={layouts}
+        width={width}
+        breakpoints={breakpoints}
+        cols={cols}
+        rowHeight={32}
+        style={{ backgroundColor: '#E9ECEF' }}
+      >
+        {layouts.desktop?.map((item) => renderItem(item))}
+      </Responsive>
     </div>
   );
 };
