@@ -1,8 +1,3 @@
-export * from './organisms/CardRentability/CardRentability';
-export * from './organisms/TableRentabilityHistory/TableRentabilityHistory';
-export * from './organisms/TableGroupingRentability/TableGroupingRentability';
-export * from './templates/DashboardTemplate/DashboardTemplate';
-export * from './organisms/TableGroupingStockEarning/TableGroupingStockEarning';
 export * from './molecules/BarChart/BarChart';
 export * from './molecules/BaseWidget/BaseWidget';
 export * from './molecules/DoughnutChart/DoughnutChart';
@@ -10,5 +5,10 @@ export * from './molecules/LineChart/LineChart';
 export * from './organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
 export * from './organisms/NetWorthOverPeriod/NetWorthOverPeriod';
 export * from './organisms/PerformanceOverPeriod/PerformanceOverPeriod';
+export * from './organisms/TableGroupingRentability/TableGroupingRentability';
+export * from './organisms/TableGroupingStockEarning/TableGroupingStockEarning';
+export * from './organisms/TableRentabilityHistory/TableRentabilityHistory';
+export * from './templates/DashboardTemplate/DashboardTemplate';
+export * from './templates/WalletTemplate/WalletTemplate';
 
 export * from './themes';

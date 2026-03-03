@@ -1,15 +1,19 @@
 export {
   ContentRequestProvider,
   useContentRequest,
-  type ContentRequestProviderProps,
+  type ContentRequestProviderProps
 } from './contexts/ContentRequestContext/ContentRequestContext';
 export { type ContentRequestContextValue } from './contexts/ContentRequestContext/ContentRequestContext.types';
 export {
   RequestHooksProvider,
   useRequestHooks,
-  type RequestHooksProviderProps,
+  type RequestHooksProviderProps
 } from './contexts/RequestHooksContext/RequestHooksContext';
 export { type RequestHooksContextValue } from './contexts/RequestHooksContext/RequestHooksContext.types';
+
+export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/template';
+
+export type { BreakpointKey } from './types/template.types';
 
 export { currencyFormatter } from './functions/formatters/currencyFormatter.fn';
 export { monthFormatter } from './functions/formatters/monthFormatter.fn';
@@ -22,3 +26,5 @@ export { APIErrorAdapter } from './adapters/APIError.adapter';
 
 export { useCurrencyFormatters } from './hooks/useCurrencyFormatter';
 export { useNumberFormatters } from './hooks/useNumberFormatter';
+export { useRenderWidget } from './hooks/useRenderWidget';
+
