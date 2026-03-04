@@ -12,237 +12,49 @@ import {
   securityPositionByClassMock,
 } from '../../mocks/mocks';
 
-export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story) => {
-  const providerProps: RequestHooksProviderProps = {
-    useFetchNetWorthOverPeriods: () => ({
-      data: netWorthMock,
-      dataUpdatedAt: Date.now(),
-      error: null,
-      errorUpdateCount: 0,
-      errorUpdatedAt: Date.now(),
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isFetchedAfterMount: true,
-      isInitialLoading: false,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      isRefetching: false,
-      isRefetchError: false,
-      isPending: false,
-      isSuccess: true,
-      isStale: false,
-      status: 'success',
-      failureCount: 0,
-      failureReason: null,
-      fetchStatus: 'idle',
-      refetch: () =>
-        new Promise(() => {
-          return;
-        }),
-    }),
-    useFetchPerformanceOverPeriod: () => ({
-      data: performanceOverPeriodMock,
-      dataUpdatedAt: Date.now(),
-      error: null,
-      errorUpdateCount: 0,
-      errorUpdatedAt: Date.now(),
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isFetchedAfterMount: true,
-      isInitialLoading: false,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      isRefetching: false,
-      isRefetchError: false,
-      isPending: false,
-      isSuccess: true,
-      isStale: false,
-      status: 'success',
-      failureCount: 0,
-      failureReason: null,
-      fetchStatus: 'idle',
-      refetch: () =>
-        new Promise(() => {
-          return;
-        }),
-    }),
-    useFetchSecurityPositionByClass: () => ({
-      data: securityPositionByClassMock,
-      dataUpdatedAt: Date.now(),
-      error: null,
-      errorUpdateCount: 0,
-      errorUpdatedAt: Date.now(),
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isFetchedAfterMount: true,
-      isInitialLoading: false,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      isRefetching: false,
-      isRefetchError: false,
-      isPending: false,
-      isSuccess: true,
-      isStale: false,
-      status: 'success',
-      failureCount: 0,
-      failureReason: null,
-      fetchStatus: 'idle',
-      refetch: () =>
-        new Promise(() => {
-          return;
-        }),
-    }),
-    useFetchPerformance: () => ({
-      data: mockPerformanceOverPeriods,
-      dataUpdatedAt: Date.now(),
-      error: null,
-      errorUpdateCount: 0,
-      errorUpdatedAt: Date.now(),
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isFetchedAfterMount: true,
-      isInitialLoading: false,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      isRefetching: false,
-      isRefetchError: false,
-      isPending: false,
-      isSuccess: true,
-      isStale: false,
-      status: 'success',
-      failureCount: 0,
-      failureReason: null,
-      fetchStatus: 'idle',
-      refetch: () =>
-        new Promise(() => {
-          return;
-        }),
-    }),
-    useFetchRentability: () => ({
-      data: mockRentabilityOverPeriods,
-      dataUpdatedAt: Date.now(),
-      error: null,
-      errorUpdateCount: 0,
-      errorUpdatedAt: Date.now(),
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isFetchedAfterMount: true,
-      isInitialLoading: false,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      isRefetching: false,
-      isRefetchError: false,
-      isPending: false,
-      isSuccess: true,
-      isStale: false,
-      status: 'success',
-      failureCount: 0,
-      failureReason: null,
-      fetchStatus: 'idle',
-      refetch: () =>
-        new Promise(() => {
-          return;
-        }),
-    }),
-    useFetchStockEarnings: () => ({
-      data: mockStockEarningsOverPeriods,
-      dataUpdatedAt: Date.now(),
-      error: null,
-      errorUpdateCount: 0,
-      errorUpdatedAt: Date.now(),
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isFetchedAfterMount: true,
-      isInitialLoading: false,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      isRefetching: false,
-      isRefetchError: false,
-      isPending: false,
-      isSuccess: true,
-      isStale: false,
-      status: 'success',
-      failureCount: 0,
-      failureReason: null,
-      fetchStatus: 'idle',
-      refetch: () =>
-        new Promise(() => {
-          return;
-        }),
-    }),
-    useFetchPerformanceHistory: () => ({
-      data: mockRentabilityHistory,
-      dataUpdatedAt: Date.now(),
-      error: null,
-      errorUpdateCount: 0,
-      errorUpdatedAt: Date.now(),
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isFetchedAfterMount: true,
-      isInitialLoading: false,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      isRefetching: false,
-      isRefetchError: false,
-      isPending: false,
-      isSuccess: true,
-      isStale: false,
-      status: 'success',
-      failureCount: 0,
-      failureReason: null,
-      fetchStatus: 'idle',
-      refetch: () =>
-        new Promise(() => {
-          return;
-        }),
-    }),
-    useFetchWithdrawalDeposits: () => ({
-      data: mockWithdrawalDepositsOverPeriods,
-      dataUpdatedAt: Date.now(),
-      error: null,
-      errorUpdateCount: 0,
-      errorUpdatedAt: Date.now(),
-      isError: false,
-      isFetched: true,
-      isFetching: false,
-      isFetchedAfterMount: true,
-      isInitialLoading: false,
-      isLoading: false,
-      isLoadingError: false,
-      isPaused: false,
-      isRefetching: false,
-      isRefetchError: false,
-      isPending: false,
-      isSuccess: true,
-      isStale: false,
-      status: 'success',
-      failureCount: 0,
-      failureReason: null,
-      fetchStatus: 'idle',
-      refetch: () =>
-        new Promise(() => {
-          return;
-        }),
-    }),
-  };
+function createMockHook<T>(data: T) {
+  return () => ({
+    data,
+    dataUpdatedAt: Date.now(),
+    error: null as null,
+    errorUpdateCount: 0,
+    errorUpdatedAt: Date.now(),
+    isError: false as const,
+    isFetched: true as const,
+    isFetching: false as const,
+    isFetchedAfterMount: true as const,
+    isInitialLoading: false as const,
+    isLoading: false as const,
+    isLoadingError: false as const,
+    isPaused: false as const,
+    isRefetching: false as const,
+    isRefetchError: false as const,
+    isPending: false as const,
+    isSuccess: true as const,
+    isStale: false as const,
+    status: 'success' as const,
+    failureCount: 0,
+    failureReason: null as null,
+    fetchStatus: 'idle' as const,
+    promise: Promise.resolve(data),
+    refetch: () => new Promise<never>(() => { return; }),
+  });
+}
 
-  return (
-    <RequestHooksProvider {...providerProps}>
-      <Story />
-    </RequestHooksProvider>
-  );
+
+const providerProps: RequestHooksProviderProps = {
+  useFetchNetWorthOverPeriods:      createMockHook(netWorthMock),
+  useFetchPerformanceOverPeriod:    createMockHook(performanceOverPeriodMock),
+  useFetchSecurityPositionByClass:  createMockHook(securityPositionByClassMock),
+  useFetchPerformance:              createMockHook(mockPerformanceOverPeriods),
+  useFetchRentability:              createMockHook(mockRentabilityOverPeriods),
+  useFetchStockEarnings:            createMockHook(mockStockEarningsOverPeriods),
+  useFetchPerformanceHistory:       createMockHook(mockRentabilityHistory),
+  useFetchWithdrawalDeposits:       createMockHook(mockWithdrawalDepositsOverPeriods),
 };
+
+export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story) => (
+  <RequestHooksProvider {...providerProps}>
+    <Story />
+  </RequestHooksProvider>
+);

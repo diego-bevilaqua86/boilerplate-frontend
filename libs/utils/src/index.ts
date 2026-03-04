@@ -28,3 +28,5 @@ export { useCurrencyFormatters } from './hooks/useCurrencyFormatter';
 export { useNumberFormatters } from './hooks/useNumberFormatter';
 export { useRenderWidget } from './hooks/useRenderWidget';
 
+export { widgetRegistry } from '../../ui/src/registry/widgetRegistry';
+

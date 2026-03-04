@@ -1,6 +1,6 @@
 // useRenderWidget.tsx
 import { LayoutItem } from 'react-grid-layout';
-import { BaseWidgetProps, widgetRegistry } from '../../registry/widgetRegistry';
+import { BaseWidgetProps, widgetRegistry } from '../../../ui/src/registry/widgetRegistry';
 
 export function useRenderWidget() {
   const renderWidget = (item: LayoutItem) => {
