@@ -12,6 +12,7 @@ const COMPACT_THRESHOLD = 400; // px — abaixo disso, exibe cards
 export function UpcomingMaturitiesWidget({ groupingId }: { groupingId: string }) {
   const { ref, width } = useElementSize();
   const isCompact = width > 0 && width < COMPACT_THRESHOLD;
+  // TODO: TableUpcomingMaturities e CardUpcomingMaturities
 
   return (
     <BaseWidget>
