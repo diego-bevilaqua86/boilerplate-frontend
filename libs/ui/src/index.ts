@@ -1,3 +1,4 @@
+export * from './molecules/ErrorCard/ErrorCard';
 export * from './molecules/TablePlaceholder/TablePlaceholder';
 export * from './organisms/UpcomingMaturitiesWidget/UpcomingMaturitiesWidget';
 export * from './templates/WidgetTemplate/WidgetTemplate';

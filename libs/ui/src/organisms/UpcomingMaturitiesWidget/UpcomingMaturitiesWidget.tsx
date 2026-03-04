@@ -1,9 +1,11 @@
 // UpcomingMaturitiesWidget.tsx
+import { Text } from '@mantine/core';
 import { useElementSize } from '@mantine/hooks';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
-import { Text } from '@mantine/core';
+import ErrorCard from '../../molecules/ErrorCard/ErrorCard';
+import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 
 const COMPACT_THRESHOLD = 400; // px — abaixo disso, exibe cards
 
