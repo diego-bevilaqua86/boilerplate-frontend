@@ -6,7 +6,6 @@ import {
 } from '@boilerplate-frontend/utils';
 import { FC, useState } from 'react';
 import { Breakpoints, Responsive, ResponsiveLayouts, useContainerWidth } from 'react-grid-layout';
-import { DEFAULT_DASHBOARD_TEMPLATE } from '../../../../utils/src/constants/template';
 
 type WidgetTemplateProps = {
   layouts: ResponsiveLayouts<BreakpointKey>;
@@ -15,7 +14,7 @@ type WidgetTemplateProps = {
 };
 
 export const WidgetTemplate: FC<WidgetTemplateProps> = ({
-  layouts = DEFAULT_DASHBOARD_TEMPLATE,
+  layouts, // Obrigatório? Opcional?
   breakpoints = DEFAULT_BREAKPOINTS,
   cols = DEFAULT_COLS,
 }) => {
@@ -35,7 +34,7 @@ export const WidgetTemplate: FC<WidgetTemplateProps> = ({
         breakpoints={breakpoints}
         cols={cols}
         rowHeight={32}
-        style={{ backgroundColor: '#E9ECEF' }}
+        style={{ backgroundColor: '#E9ECEF' }} // Determinar cor do fundo pelo tema
         onBreakpointChange={(bp) => setCurrentBreakpoint(bp as BreakpointKey)}
       >
         {currentLayout.map((item) => renderWidget(item))}
