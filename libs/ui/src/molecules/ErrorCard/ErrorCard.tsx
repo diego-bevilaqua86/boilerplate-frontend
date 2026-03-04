@@ -3,12 +3,14 @@ import { WarningIcon } from '@phosphor-icons/react';
 import { FC } from 'react';
 
 export type ErrorCardProps = BoxComponentProps & {
-  error?: Error;
+  error?: unknown;
   message?: string;
   title: string;
 };
 
 export const ErrorCard: FC<ErrorCardProps> = ({ title, message, error, ...rest }) => {
+  const errorMessage = error instanceof Error ? error.message : message ?? '';
+
   return (
     <Paper withBorder p="xl" radius="md" {...rest}>
       <Center>
@@ -18,12 +20,10 @@ export const ErrorCard: FC<ErrorCardProps> = ({ title, message, error, ...rest }
           </ThemeIcon>
           <Text fw={600} c="red">{title}</Text>
           <Text size="sm" c="dimmed" ta="center">
-            {error?.message ?? message ?? ''}
+            {errorMessage}
           </Text>
         </Stack>
       </Center>
     </Paper>
   );
 };
-
-export default ErrorCard;

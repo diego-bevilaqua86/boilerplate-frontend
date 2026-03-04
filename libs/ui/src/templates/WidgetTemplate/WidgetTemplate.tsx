@@ -20,7 +20,7 @@ export const WidgetTemplate: FC<WidgetTemplateProps> = ({
 }) => {
   const { width, containerRef, mounted } = useContainerWidth();
   const { renderWidget } = useRenderWidget();
-  const [currentBreakpoint, setCurrentBreakpoint] = useState<BreakpointKey>('desktop');
+  const [currentBreakpoint, setCurrentBreakpoint] = useState<BreakpointKey>(width >= 1280 ? 'desktop' : width >= 728 ? 'tablet' : 'mobile'); // TODO: Transformar em função esse ternário
 
   if (!mounted) return <div ref={containerRef} />;
 
