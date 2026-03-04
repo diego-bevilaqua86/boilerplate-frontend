@@ -20,6 +20,7 @@ export type WidgetRegistry = Map<string, ComponentType<BaseWidgetProps>>;
 
 export const widgetRegistry: WidgetRegistry = new Map();
 
+/* Widgets pertinentes ao Dashboard Default */
 widgetRegistry.set('chart-grouping-position', ChartGroupingPositionByClassification);
 widgetRegistry.set('chart-net-worth', NetWorthOverPeriod);
 widgetRegistry.set('chart-performance', PerformanceOverPeriod);

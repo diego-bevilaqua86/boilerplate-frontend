@@ -19,14 +19,13 @@ export function UpcomingMaturitiesWidget({ groupingId }: { groupingId: string })
         <Text>Vencimentos dos ativos</Text>
       </BaseWidget.Header>
       <BaseWidget.Content>
-        {/* ref no container para medir a largura real disponível */}
         <div ref={ref} style={{ width: '100%', height: '100%' }}>
           <ErrorBoundary fallbackRender={({ error }) => <ErrorCard error={error} title={'Erro ao carregar vencimentos'} />}>
             <Suspense fallback={<TablePlaceholder />}>
-              {isCompact
+              {/* {isCompact
                 ? <UpcomingMaturitiesCards groupingId={groupingId} />
                 : <UpcomingMaturitiesTable groupingId={groupingId} />
-              }
+              } */}
             </Suspense>
           </ErrorBoundary>
         </div>
