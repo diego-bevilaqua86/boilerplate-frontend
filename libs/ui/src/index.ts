@@ -1,3 +1,5 @@
+export * from './molecules/TablePlaceholder/TablePlaceholder';
+export * from './organisms/UpcomingMaturitiesWidget/UpcomingMaturitiesWidget';
 export * from './templates/WidgetTemplate/WidgetTemplate';
 export * from './molecules/BarChart/BarChart';
 export * from './molecules/BaseWidget/BaseWidget';
