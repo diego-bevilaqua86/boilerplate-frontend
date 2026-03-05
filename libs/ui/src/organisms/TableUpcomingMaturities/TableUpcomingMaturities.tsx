@@ -5,6 +5,7 @@ import { ActionIcon, Badge, Box, Group, Paper, Stack, Text } from '@mantine/core
 import { ChartLineUpIcon, FunnelIcon } from '@phosphor-icons/react';
 import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { BaseTable } from '../../molecules/BaseTable/BaseTable';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { ModalFilters } from '../../molecules/ModalFilters/ModalFilters';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
@@ -62,7 +63,7 @@ const TableUpcomingMaturitiesDataRequest = () => {
             <ActionIcon
               variant="default"
               disabled={isNullOrUndefined(data) || isEmptyArr(data)}
-              onClick={toggleModal}
+               onClick={() => toggleModal()}
             >
               <FunnelIcon weight="duotone" />
             </ActionIcon>
