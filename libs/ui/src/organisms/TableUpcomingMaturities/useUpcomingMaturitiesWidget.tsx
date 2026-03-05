@@ -1,7 +1,8 @@
 // useUpcomingMaturitiesWidget.ts
 import { UpcomingMaturities } from '@boilerplate-frontend/types';
 import { currencyFormatter, dateFormatter, percentFormatter, useContentRequest } from '@boilerplate-frontend/utils';
-import { Trans, useLingui } from '@lingui/react';
+import { useLingui } from '@lingui/react';
+import { Trans } from '@lingui/react/macro';
 import { Badge } from '@mantine/core';
 import {
   createColumnHelper,
@@ -18,7 +19,7 @@ const columnBuilder = createColumnHelper<UpcomingMaturities>();
 
 export const useUpcomingMaturitiesWidget = ({ data }: { data: Array<UpcomingMaturities> }) => {
   const { _ , i18n } = useLingui();
-  const { selectedGrouping } = useContentRequest();
+  const { selectedGroupingSummary } = useContentRequest();
 
   const [sorting, setSorting] = useState<SortingState>([{ id: 'maturityDate', desc: false }]);
 
@@ -76,15 +77,15 @@ export const useUpcomingMaturitiesWidget = ({ data }: { data: Array<UpcomingMatu
         />
       ),
       cell: ({ getValue }) => (
-        <SensitiveText dotCount={4}>
-          <span>{currencyFormatter(getValue(), 2, i18n.locale, selectedGrouping?.currency)}</span>
+        <SensitiveText dotCount={4} isHidden={false}>
+          <span>{currencyFormatter(getValue(), 2, i18n.locale, selectedGroupingSummary?.currency)}</span>
         </SensitiveText>
       ),
       footer: ({ table }) => {
         const total = table.getPrePaginationRowModel().rows.reduce((sum, row) => sum + row.original.balance, 0);
         return (
-          <SensitiveText dotCount={4}>
-            <span>{currencyFormatter(total, 2, i18n.locale, selectedGrouping?.currency)}</span>
+          <SensitiveText dotCount={4} isHidden={false}>
+            <span>{currencyFormatter(total, 2, i18n.locale, selectedGroupingSummary?.currency)}</span>
           </SensitiveText>
         );
       },
@@ -113,7 +114,7 @@ export const useUpcomingMaturitiesWidget = ({ data }: { data: Array<UpcomingMatu
       ),
       cell: ({ getValue }) => <span>{getValue() || '-'}</span>,
     }),
-  ], [_, i18n.locale, selectedGrouping?.currency]);
+  ], [_, i18n.locale, selectedGroupingSummary?.currency]);
 
   const table = useReactTable<UpcomingMaturities>({
     data,

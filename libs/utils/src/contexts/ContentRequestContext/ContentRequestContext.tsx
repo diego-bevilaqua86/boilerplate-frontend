@@ -1,11 +1,13 @@
 import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } from 'react';
 import { isNullOrUndefined } from '../../functions/isNullOrUndefined.fn';
+import { GroupingSummary } from '../../types/GroupingSummary.types';
 import { ContentRequestContextValue } from './ContentRequestContext.types';
 
 export type ContentRequestProviderProps = PropsWithChildren<{
   initialSelectedClient?: string;
   initialSelectedGrouping: string;
   initialSelectedTemplate: string;
+  initialSelectedGroupingSummary: GroupingSummary;
   availableTemplates: Array<string>;
 }>;
 
@@ -20,6 +22,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
 }) => {
   const [selectedClient] = useState<string | undefined>(initialSelectedClient);
   const [selectedGrouping] = useState<string>(initialSelectedGrouping);
+  const [selectedGroupingSummary] = useState<GroupingSummary>();
   const [selectedTemplate, setSelectedTemplate] = useState<string>(initialSelectedTemplate);
 
   const handleTemplateChange = (template: string) => {
@@ -32,6 +35,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
       selectedGrouping,
       selectedTemplate,
       availableTemplates,
+      selectedGroupingSummary,
       handleTemplateChange,
     }),
     [availableTemplates, selectedClient, selectedGrouping, selectedTemplate],

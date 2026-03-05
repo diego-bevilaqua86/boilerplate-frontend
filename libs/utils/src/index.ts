@@ -14,7 +14,10 @@ export { type RequestHooksContextValue } from './contexts/RequestHooksContext/Re
 export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/template';
 
 export type { APIMapping } from './types/API.types';
+export type { GroupingSummary } from './types/GroupingSummary.types';
 export type { BreakpointKey } from './types/template.types';
+
+export { dateFormatter, monthYearFormatter } from './formatters/date.formatter';
 
 export { currencyFormatter } from './functions/formatters/currencyFormatter.fn';
 export { monthFormatter } from './functions/formatters/monthFormatter.fn';
