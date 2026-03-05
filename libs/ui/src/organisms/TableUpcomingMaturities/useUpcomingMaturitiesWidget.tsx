@@ -1,8 +1,7 @@
 // useUpcomingMaturitiesWidget.ts
-import { msg, Trans } from '@lingui/macro';
-import { useLingui } from '@lingui/react';
 import { UpcomingMaturities } from '@boilerplate-frontend/types';
 import { currencyFormatter, dateFormatter, percentFormatter, useContentRequest } from '@boilerplate-frontend/utils';
+import { Trans, useLingui } from '@lingui/react';
 import { Badge } from '@mantine/core';
 import {
   createColumnHelper,
@@ -13,7 +12,7 @@ import {
 } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
-import { TableSortingHeader } from '../../molecules/TableSortingHeader/TableSortingHeader';
+import { TableSortingHeader } from '../../atoms/TableSortingHeader/TableSortingHeader';
 
 const columnBuilder = createColumnHelper<UpcomingMaturities>();
 
@@ -27,7 +26,7 @@ export const useUpcomingMaturitiesWidget = ({ data }: { data: Array<UpcomingMatu
     columnBuilder.accessor('securityName', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={_(msg`Ativos`)}
+          headerText={`Ativos`}
           onToggleSorting={column.getToggleSortingHandler()}
           sortDirection={column.getIsSorted()}
         />
@@ -38,7 +37,7 @@ export const useUpcomingMaturitiesWidget = ({ data }: { data: Array<UpcomingMatu
     columnBuilder.accessor('hierarchicalVariable', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={_(msg`Classe`)}
+          headerText={ `Classe`}
           onToggleSorting={column.getToggleSortingHandler()}
           sortDirection={column.getIsSorted()}
         />
@@ -48,7 +47,7 @@ export const useUpcomingMaturitiesWidget = ({ data }: { data: Array<UpcomingMatu
     columnBuilder.accessor('maturityDate', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={_(msg`Data de vencimento`)}
+          headerText={ `Data de vencimento`}
           onToggleSorting={column.getToggleSortingHandler()}
           sortDirection={column.getIsSorted()}
         />
@@ -71,7 +70,7 @@ export const useUpcomingMaturitiesWidget = ({ data }: { data: Array<UpcomingMatu
     columnBuilder.accessor('balance', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={_(msg`Saldo`)}
+          headerText={ `Saldo`}
           onToggleSorting={column.getToggleSortingHandler()}
           sortDirection={column.getIsSorted()}
         />
@@ -93,7 +92,7 @@ export const useUpcomingMaturitiesWidget = ({ data }: { data: Array<UpcomingMatu
     columnBuilder.accessor('percentual', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={_(msg`% Patrimônio`)}
+          headerText={ `% Patrimônio`}
           onToggleSorting={column.getToggleSortingHandler()}
           sortDirection={column.getIsSorted()}
         />
@@ -107,7 +106,7 @@ export const useUpcomingMaturitiesWidget = ({ data }: { data: Array<UpcomingMatu
     columnBuilder.accessor('entity', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={_(msg`Instituição`)}
+          headerText={ `Instituição`}
           onToggleSorting={column.getToggleSortingHandler()}
           sortDirection={column.getIsSorted()}
         />
