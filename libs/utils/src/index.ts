@@ -13,6 +13,7 @@ export { type RequestHooksContextValue } from './contexts/RequestHooksContext/Re
 
 export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/template';
 
+export type { APIMapping } from './types/API.types';
 export type { BreakpointKey } from './types/template.types';
 
 export { currencyFormatter } from './functions/formatters/currencyFormatter.fn';

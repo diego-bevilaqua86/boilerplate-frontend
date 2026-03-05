@@ -1,3 +1,5 @@
+export * from './molecules/ModalFilters/ModalFilters';
+export * from './organisms/TableUpcomingMaturities/TableUpcomingMaturities';
 export * from './molecules/ErrorCard/ErrorCard';
 export * from './molecules/TablePlaceholder/TablePlaceholder';
 export * from './organisms/UpcomingMaturitiesWidget/UpcomingMaturitiesWidget';
