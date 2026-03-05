@@ -5,6 +5,7 @@ import {
   FetchRentabilityFilter,
   FetchSecurityPositionByClassFilter,
   FetchStockEarningsFilter,
+  FetchUpcomingMaturitiesFilter,
   GroupingSelectFinalDateFilter,
   NetWorthOverPeriods,
   PerformanceOverPeriods,
@@ -12,6 +13,7 @@ import {
   RentabilityOverPeriods,
   SecurityPositionByClass,
   StockEarningsOverPeriods,
+  UpcomingMaturities,
   WithdrawalDepositsOverPeriods,
 } from '@boilerplate-frontend/types';
 import { UseSuspenseQueryResult } from '@tanstack/react-query';
@@ -41,4 +43,7 @@ export type RequestHooksContextValue = {
   useFetchWithdrawalDeposits: (
     filter: GroupingSelectFinalDateFilter, // Confere essa tipagem que criei
   ) => UseSuspenseQueryResult<WithdrawalDepositsOverPeriods, Error>;
+  useFetchUpcomingMaturities: (
+    filter: FetchUpcomingMaturitiesFilter, 
+  ) => UseSuspenseQueryResult<Array<UpcomingMaturities>, Error>;
 };

@@ -6,6 +6,7 @@ import {
   mockRentabilityHistory,
   mockRentabilityOverPeriods,
   mockStockEarningsOverPeriods,
+  mockUpcomingMaturities,
   mockWithdrawalDepositsOverPeriods,
   netWorthMock,
   performanceOverPeriodMock,
@@ -51,6 +52,7 @@ const providerProps: RequestHooksProviderProps = {
   useFetchStockEarnings:            createMockHook(mockStockEarningsOverPeriods),
   useFetchPerformanceHistory:       createMockHook(mockRentabilityHistory),
   useFetchWithdrawalDeposits:       createMockHook(mockWithdrawalDepositsOverPeriods),
+  useFetchUpcomingMaturities:       createMockHook(mockUpcomingMaturities),
 };
 
 export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story) => (

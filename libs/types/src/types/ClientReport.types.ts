@@ -157,3 +157,17 @@ export type GroupingSelectFinalDateFilter<T = unknown> = {
   select?: (data: T) => T;
   finalDate?: string;
 };
+
+export type UpcomingMaturities = {
+  securityName: string | null;
+  hierarchicalVariable: string | null;
+  maturityDate: string | null;
+  balance: number;
+  percentual: number;
+  entity: string | null;
+};
+
+export type FetchUpcomingMaturitiesFilter = {
+  groupingId: string;
+  select: (data: Array<UpcomingMaturities>) => Array<UpcomingMaturities>;
+}

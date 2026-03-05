@@ -4,6 +4,7 @@ import {
   RentabilityOverPeriods,
   SecurityPositionByClass,
   StockEarningsOverPeriods,
+  UpcomingMaturities,
   WithdrawalDepositsOverPeriods,
 } from '@boilerplate-frontend/types';
 import { DateTime } from 'luxon';
@@ -366,3 +367,46 @@ export const mockPerformanceOverPeriods: PerformanceOverPeriods = {
     },
   ],
 };
+
+export const mockUpcomingMaturities: Array<UpcomingMaturities> = [
+  {
+    securityName: "Tesouro Direto IPCA+",
+    hierarchicalVariable: "Renda Fixa > Governo",
+    maturityDate: "2025-06-15",
+    balance: 150000.0,
+    percentual: 25.5,
+    entity: "Tesouro Nacional",
+  },
+  {
+    securityName: "CDB Banco XP",
+    hierarchicalVariable: "Renda Fixa > Bancário",
+    maturityDate: "2025-09-30",
+    balance: 80000.0,
+    percentual: 13.6,
+    entity: "Banco XP S.A.",
+  },
+  {
+    securityName: "Debênture Petrobras",
+    hierarchicalVariable: "Renda Fixa > Corporativo",
+    maturityDate: "2026-03-10",
+    balance: 200000.0,
+    percentual: 34.0,
+    entity: "Petróleo Brasileiro S.A.",
+  },
+  {
+    securityName: null,
+    hierarchicalVariable: "Renda Fixa > Bancário",
+    maturityDate: "2025-12-01",
+    balance: 45000.0,
+    percentual: 7.65,
+    entity: null,
+  },
+  {
+    securityName: "LCI Bradesco",
+    hierarchicalVariable: null,
+    maturityDate: null,
+    balance: 113500.0,
+    percentual: 19.29,
+    entity: "Banco Bradesco S.A.",
+  },
+];

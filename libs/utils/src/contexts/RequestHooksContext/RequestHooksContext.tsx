@@ -15,6 +15,7 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
   useFetchStockEarnings,
   useFetchPerformanceHistory,
   useFetchWithdrawalDeposits,
+  useFetchUpcomingMaturities,
   children,
 }) => {
   const value = useMemo<RequestHooksContextValue>(
@@ -27,6 +28,7 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
       useFetchStockEarnings,
       useFetchPerformanceHistory,
       useFetchWithdrawalDeposits,
+      useFetchUpcomingMaturities
     }),
     [
       useFetchPerformanceOverPeriod,
@@ -37,6 +39,7 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
       useFetchStockEarnings,
       useFetchPerformanceHistory,
       useFetchWithdrawalDeposits,
+      useFetchUpcomingMaturities
     ],
   );
   return <RequestHooksContext.Provider value={value}>{children}</RequestHooksContext.Provider>;
