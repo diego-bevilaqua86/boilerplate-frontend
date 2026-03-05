@@ -5,10 +5,10 @@ import { ActionIcon, Badge, Box, Group, Paper, Stack, Text } from '@mantine/core
 import { ChartLineUpIcon, FunnelIcon } from '@phosphor-icons/react';
 import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useManageModalFilter } from '../../hooks/useManageModalFilter';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
+import { ModalFilters } from '../../molecules/ModalFilters/ModalFilters';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { ModalFilters } from '../../organisms/ModalFilters/ModalFilters';
+import { useManageModalFilter } from './useManageModalFilter';
 import { useUpcomingMaturitiesWidget } from './useUpcomingMaturitiesWidget';
 
 // ─── Entrypoint com ErrorBoundary + Suspense ────────────────────────────────
