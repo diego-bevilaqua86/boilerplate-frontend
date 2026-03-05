@@ -1,3 +1,4 @@
+export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableSortingHeader/TableSortingHeader';
 export * from './molecules/ModalFilters/ModalFilters';
 export * from './organisms/TableUpcomingMaturities/TableUpcomingMaturities';
