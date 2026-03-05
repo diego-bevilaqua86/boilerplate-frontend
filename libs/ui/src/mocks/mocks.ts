@@ -1,4 +1,5 @@
 import {
+  Liquidity,
   PerformanceOverPeriods,
   RentabilityHistory,
   RentabilityOverPeriods,
@@ -410,3 +411,94 @@ export const mockUpcomingMaturities: Array<UpcomingMaturities> = [
     entity: "Banco Bradesco S.A.",
   },
 ];
+
+export const mockLiquidity: Liquidity = {
+  _id: "liquidity-001",
+  name: "Carteira Principal",
+  currency: "BRL",
+
+  liquiditySecurities: [
+    {
+      securityName: "Tesouro Selic 2026",
+      balance: 150000,
+      netWorth: 152300,
+      redemptionSettlementDays: 1,
+      entityName: "Tesouro Nacional",
+      lowestLiquidityDay: 0,
+      highestLiquidityDay: 1,
+      type: "security",
+    },
+    {
+      securityName: "CDB Banco XP",
+      balance: 80000,
+      netWorth: 81500,
+      redemptionSettlementDays: 2,
+      entityName: "Banco XP S.A.",
+      lowestLiquidityDay: 1,
+      highestLiquidityDay: 30,
+      type: "security",
+    },
+    {
+      securityName: "Conta Corrente Bradesco",
+      balance: 25000,
+      netWorth: 25000,
+      redemptionSettlementDays: 0,
+      entityName: "Banco Bradesco S.A.",
+      lowestLiquidityDay: 0,
+      highestLiquidityDay: 0,
+      type: "cashAccount",
+    },
+    {
+      securityName: "Provisão Dividendos",
+      balance: 12000,
+      netWorth: 12000,
+      redemptionSettlementDays: 3,
+      entityName: "Corretora BTG",
+      lowestLiquidityDay: 2,
+      highestLiquidityDay: 5,
+      type: "provision",
+    },
+    {
+      securityName: "Debênture Petrobras",
+      balance: 200000,
+      netWorth: 198000,
+      redemptionSettlementDays: 30,
+      entityName: "Petróleo Brasileiro S.A.",
+      lowestLiquidityDay: 30,
+      highestLiquidityDay: 90,
+      type: "security",
+    },
+  ],
+
+  liquidityValues: [
+    { lowestLiquidityDay: 0,  highestLiquidityDay: 1,    value: 175000 },
+    { lowestLiquidityDay: 1,  highestLiquidityDay: 30,   value: 80000  },
+    { lowestLiquidityDay: 30, highestLiquidityDay: 90,   value: 200000 },
+    { lowestLiquidityDay: 90, highestLiquidityDay: 180,  value: 95000  },
+    { lowestLiquidityDay: 180, highestLiquidityDay: null, value: 50000 },
+  ],
+
+  liquidityProvisionsValues: [
+    { lowestLiquidityDay: 0,  highestLiquidityDay: 1,    value: 175000, provisionsValue: 12000 },
+    { lowestLiquidityDay: 1,  highestLiquidityDay: 30,   value: 80000,  provisionsValue: 8000  },
+    { lowestLiquidityDay: 30, highestLiquidityDay: 90,   value: 200000, provisionsValue: 15000 },
+    { lowestLiquidityDay: 90, highestLiquidityDay: 180,  value: 95000,  provisionsValue: 5000  },
+    { lowestLiquidityDay: 180, highestLiquidityDay: null, value: 50000, provisionsValue: 2000  },
+  ],
+
+  liquidityPercents: [
+    { lowestLiquidityDay: 0,   highestLiquidityDay: 1,    value: 29.0 },
+    { lowestLiquidityDay: 1,   highestLiquidityDay: 30,   value: 13.3 },
+    { lowestLiquidityDay: 30,  highestLiquidityDay: 90,   value: 33.2 },
+    { lowestLiquidityDay: 90,  highestLiquidityDay: 180,  value: 15.8 },
+    { lowestLiquidityDay: 180, highestLiquidityDay: null, value: 8.7  },
+  ],
+
+  liquidityProvisionsPercents: [
+    { lowestLiquidityDay: 0,    highestLiquidityDay: 1,    value: 30.8 },
+    { lowestLiquidityDay: 1,    highestLiquidityDay: 30,   value: 14.7 },
+    { lowestLiquidityDay: 30,   highestLiquidityDay: 90,   value: 35.6 },
+    { lowestLiquidityDay: null, highestLiquidityDay: 180,  value: 12.4 },
+    { lowestLiquidityDay: null, highestLiquidityDay: null, value: 6.5  },
+  ],
+};

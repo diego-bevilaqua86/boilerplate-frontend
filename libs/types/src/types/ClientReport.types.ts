@@ -171,3 +171,60 @@ export type FetchUpcomingMaturitiesFilter = {
   groupingId: string;
   select: (data: Array<UpcomingMaturities>) => Array<UpcomingMaturities>;
 }
+
+export type FetchLiquidityValuesFilter = {
+  groupingId: string;
+  select: (data: Liquidity) => Liquidity;
+}
+
+export type Liquidity = {
+  _id: string;
+  name: string;
+  currency: string;
+  // Para popular a tabela
+  liquiditySecurities: Array<LiquiditySecurity>;
+  // Para popular o gráfico de barras
+  liquidityValues: Array<LiquidityValues>;
+  // Para popular o gráfico de barras com provisões
+  liquidityProvisionsValues: Array<LiquidityProvisionsValues>;
+  // Para popular o gráfico de cascata
+  liquidityPercents: Array<LiquidityPercents>;
+  // Para popular o gráfico de cascata com provisões
+  liquidityProvisionsPercents: Array<LiquidityProvisionsPercents>;
+};
+
+export type LiquiditySecurity = {
+  securityName: string;
+  balance: number;
+  netWorth: number;
+  redemptionSettlementDays: number;
+  entityName: string;
+  lowestLiquidityDay: number;
+  highestLiquidityDay: number;
+  type: 'security' | 'provision' | 'cashAccount';
+};
+
+export type LiquidityValues = {
+  lowestLiquidityDay: number;
+  highestLiquidityDay: number | null;
+  value: number;
+};
+
+export type LiquidityPercents = {
+  lowestLiquidityDay: number;
+  highestLiquidityDay: number | null;
+  value: number;
+};
+
+export type LiquidityProvisionsPercents = {
+  lowestLiquidityDay: number | null;
+  highestLiquidityDay: number | null;
+  value: number;
+};
+
+export type LiquidityProvisionsValues = {
+  lowestLiquidityDay: number;
+  highestLiquidityDay: number | null;
+  value: number;
+  provisionsValue: number;
+};

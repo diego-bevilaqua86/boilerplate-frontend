@@ -1,4 +1,5 @@
 import {
+  FetchLiquidityValuesFilter,
   FetchNetWorthOverPeriodFilter,
   FetchPeformanceFilter,
   FetchPerformanceHistoryFilter,
@@ -7,6 +8,7 @@ import {
   FetchStockEarningsFilter,
   FetchUpcomingMaturitiesFilter,
   GroupingSelectFinalDateFilter,
+  Liquidity,
   NetWorthOverPeriods,
   PerformanceOverPeriods,
   RentabilityHistory,
@@ -46,4 +48,5 @@ export type RequestHooksContextValue = {
   useFetchUpcomingMaturities: (
     filter: FetchUpcomingMaturitiesFilter, 
   ) => UseSuspenseQueryResult<Array<UpcomingMaturities>, Error>;
+  useFetchLiquidityValues: (filter: FetchLiquidityValuesFilter) => UseSuspenseQueryResult<Liquidity, Error>;
 };
