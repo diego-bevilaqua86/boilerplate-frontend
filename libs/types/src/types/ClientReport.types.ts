@@ -167,14 +167,25 @@ export type UpcomingMaturities = {
   entity: string | null;
 };
 
-export type FetchUpcomingMaturitiesFilter = {
-  groupingId: string;
-  select: (data: Array<UpcomingMaturities>) => Array<UpcomingMaturities>;
-}
 
 export type FetchLiquidityValuesFilter = {
   groupingId: string;
   select: (data: Liquidity) => Liquidity;
+}
+export type FetchUpcomingMaturitiesFilter = {
+  groupingId: string;
+  select: (data: Array<UpcomingMaturities>) => Array<UpcomingMaturities>;
+}
+export type FetchTransactionsFilter = {
+  groupingId: string;
+  period: PeriodType;
+  select: (data: Array<TransactionPopulated>) => Array<TransactionPopulated>;
+  finalDate?: string,
+}
+
+export type TransactionPopulated = {
+  _id: string;
+  // TODO: Discutir como transferir essa tipagem pois involve o t`Lingui`
 }
 
 export type Liquidity = {

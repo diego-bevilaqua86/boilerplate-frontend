@@ -6,6 +6,7 @@ import {
   FetchRentabilityFilter,
   FetchSecurityPositionByClassFilter,
   FetchStockEarningsFilter,
+  FetchTransactionsFilter,
   FetchUpcomingMaturitiesFilter,
   GroupingSelectFinalDateFilter,
   Liquidity,
@@ -15,6 +16,7 @@ import {
   RentabilityOverPeriods,
   SecurityPositionByClass,
   StockEarningsOverPeriods,
+  TransactionPopulated,
   UpcomingMaturities,
   WithdrawalDepositsOverPeriods,
 } from '@boilerplate-frontend/types';
@@ -49,4 +51,5 @@ export type RequestHooksContextValue = {
     filter: FetchUpcomingMaturitiesFilter, 
   ) => UseSuspenseQueryResult<Array<UpcomingMaturities>, Error>;
   useFetchLiquidityValues: (filter: FetchLiquidityValuesFilter) => UseSuspenseQueryResult<Liquidity, Error>;
+  useFetchTransactions: (filter: FetchTransactionsFilter) => UseSuspenseQueryResult<Array<TransactionPopulated>, Error>;
 };

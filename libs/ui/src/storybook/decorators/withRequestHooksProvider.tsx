@@ -55,6 +55,7 @@ const providerProps: RequestHooksProviderProps = {
   useFetchWithdrawalDeposits:       createMockHook(mockWithdrawalDepositsOverPeriods),
   useFetchUpcomingMaturities:       createMockHook(mockUpcomingMaturities),
   useFetchLiquidityValues:          createMockHook(mockLiquidity),
+  useFetchTransactions:             createMockHook([]), // TODO: Adicionar mock
 };
 
 export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story) => (
