@@ -1,3 +1,4 @@
+export * from './organisms/TableGrossUpBySecurity/TableGrossUpBySecurity';
 export * from './organisms/TableGrossUpRentability/TableGrossUpRentability';
 export * from './organisms/ChartGrossUpAllocation/ChartGrossUpAllocation';
 export * from './organisms/CardUpcomingMaturities/CardUpcomingMaturities';

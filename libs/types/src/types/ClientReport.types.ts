@@ -214,6 +214,26 @@ export type GrossUpRentability = {
   finalDate: string;
 };
 
+export type GrossUpBySecurity = {
+  name: string;
+  classification: string;
+  percentage: number;
+  rentability: number;
+  grossUpReturn: number;
+  equivalent: string;
+  incomeTax: number;
+  entity: string;
+  initialDate: string;
+  finalDate: string;
+};
+
+export type FetchGrossUpBySecurityFilter = {
+  groupingId: string,
+  period: PeriodType,
+  select: (data: Array<GrossUpBySecurity>) => Array<GrossUpBySecurity>,
+  finalDate?: string,
+}
+
 export type TransactionPopulated = {
   _id: string;
   // TODO: Discutir como transferir essa tipagem pois involve o t`Lingui`
