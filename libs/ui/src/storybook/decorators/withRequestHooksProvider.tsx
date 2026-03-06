@@ -3,6 +3,7 @@ import { ReactRenderer } from '@storybook/react';
 import { DecoratorFunction } from 'storybook/internal/csf';
 import {
   mockGrossUpAllocation,
+  mockGrossUpRentability,
   mockLiquidity,
   mockPerformanceOverPeriods,
   mockRentabilityHistory,
@@ -58,6 +59,7 @@ const providerProps: RequestHooksProviderProps = {
   useFetchLiquidityValues:          createMockHook(mockLiquidity),
   useFetchTransactions:             createMockHook([]), // TODO: Adicionar mock
   useFetchGrossUpAllocation:        createMockHook(mockGrossUpAllocation),
+  useFetchGrossUpRentability:       createMockHook(mockGrossUpRentability),
 };
 
 export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story) => (

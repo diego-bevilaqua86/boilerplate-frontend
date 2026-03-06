@@ -1,5 +1,6 @@
 import {
   FetchGrossUpAllocationFilter,
+  FetchGrossUpRentabilityFilter,
   FetchLiquidityValuesFilter,
   FetchNetWorthOverPeriodFilter,
   FetchPeformanceFilter,
@@ -10,6 +11,7 @@ import {
   FetchTransactionsFilter,
   FetchUpcomingMaturitiesFilter,
   GrossUpAllocation,
+  GrossUpRentability,
   GroupingSelectFinalDateFilter,
   Liquidity,
   NetWorthOverPeriods,
@@ -55,4 +57,5 @@ export type RequestHooksContextValue = {
   useFetchLiquidityValues: (filter: FetchLiquidityValuesFilter) => UseSuspenseQueryResult<Liquidity, Error>;
   useFetchTransactions: (filter: FetchTransactionsFilter) => UseSuspenseQueryResult<Array<TransactionPopulated>, Error>;
   useFetchGrossUpAllocation: (filter: FetchGrossUpAllocationFilter) => UseSuspenseQueryResult<GrossUpAllocation, Error>;
+  useFetchGrossUpRentability: (filter: FetchGrossUpRentabilityFilter) => UseSuspenseQueryResult<Array<GrossUpRentability>, Error>;
 };

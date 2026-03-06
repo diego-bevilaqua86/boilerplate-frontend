@@ -197,6 +197,23 @@ export type GrossUpAllocation = {
   referenceDate: string;
 };
 
+export type FetchGrossUpRentabilityFilter = {
+  groupingId: string,
+  period: PeriodType,
+  select: (data: Array<GrossUpRentability>) => Array<GrossUpRentability>,
+  finalDate?: string,
+}
+
+export type GrossUpRentability = {
+  label: string;
+  percentage: number;
+  nominalReturn: number;
+  grossUpReturn: number;
+  grossUpImpact: number;
+  initialDate: string;
+  finalDate: string;
+};
+
 export type TransactionPopulated = {
   _id: string;
   // TODO: Discutir como transferir essa tipagem pois involve o t`Lingui`

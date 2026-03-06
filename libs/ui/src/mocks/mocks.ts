@@ -1,5 +1,6 @@
 import {
   GrossUpAllocation,
+  GrossUpRentability,
   Liquidity,
   PerformanceOverPeriods,
   RentabilityHistory,
@@ -410,6 +411,27 @@ export const mockUpcomingMaturities: Array<UpcomingMaturities> = [
     balance: 113500.0,
     percentual: 19.29,
     entity: "Banco Bradesco S.A.",
+  },
+];
+
+export const mockGrossUpRentability: Array<GrossUpRentability> = [
+  {
+    label: 'taxExemptSecurities',
+    percentage: 0.75,
+    nominalReturn: 0.1234,
+    grossUpReturn: 0.1567,
+    grossUpImpact: 0.0333,
+    initialDate: '2024-01-01',
+    finalDate: '2024-12-31',
+  },
+  {
+    label: 'taxedSecurities',
+    percentage: 0.25,
+    nominalReturn: 0.0987,
+    grossUpReturn: 0.0987,
+    grossUpImpact: 0.0,
+    initialDate: '2024-01-01',
+    finalDate: '2024-12-31',
   },
 ];
 

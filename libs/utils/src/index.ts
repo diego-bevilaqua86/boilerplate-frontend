@@ -14,6 +14,7 @@ export { type RequestHooksContextValue } from './contexts/RequestHooksContext/Re
 export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/template';
 
 export type { APIMapping } from './types/API.types';
+export { getGrossUpMappings } from './types/GrossUp.types';
 export type { GroupingSummary } from './types/GroupingSummary.types';
 export type { BreakpointKey } from './types/template.types';
 
