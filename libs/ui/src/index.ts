@@ -1,3 +1,4 @@
+export * from './organisms/CardUpcomingMaturities/CardUpcomingMaturities';
 export * from './molecules/BaseTable/BaseTable';
 export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableSortingHeader/TableSortingHeader';

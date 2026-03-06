@@ -19,7 +19,7 @@ export type { BreakpointKey } from './types/template.types';
 
 export { dateFormatter, monthYearFormatter } from './formatters/date.formatter';
 
-export { currencyFormatter } from './functions/formatters/currencyFormatter.fn';
+export { currencyFormatter, currencyFormatterToParts, currencyLocaleFormatter } from './functions/formatters/currencyFormatter.fn';
 export { monthFormatter } from './functions/formatters/monthFormatter.fn';
 export { percentFormatter } from './functions/formatters/percentFormatter.fn';
 export { isEmptyArr } from './functions/isEmptyArr.fn';
