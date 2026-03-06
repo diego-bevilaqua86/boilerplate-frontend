@@ -4,6 +4,7 @@ import { DonutChartCell } from '@mantine/charts';
 import { MantineColor } from '@mantine/core';
 import { useMemo } from 'react';
 
+// TODO: Estilizar cores de acordo com paleta do contexto do parceiro
 const PALETTE: Array<MantineColor> = ['blue.6', 'teal.5'];
 
 
