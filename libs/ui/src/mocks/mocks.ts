@@ -1,4 +1,5 @@
 import {
+  GrossUpAllocation,
   Liquidity,
   PerformanceOverPeriods,
   RentabilityHistory,
@@ -411,6 +412,17 @@ export const mockUpcomingMaturities: Array<UpcomingMaturities> = [
     entity: "Banco Bradesco S.A.",
   },
 ];
+
+export const mockGrossUpAllocation: GrossUpAllocation = {
+  _id: '6973a8942d6ab09393738777',
+  name: 'Alocação Gross Up',
+  currency: 'BRL',
+  referenceDate: '2025-02-02',
+  dataset: [
+    { label: 'taxExemptSecurities', value: 750000 },
+    { label: 'taxedSecurities',     value: 250000 },
+  ],
+};
 
 export const mockLiquidity: Liquidity = {
   _id: "liquidity-001",

@@ -183,6 +183,20 @@ export type FetchTransactionsFilter = {
   finalDate?: string,
 }
 
+export type FetchGrossUpAllocationFilter = {
+  groupingId: string;
+  select?: (data: GrossUpAllocation) => GrossUpAllocation;
+  finalDate?: string,
+}
+
+export type GrossUpAllocation = {
+  _id: string;
+  name: string;
+  currency: string;
+  dataset: Array<DataSet>;
+  referenceDate: string;
+};
+
 export type TransactionPopulated = {
   _id: string;
   // TODO: Discutir como transferir essa tipagem pois involve o t`Lingui`
