@@ -2,10 +2,10 @@ import {
   BreakpointKey,
   DEFAULT_BREAKPOINTS,
   DEFAULT_COLS,
-  useRenderWidget,
 } from '@boilerplate-frontend/utils';
 import { FC, useState } from 'react';
 import { Breakpoints, Responsive, ResponsiveLayouts, useContainerWidth } from 'react-grid-layout';
+import { useRenderWidget } from '../../hooks/useRenderWidget';
 
 type WidgetTemplateProps = {
   layouts: ResponsiveLayouts<BreakpointKey>;
