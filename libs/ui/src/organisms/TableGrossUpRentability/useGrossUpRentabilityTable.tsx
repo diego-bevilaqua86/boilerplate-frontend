@@ -3,7 +3,7 @@ import { GrossUpRentability } from '@boilerplate-frontend/types';
 import { getGrossUpMappings, percentFormatter } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { ActionIcon, Tooltip } from '@mantine/core';
-import { Info } from '@phosphor-icons/react';
+import { InfoIcon } from '@phosphor-icons/react';
 import { createColumnHelper, getCoreRowModel, getSortedRowModel, SortingState, useReactTable } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { TableSortingHeader } from '../../atoms/TableSortingHeader/TableSortingHeader';
@@ -113,9 +113,9 @@ export const useGrossUpRentabilityTable = ({ dataSource, pageSize = 10 }: UseGro
         />
       ),
       cell: ({ getValue }) => (
-        <Tooltip label={  `Alíquota utilizada para o prazo de 180 até 3260 dias.`} position="auto">
+        <Tooltip label={  `Alíquota utilizada para o prazo de 180 até 3260 dias.`}>
           <ActionIcon variant="transparent" size="xs">
-            <Info size={16} />
+            <InfoIcon size={16} />
           </ActionIcon>
         </Tooltip>
       ),
