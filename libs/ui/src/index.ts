@@ -1,3 +1,4 @@
+export * from './molecules/EmptyWidget/EmptyWidget';
 export * from './organisms/CardGrossUpRentability/CardGrossUpRentability';
 export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableSortingHeader/TableSortingHeader';

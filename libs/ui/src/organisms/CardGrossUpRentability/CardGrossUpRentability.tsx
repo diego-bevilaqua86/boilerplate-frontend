@@ -24,11 +24,11 @@
 //   equivalente é o TableGrossUpRentability.
 
 import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
-import { Trans } from '@lingui/react/macro';
 import { Text } from '@mantine/core';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
+import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { useCardGrossUpRentabilityManager } from './useCardGrossUpRentabilityManager';
@@ -83,9 +83,7 @@ const CardGrossUpRentabilityDataRequest = () => {
   // Estado vazio: exibido quando a API retorna dados vazios ou nulos
   if (isNullOrUndefined(data) || isEmptyArr(data)) {
     return (
-      <Text c="dimmed" ta="center" py="xl">
-        <Trans>Sem informações para o período solicitado.</Trans>
-      </Text>
+      <EmptyWidget message={'Sem dados de GrossUp para o período solicitado.'} />
     );
   }
 
