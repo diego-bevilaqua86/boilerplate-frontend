@@ -1,3 +1,4 @@
+export * from './organisms/CardGrossUpRentability/CardGrossUpRentability';
 export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableSortingHeader/TableSortingHeader';
 export * from './molecules/BarChart/BarChart';
@@ -23,6 +24,5 @@ export * from './organisms/UpcomingMaturitiesWidget/UpcomingMaturitiesWidget';
 export * from './templates/DashboardTemplate/DashboardTemplate';
 export * from './templates/WalletTemplate/WalletTemplate';
 export * from './templates/WidgetTemplate/WidgetTemplate';
-
 
 export * from './themes';
