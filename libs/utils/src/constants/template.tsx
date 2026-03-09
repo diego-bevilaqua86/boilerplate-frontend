@@ -14,8 +14,8 @@ export const DEFAULT_BREAKPOINTS: Breakpoints<BreakpointKey> = {
 
 export const DEFAULT_COLS: Breakpoints<BreakpointKey> = {
   desktop: 12,
-  tablet: 12,
-  mobile: 1,
+  tablet: 8,
+  mobile: 4, 
 };
 
 export const DEFAULT_DASHBOARD_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
@@ -105,23 +105,25 @@ export const DEFAULT_PERFORMANCE_ANALYSIS_TEMPLATE: ResponsiveLayouts<Breakpoint
     { i: 'table-withdrawal-deposits',  x: 0, y: 42, w: 6, h: 8  },
   ],
 };
+
 export const DEFAULT_GROSS_UP_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   desktop: [
-    { i: 'chart-grossup-allocation',   x: 0, y: 0,  w: 4, h: 8 },
-    { i: 'table-grossup-rentability', x: 4, y: 0,  w: 8, h: 8  },
-    { i: 'table-grossup-security',        x: 0, y: 8,  w: 12, h: 8  },
+    { i: 'chart-grossup-allocation',  x: 0, y: 0, w: 4,  h: 8 },
+    { i: 'table-grossup-rentability', x: 4, y: 0, w: 8,  h: 8 },
+    { i: 'table-grossup-security',    x: 0, y: 8, w: 12, h: 8 },
   ],
   tablet: [
-    { i: 'chart-grossup-allocation',   x: 0, y: 0,  w: 4, h: 8 },
-    { i: 'table-grossup-rentability', x: 4, y: 0,  w: 8, h: 8  },
-    { i: 'table-grossup-security',        x: 0, y: 8,  w: 12, h: 8  },
+    { i: 'chart-grossup-allocation',  x: 0, y: 0, w: 8,  h: 8 },
+    { i: 'table-grossup-rentability', x: 0, y: 0, w: 8,  h: 8 },
+    { i: 'table-grossup-security',    x: 0, y: 8, w: 8,  h: 8 },
   ],
   mobile: [
-    { i: 'chart-grossup-allocation',   x: 0, y: 0,  w: 4, h: 8 },
-    { i: 'table-grossup-rentability', x: 4, y: 0,  w: 8, h: 8  },
-    { i: 'table-grossup-security',        x: 0, y: 8,  w: 12, h: 8  },
+    { i: 'chart-grossup-allocation',  x: 0, y: 0,  w: 4, h: 8 },
+    { i: 'card-grossup-rentability',  x: 0, y: 8,  w: 4, h: 8 },
+    { i: 'card-grossup-security',     x: 0, y: 16, w: 4, h: 8 },
   ],
 };
+
 export const DEFAULT_TRANSACTIONS_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   desktop: [
     { i: 'chart-grouping-position',   x: 0, y: 0,  w: 8, h: 12 },

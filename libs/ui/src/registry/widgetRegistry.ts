@@ -1,4 +1,5 @@
 import { ComponentType } from 'react';
+import { CardGrossUpBySecurity } from '../organisms/CardGrossUpBySecurity/CardGrossUpBySecurity';
 import { CardGrossUpRentability } from '../organisms/CardGrossUpRentability/CardGrossUpRentability';
 import { CardUpcomingMaturities } from '../organisms/CardUpcomingMaturities/CardUpcomingMaturities';
 import { ChartGrossUpAllocation } from '../organisms/ChartGrossUpAllocation/ChartGrossUpAllocation';
@@ -41,3 +42,4 @@ widgetRegistry.set('chart-grossup-allocation', ChartGrossUpAllocation);
 widgetRegistry.set('table-grossup-rentability', TableGrossUpRentability);
 widgetRegistry.set('table-grossup-security', TableGrossUpBySecurity);
 widgetRegistry.set('card-grossup-rentability', CardGrossUpRentability);
+widgetRegistry.set('card-grossup-security', CardGrossUpBySecurity);

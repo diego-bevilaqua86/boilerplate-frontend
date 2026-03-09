@@ -16,7 +16,7 @@ export function useRenderWidget() {
     };
 
     return (
-      <div key={item.i} style={{ height: '100%' }}>
+      <div key={item.i} style={{ height: '100%', overflow: 'hidden' }}>
         {Component ? (
           <Component {...widgetProps} />
         ) : (
