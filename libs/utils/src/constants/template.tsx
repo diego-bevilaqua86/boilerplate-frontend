@@ -164,10 +164,7 @@ export const DEFAULT_SECURITIES_LIQUIDITY_TEMPLATE: ResponsiveLayouts<Breakpoint
   ],
   mobile: [
     { i: 'chart-liquidity',             x: 0, y: 0,  w: 4, h: 10 },
-    // No mobile, a tabela é substituída pelo gráfico apenas —
-    // TableLiquiditySecurities não tem versão card ainda.
-    // Quando card-liquidity-securities for criado, adicionar aqui:
-    // { i: 'card-liquidity-securities', x: 0, y: 10, w: 4, h: 12 },
+    { i: 'card-liquidity-securities', x: 0, y: 10, w: 4, h: 12 },
   ],
 };
 export const DEFAULT_UPCOMING_MATURITIES_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {

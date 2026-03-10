@@ -39,6 +39,7 @@
 import { ComponentType } from 'react';
 import { CardGrossUpBySecurity } from '../organisms/CardGrossUpBySecurity/CardGrossUpBySecurity';
 import { CardGrossUpRentability } from '../organisms/CardGrossUpRentability/CardGrossUpRentability';
+import { CardLiquiditySecurities } from '../organisms/CardLiquiditySecurities/CardLiquiditySecurities';
 import { CardUpcomingMaturities } from '../organisms/CardUpcomingMaturities/CardUpcomingMaturities';
 import { ChartGrossUpAllocation } from '../organisms/ChartGrossUpAllocation/ChartGrossUpAllocation';
 import { ChartGroupingPositionByClassification } from '../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
@@ -94,3 +95,4 @@ widgetRegistry.set('card-grossup-security', CardGrossUpBySecurity);             
 // ─── Liquidez ─────────────────────────────────────────────────────────────────
 widgetRegistry.set('chart-liquidity', ChartLiquidityByPeriod);                    // desktop + tablet
 widgetRegistry.set('table-liquidity-securities', TableLiquiditySecurities);       // desktop + tablet
+widgetRegistry.set('card-liquidity-securities', CardLiquiditySecurities);         // mobile
