@@ -14,13 +14,15 @@ type WidgetTemplateProps = {
 };
 
 export const WidgetTemplate: FC<WidgetTemplateProps> = ({
-  layouts, // Obrigatório? Opcional?
+  layouts,
   breakpoints = DEFAULT_BREAKPOINTS,
   cols = DEFAULT_COLS,
 }) => {
   const { width, containerRef, mounted } = useContainerWidth();
   const { renderWidget } = useRenderWidget();
-  const [currentBreakpoint, setCurrentBreakpoint] = useState<BreakpointKey>(width >= 1280 ? 'desktop' : width >= 728 ? 'tablet' : 'mobile'); // TODO: Transformar em função esse ternário
+  const [currentBreakpoint, setCurrentBreakpoint] = useState<BreakpointKey>(
+    width >= 1280 ? 'desktop' : width >= 728 ? 'tablet' : 'mobile'
+  );
 
   if (!mounted) return <div ref={containerRef} />;
 
@@ -34,7 +36,7 @@ export const WidgetTemplate: FC<WidgetTemplateProps> = ({
         breakpoints={breakpoints}
         cols={cols}
         rowHeight={32}
-        style={{ backgroundColor: '#E9ECEF' }} // Determinar cor do fundo pelo tema
+        style={{ backgroundColor: '#E9ECEF' }}
         onBreakpointChange={(bp) => setCurrentBreakpoint(bp as BreakpointKey)}
       >
         {currentLayout.map((item) => renderWidget(item))}

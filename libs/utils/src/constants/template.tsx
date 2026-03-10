@@ -118,9 +118,9 @@ export const DEFAULT_GROSS_UP_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
     { i: 'table-grossup-security',    x: 0, y: 8, w: 8,  h: 8 },
   ],
   mobile: [
-    { i: 'chart-grossup-allocation',  x: 0, y: 0,  w: 4, h: 8 },
-    { i: 'card-grossup-rentability',  x: 0, y: 8,  w: 4, h: 8 },
-    { i: 'card-grossup-security',     x: 0, y: 16, w: 4, h: 8 },
+    { i: 'chart-grossup-allocation',  x: 0, y: 0,  w: 4, h: 8, },
+    { i: 'card-grossup-rentability',  x: 0, y: 9,  w: 4, h: 8, minW: 4 },
+    { i: 'card-grossup-security',     x: 0, y: 17, w: 4, h: 8, minW: 4 },
   ],
 };
 
@@ -184,12 +184,12 @@ export const DEFAULT_SECURITIES_LIQUIDITY_TEMPLATE: ResponsiveLayouts<Breakpoint
 };
 export const DEFAULT_UPCOMING_MATURITIES_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   desktop: [
-    { i: 'table-upcoming-maturities',   x: 0, y: 0,  w: 12, h: 12 },
+    { i: 'table-upcoming-maturities', x: 0, y: 0, w: 12, h: 12 },
   ],
   tablet: [
-    { i: 'table-upcoming-maturities',   x: 0, y: 0,  w: 12, h: 10 },
+    { i: 'table-upcoming-maturities', x: 0, y: 0, w: 8, h: 10 },
   ],
   mobile: [
-    { i: 'card-upcoming-maturities',   x: 0, y: 0,  w: 12, h: 12 },
+    { i: 'card-upcoming-maturities', x: 0, y: 0, w: 4, h: 12 },
   ],
 };

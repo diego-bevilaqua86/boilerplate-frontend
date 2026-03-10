@@ -4,6 +4,7 @@ import { BaseWidgetProps, widgetRegistry } from '../registry/widgetRegistry';
 
 export function useRenderWidget() {
   const renderWidget = (item: LayoutItem) => {
+    console.log('rendering:', item.i);
     const Component = widgetRegistry.get(item.i);
 
     const widgetProps: BaseWidgetProps = {
