@@ -1,3 +1,4 @@
+export * from './organisms/ChartLiquidityByPeriod/ChartLiquidityByPeriod';
 export * from './organisms/CardGrossUpBySecurity/CardGrossUpBySecurity';
 export * from './molecules/EmptyWidget/EmptyWidget';
 export * from './organisms/CardGrossUpRentability/CardGrossUpRentability';

@@ -1,3 +1,33 @@
+// withRequestHooksProvider.tsx
+//
+// Decorator do Storybook que injeta mocks de todos os hooks de requisição
+// via RequestHooksProvider.
+//
+// Como funciona:
+//   createMockHook<T>(data) cria um hook que retorna imediatamente com
+//   os dados fornecidos, simulando um UseSuspenseQueryResult resolvido.
+//   Isso permite que widgets com Suspense renderizem normalmente no
+//   Storybook sem precisar de um servidor real ou QueryClient.
+//
+// Adicionando um novo hook:
+//   1. Importe o mock correspondente de mocks/mocks.ts
+//      (ou crie um novo mock se necessário)
+//   2. Adicione ao providerProps:
+//      useFetch[NovoRecurso]: createMockHook(mock[NovoRecurso]),
+//   3. Adicione ao RequestHooksProviderProps no RequestHooksContext
+//
+// Estado vazio (Empty stories):
+//   Para testar o estado vazio de um widget específico, crie um decorator
+//   local na story que sobrescreve apenas o hook relevante:
+//
+//   export const withEmptyLiquidity: DecoratorFunction<ReactRenderer> = (Story) => (
+//     <RequestHooksProvider {...providerProps} useFetchLiquidityValues={createMockHook(null)}>
+//       <Story />
+//     </RequestHooksProvider>
+//   );
+//
+// createMockHook é exportado para permitir criar overrides nas stories
+
 import { RequestHooksProvider, RequestHooksProviderProps } from '@boilerplate-frontend/utils';
 import { ReactRenderer } from '@storybook/react';
 import { DecoratorFunction } from 'storybook/internal/csf';
@@ -17,7 +47,9 @@ import {
   securityPositionByClassMock,
 } from '../../mocks/mocks';
 
-function createMockHook<T>(data: T) {
+// Cria um hook mock que retorna imediatamente com os dados fornecidos,
+// simulando o comportamento de UseSuspenseQueryResult com status 'success'
+export function createMockHook<T>(data: T) {
   return () => ({
     data,
     dataUpdatedAt: Date.now(),
@@ -46,8 +78,9 @@ function createMockHook<T>(data: T) {
   });
 }
 
-
-const providerProps: RequestHooksProviderProps = {
+// Props base do provider com todos os mocks mapeados.
+// Exportado para permitir overrides nas stories de estado vazio.
+export const providerProps: RequestHooksProviderProps = {
   useFetchNetWorthOverPeriods:      createMockHook(netWorthMock),
   useFetchPerformanceOverPeriod:    createMockHook(performanceOverPeriodMock),
   useFetchSecurityPositionByClass:  createMockHook(securityPositionByClassMock),

@@ -19,6 +19,7 @@ export type { GroupingSummary } from './types/GroupingSummary.types';
 export type { BreakpointKey } from './types/template.types';
 
 export { dateFormatter, monthYearFormatter } from './formatters/date.formatter';
+export { numberFormatter } from './formatters/number.formatter';
 
 export { currencyFormatter, currencyFormatterToParts, currencyLocaleFormatter } from './functions/formatters/currencyFormatter.fn';
 export { monthFormatter } from './functions/formatters/monthFormatter.fn';
