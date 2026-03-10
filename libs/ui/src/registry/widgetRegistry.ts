@@ -49,6 +49,7 @@ import { TableGrossUpBySecurity } from '../organisms/TableGrossUpBySecurity/Tabl
 import { TableGrossUpRentability } from '../organisms/TableGrossUpRentability/TableGrossUpRentability';
 import { TableGroupingRentability } from '../organisms/TableGroupingRentability/TableGroupingRentability';
 import { TableGroupingStockEarning } from '../organisms/TableGroupingStockEarning/TableGroupingStockEarning';
+import { TableLiquiditySecurities } from '../organisms/TableLiquiditySecurities/TableLiquiditySecurities';
 import { TableRentabilityHistory } from '../organisms/TableRentabilityHistory/TableRentabilityHistory';
 import { TableUpcomingMaturities } from '../organisms/TableUpcomingMaturities/TableUpcomingMaturities';
 import { TableWithdrawalDeposits } from '../organisms/TableWithdrawalDeposits/TableWithdrawalDeposits';
@@ -92,4 +93,4 @@ widgetRegistry.set('card-grossup-security', CardGrossUpBySecurity);             
 
 // ─── Liquidez ─────────────────────────────────────────────────────────────────
 widgetRegistry.set('chart-liquidity', ChartLiquidityByPeriod);                    // desktop + tablet
-// widgetRegistry.set('table-liquidity-securities', TableLiquiditySecurities);       // desktop + tablet
+widgetRegistry.set('table-liquidity-securities', TableLiquiditySecurities);       // desktop + tablet
