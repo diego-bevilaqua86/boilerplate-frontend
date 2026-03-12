@@ -11,7 +11,7 @@ export {
 } from './contexts/RequestHooksContext/RequestHooksContext';
 export { type RequestHooksContextValue } from './contexts/RequestHooksContext/RequestHooksContext.types';
 
-export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/Template';
+export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/template';
 
 export { dateFormatter, monthYearFormatter } from './formatters/date.formatter';
 export { numberFormatter } from './formatters/number.formatter';
@@ -26,7 +26,6 @@ export { percentFormatter } from './functions/formatters/percentFormatter.fn';
 export { isEmptyArr } from './functions/isEmptyArr.fn';
 export { isEmptyStr } from './functions/isEmptyStr.fn';
 export { isNullOrUndefined } from './functions/isNullOrUndefined.fn';
-export * from './functions/transactionTypeMappingStyles';
 
 export { APIErrorAdapter } from './adapters/APIError.adapter';
 
