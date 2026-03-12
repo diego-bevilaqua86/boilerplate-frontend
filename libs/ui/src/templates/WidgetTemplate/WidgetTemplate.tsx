@@ -1,8 +1,5 @@
-import {
-  BreakpointKey,
-  DEFAULT_BREAKPOINTS,
-  DEFAULT_COLS,
-} from '@boilerplate-frontend/utils';
+import { BreakpointKey } from '@boilerplate-frontend/types';
+import { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from '@boilerplate-frontend/utils';
 import { FC, useState } from 'react';
 import { Breakpoints, Responsive, ResponsiveLayouts, useContainerWidth } from 'react-grid-layout';
 import { useRenderWidget } from '../../hooks/useRenderWidget';
@@ -21,7 +18,7 @@ export const WidgetTemplate: FC<WidgetTemplateProps> = ({
   const { width, containerRef, mounted } = useContainerWidth();
   const { renderWidget } = useRenderWidget();
   const [currentBreakpoint, setCurrentBreakpoint] = useState<BreakpointKey>(
-    width >= 1280 ? 'desktop' : width >= 728 ? 'tablet' : 'mobile'
+    width >= 1280 ? 'desktop' : width >= 728 ? 'tablet' : 'mobile',
   );
 
   if (!mounted) return <div ref={containerRef} />;

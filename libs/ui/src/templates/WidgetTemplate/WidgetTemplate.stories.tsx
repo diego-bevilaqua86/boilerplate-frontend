@@ -1,5 +1,6 @@
 // WidgetTemplate.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   DEFAULT_DASHBOARD_TEMPLATE,
   DEFAULT_GROSS_UP_TEMPLATE,

@@ -1,7 +1,6 @@
 // useGrossUpRentabilityTable.ts
 import { getGrossUpMappings, GrossUpRentability } from '@boilerplate-frontend/types';
 import { percentFormatter } from '@boilerplate-frontend/utils';
-import { useLingui } from '@lingui/react';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { InfoIcon } from '@phosphor-icons/react';
 import {
@@ -25,7 +24,6 @@ type GrossUpRentabilityMobile = Omit<
 >;
 
 export const useGrossUpRentabilityTable = ({ dataSource, pageSize = 10 }: UseGrossUpRentabilityTableProps) => {
-  const { _ } = useLingui();
   const [sorting, setSorting] = useState<SortingState>([]);
   const { GROSS_UP_LABEL_MAPPING } = getGrossUpMappings();
 
@@ -87,7 +85,7 @@ export const useGrossUpRentabilityTable = ({ dataSource, pageSize = 10 }: UseGro
         cell: ({ getValue }) => <span>{percentFormatter(getValue(), 2)}</span>,
       }),
     ],
-    [columnHelper, GROSS_UP_LABEL_MAPPING, percentFormatter],
+    [columnHelper, GROSS_UP_LABEL_MAPPING],
   );
 
   const columnsMobile = useMemo(
@@ -131,7 +129,7 @@ export const useGrossUpRentabilityTable = ({ dataSource, pageSize = 10 }: UseGro
         ),
       }),
     ],
-    [_, columnHelperMobile, GROSS_UP_LABEL_MAPPING],
+    [columnHelperMobile, GROSS_UP_LABEL_MAPPING],
   );
 
   const table = useReactTable<GrossUpRentability>({
