@@ -18,7 +18,6 @@ export * from '../../types/src/types/Security.types';
 export * from '../../types/src/types/Transaction.types';
 export * from '../../types/src/types/Wallet.types';
 export * from '../../types/src/types/WalletsGrouping.types';
-export * from './types/Template.types';
 
 export * from './validators/Authentication.validators';
 export * from './validators/ClientReport.validators';

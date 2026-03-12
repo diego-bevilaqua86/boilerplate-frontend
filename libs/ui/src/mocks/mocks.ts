@@ -511,8 +511,8 @@ export const mockTransactionsPopulated: TransactionPopulated[] = [
 
     // TransactionPopulated fields
     balance: 503822.76,
-    improvedScore: null,
-    score: null,
+    improvedScore: 0,
+    score: 0,
     createdProcessedTransaction: true,
     fileData: { sentToBucket: false },
 
@@ -521,8 +521,6 @@ export const mockTransactionsPopulated: TransactionPopulated[] = [
       createdAt: new Date('2023-01-01T00:00:00.000Z'),
       updatedAt: new Date('2023-01-01T00:00:00.000Z'),
       name: 'Empresa Parceira Ltda',
-      document: '23.313.334/0001-10',
-      email: 'contato@empresa.com.br',
     },
 
     entityId: {
