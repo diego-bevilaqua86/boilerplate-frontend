@@ -11,13 +11,7 @@ export {
 } from './contexts/RequestHooksContext/RequestHooksContext';
 export { type RequestHooksContextValue } from './contexts/RequestHooksContext/RequestHooksContext.types';
 
-export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/template';
-
-export { getGrossUpMappings } from '../../types/src/types/GrossUp.types';
-export type { GroupingSummary } from '../../types/src/types/GroupingSummary.types';
-export * from '../../types/src/types/Partner.types';
-export type { BreakpointKey } from '../../types/src/types/template.types';
-export * from '../../types/src/types/Transaction.types';
+export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/Template';
 
 export { dateFormatter, monthYearFormatter } from './formatters/date.formatter';
 export { numberFormatter } from './formatters/number.formatter';

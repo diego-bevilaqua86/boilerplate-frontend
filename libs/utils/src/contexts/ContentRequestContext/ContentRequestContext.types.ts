@@ -1,7 +1,6 @@
 // TODO: necessário melhorar tipos. Provavelmente deve armazenar um Client,
 
-import { PeriodType } from '@boilerplate-frontend/types';
-import { GroupingSummary } from '../../../../types/src/types/GroupingSummary.types';
+import { GroupingSummary, PeriodType } from '@boilerplate-frontend/types';
 
 // Grouping e Template completos, com todas as informações salvas de cada um.
 export type ContentRequestContextValue = {

@@ -42,7 +42,7 @@
     "../types/src/types/GrossUp.types.ts",
     "../types/src/types/GroupingSummary.types.ts",
     "../types/src/types/Partner.types.ts",
-    "../types/src/types/template.types.tsx",
+    "../types/src/types/Template.types.tsx",
     "../types/src/types/Transaction.types.ts"
   ],
   "references": [

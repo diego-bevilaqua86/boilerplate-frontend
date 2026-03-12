@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { ClientReportFilterValidators, ClientReportValidators } from '../validators/ClientReport.validators';
 import { DataSet, PeriodType } from './Common.types';
+import { TransactionPopulated } from './Transaction.types';
 
 export type PerformanceByClassificationDTO = z.infer<
   ReturnType<typeof ClientReportValidators>['PerformanceByClassificationDTOSchema']

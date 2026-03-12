@@ -1,4 +1,4 @@
-import { getTransactionMappings, TransactionType } from '../../../types/src/types/Transaction.types';
+import { getTransactionMappings, TransactionType } from '@boilerplate-frontend/types';
 import { isNullOrUndefined } from './isNullOrUndefined.fn';
 
 type TransactionMappingStyles = {
@@ -21,9 +21,8 @@ export function transactionTypesMappingStyles(
     };
   }
   const screenLabel =
-    getTransactionMappings().TRANSACTION_TYPES_MAPPING.find(
-      (type: { apiLabel: TransactionType }) => type.apiLabel === transactionType,
-    )?.screenLabel ?? '-';
+    getTransactionMappings().TRANSACTION_TYPES_MAPPING.find((type) => type.apiLabel === transactionType)?.screenLabel ??
+    '-';
 
   switch (transactionType) {
     case 'buySell':

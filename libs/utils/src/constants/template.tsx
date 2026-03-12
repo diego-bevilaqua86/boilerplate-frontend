@@ -1,5 +1,5 @@
+import { BreakpointKey } from '@boilerplate-frontend/types';
 import { Breakpoints, ResponsiveLayouts } from 'react-grid-layout';
-import { BreakpointKey } from '../../../types/src/types/template.types';
 
 export const DEFAULT_BREAKPOINTS: Breakpoints<BreakpointKey> = {
   desktop: 1280,

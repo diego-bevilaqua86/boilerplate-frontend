@@ -4,7 +4,7 @@ import { z as zod } from 'zod';
 import { RequiredStringSchema } from '../validators/Default.validators';
 import { APIMapping, BaseDocument } from './Default.types';
 import { FinancialInstitution } from './FinancialInstitutions.types';
-import { Partner } from './Partners.types';
+import { Partner } from './Partner.types';
 import { Security } from './Security.types';
 import { Wallet } from './Wallet.types';
 import { WalletsGrouping } from './WalletsGrouping.types';
