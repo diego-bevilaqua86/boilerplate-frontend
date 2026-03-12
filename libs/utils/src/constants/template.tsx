@@ -110,13 +110,13 @@ export const DEFAULT_GROSS_UP_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   ],
   tablet: [
     { i: 'chart-grossup-allocation', x: 0, y: 0, w: 8, h: 8 },
-    { i: 'table-grossup-rentability', x: 0, y: 0, w: 8, h: 8 },
-    { i: 'table-grossup-security', x: 0, y: 8, w: 8, h: 8 },
+    { i: 'table-grossup-rentability', x: 0, y: 8, w: 8, h: 8, minW: 8, minH: 8 },
+    { i: 'table-grossup-security', x: 0, y: 8, w: 8, h: 8, minW: 8, minH: 8 },
   ],
   mobile: [
     { i: 'chart-grossup-allocation', x: 0, y: 0, w: 4, h: 8 },
-    { i: 'card-grossup-rentability', x: 0, y: 9, w: 4, h: 8, minW: 4 },
-    { i: 'card-grossup-security', x: 0, y: 17, w: 4, h: 8, minW: 4 },
+    { i: 'card-grossup-rentability', x: 0, y: 8, w: 4, h: 8, minW: 4, minH: 4 },
+    { i: 'card-grossup-security', x: 0, y: 17, w: 4, h: 8, minW: 4, minH: 4 },
   ],
 };
 
