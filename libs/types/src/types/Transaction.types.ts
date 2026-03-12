@@ -1,9 +1,9 @@
 import { t } from '@lingui/macro';
 import { isDate } from 'validator';
 import { z as zod } from 'zod';
+import { RequiredStringSchema } from '../validators/Default.validators';
+import { APIMapping, BaseDocument } from './Default.types';
 import { FinancialInstitution } from './FinancialInstitutions.types';
-import { APIMapping, BaseDocument } from './Global.types';
-import { RequiredString } from './Global.validators';
 import { Partner } from './Partners.types';
 import { Security } from './Security.types';
 import { Wallet } from './Wallet.types';
@@ -59,14 +59,14 @@ export const TRANSACTION_TYPES = [
 export const TRANSACTION_DATE_TYPES = ['liquidation', 'operation', 'both'] as const;
 
 export function getTransactionMappings() {
-  const TRANSACTION_TYPES_FOR_GROUPING_MAPPING: Readonly<Array<APIMapping>> = [
+  const TRANSACTION_TYPES_FOR_GROUPING_MAPPING: Readonly<Array<APIMapping<string>>> = [
     { apiLabel: 'withdrawalDeposit', screenLabel: t`Saque/Depósito` },
     { apiLabel: 'withdrawalDepositAdjustment', screenLabel: t`Ajuste de aplicação/resgate` },
     { apiLabel: 'managementFee', screenLabel: t`Taxa de Administração` },
     { apiLabel: 'performanceFee', screenLabel: t`Taxa de Performance` },
   ] as const;
 
-  const TRANSACTION_TYPES_MAPPING: Readonly<Array<APIMapping>> = [
+  const TRANSACTION_TYPES_MAPPING: Readonly<Array<APIMapping<string>>> = [
     { apiLabel: 'amortization', screenLabel: t`Amortização` },
     { apiLabel: 'brokerageFee', screenLabel: t`Taxa de corretagem` },
     { apiLabel: 'buySell', screenLabel: t`Compra/Venda` },
@@ -100,7 +100,7 @@ export function getTransactionMappings() {
     { apiLabel: 'withdrawalDepositAdjustment', screenLabel: t`Ajuste de aplicação/resgate` },
   ] as const;
 
-  const TRANSACTION_DATE_TYPES_MAPPING: Readonly<Array<APIMapping>> = [
+  const TRANSACTION_DATE_TYPES_MAPPING: Readonly<Array<APIMapping<string>>> = [
     { apiLabel: 'liquidation', screenLabel: t`Liquidação` },
     { apiLabel: 'operation', screenLabel: t`Operação` },
     { apiLabel: 'both', screenLabel: t`Ambos` },
@@ -119,11 +119,11 @@ export type TransactionDateType = (typeof TRANSACTION_DATE_TYPES)[number];
 
 export function getTransactionValidator() {
   const TransactionBaseSchema = zod.object({
-    companyId: RequiredString(t`Selecione uma empresa.`),
+    companyId: RequiredStringSchema(t`Selecione uma empresa.`),
     entityId: zod.string().optional().nullable(),
     walletId: zod.string().optional().nullable(),
     groupingId: zod.string().optional().nullable(),
-    currencyId: RequiredString(t`Selecione uma moeda.`),
+    currencyId: RequiredStringSchema(t`Selecione uma moeda.`),
     securityId: zod
       .string()
       .trim()
@@ -135,14 +135,14 @@ export function getTransactionValidator() {
       .trim()
       .refine((date) => isDate(date, { format: 'YYYY-MM-DD' }), { message: t`Insira uma data de operação válida.` })
       .optional(),
-    liquidationDate: RequiredString(t`Data de liquidação é obrigatória.`).refine(
+    liquidationDate: RequiredStringSchema(t`Data de liquidação é obrigatória.`).refine(
       (date: string) => isDate(date, { format: 'YYYY-MM-DD' }),
       { message: t`Insira uma data de liquidação válida.` },
     ),
     quantity: zod.number().optional(),
     price: zod.number().optional(),
     balance: zod.number().optional(),
-    description: RequiredString(t`Informe a descrição da transação.`),
+    description: RequiredStringSchema(t`Informe a descrição da transação.`),
     inputType: zod.enum(TRANSACTION_INPUT_TYPES),
     beehusTransactionType: zod
       .enum(TRANSACTION_TYPES, { error: () => ({ message: t`Selecione um tipo` }) })
@@ -308,7 +308,7 @@ export function getTransactionValidator() {
 
   const TransactionPatchCommentDTOSchema = zod
     .object({
-      transactionId: RequiredString(t`ID é obrigatório.`),
+      transactionId: RequiredStringSchema(t`ID é obrigatório.`),
     })
     .merge(
       TransactionBaseSchema.pick({

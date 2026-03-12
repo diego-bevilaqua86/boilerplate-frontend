@@ -13,12 +13,11 @@ export { type RequestHooksContextValue } from './contexts/RequestHooksContext/Re
 
 export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/template';
 
-export type { APIMapping } from './types/API.types';
-export { getGrossUpMappings } from './types/GrossUp.types';
-export type { GroupingSummary } from './types/GroupingSummary.types';
-export * from './types/Partner.types';
-export type { BreakpointKey } from './types/template.types';
-export * from './types/Transaction.types';
+export { getGrossUpMappings } from '../../types/src/types/GrossUp.types';
+export type { GroupingSummary } from '../../types/src/types/GroupingSummary.types';
+export * from '../../types/src/types/Partner.types';
+export type { BreakpointKey } from '../../types/src/types/template.types';
+export * from '../../types/src/types/Transaction.types';
 
 export { dateFormatter, monthYearFormatter } from './formatters/date.formatter';
 export { numberFormatter } from './formatters/number.formatter';

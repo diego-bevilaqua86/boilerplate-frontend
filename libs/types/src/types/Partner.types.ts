@@ -1,7 +1,7 @@
 import { BaseDocument } from '@boilerplate-frontend/types';
 import { t } from '@lingui/macro';
 import { z } from 'zod';
-import { RequiredEmail, RequiredString } from './Global.validators';
+import { RequiredEmail, RequiredString } from '../../../utils/src/validators/Global.validators';
 
 export const getPartnersValidators = () => {
   const PartnerContactSchema = z

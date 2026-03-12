@@ -9,6 +9,12 @@ export * from './types/Common.types';
 export * from './types/Default.types';
 export * from './types/WalletGroupings.types';
 
+export * from '../../types/src/types/GrossUp.types';
+export * from '../../types/src/types/GroupingSummary.types';
+export * from '../../types/src/types/Partner.types';
+export * from '../../types/src/types/template.types';
+export * from '../../types/src/types/Transaction.types';
+
 export * from './validators/Authentication.validators';
 export * from './validators/ClientReport.validators';
 export * from './validators/Default.validators';

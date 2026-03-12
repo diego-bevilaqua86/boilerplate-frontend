@@ -9,9 +9,13 @@
 //   Stack direction    → Group (Mantine)
 //   useClientCustomizationStore → useContentRequest (currency via contexto)
 
-import { TransactionPopulated } from '@boilerplate-frontend/types';
-import { currencyFormatter, dateFormatter, useContentRequest } from '@boilerplate-frontend/utils';
-import { msg } from '@lingui/macro';
+import {
+  currencyFormatter,
+  dateFormatter,
+  TransactionPopulated,
+  transactionTypesMappingStyles,
+  useContentRequest,
+} from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { ActionIcon, Badge, Group, Text, Tooltip } from '@mantine/core';
 import { ChatTextIcon } from '@phosphor-icons/react';
@@ -35,7 +39,7 @@ type UseTransactionsTableProps = {
 
 export const useTransactionsTable = ({ data, onOpenDetailsModal }: UseTransactionsTableProps) => {
   const { _, i18n } = useLingui();
-  const { selectedGrouping } = useContentRequest();
+  const { selectedGroupingSummary } = useContentRequest();
   const [sorting, setSorting] = useState<Array<ColumnSort>>([{ id: 'liquidationDate', desc: true }]);
 
   const columns = useMemo(
@@ -43,7 +47,7 @@ export const useTransactionsTable = ({ data, onOpenDetailsModal }: UseTransactio
       columnBuilder.accessor('liquidationDate', {
         header: ({ column }) => (
           <TableSortingHeader
-            headerText={_(msg`Data de Liquidação`)}
+            headerText={'Data de Liquidação'}
             onToggleSorting={column.getToggleSortingHandler()}
             sortDirection={column.getIsSorted()}
           />
@@ -53,7 +57,7 @@ export const useTransactionsTable = ({ data, onOpenDetailsModal }: UseTransactio
       columnBuilder.accessor('walletId.name', {
         header: ({ column }) => (
           <TableSortingHeader
-            headerText={_(msg`Carteira`)}
+            headerText={'Carteira'}
             onToggleSorting={column.getToggleSortingHandler()}
             sortDirection={column.getIsSorted()}
           />
@@ -63,15 +67,15 @@ export const useTransactionsTable = ({ data, onOpenDetailsModal }: UseTransactio
       columnBuilder.accessor('beehusTransactionType', {
         header: ({ column }) => (
           <TableSortingHeader
-            headerText={_(msg`Operação`)}
+            headerText={'Operação'}
             onToggleSorting={column.getToggleSortingHandler()}
             sortDirection={column.getIsSorted()}
           />
         ),
         cell: ({ getValue }) => {
-          const { screenLabel, color } = transactionTypesMappingStyles(getValue());
+          const { screenLabel, styles } = transactionTypesMappingStyles(getValue());
           return (
-            <Badge variant="light" color={color} size="sm">
+            <Badge variant="light" styles={{ root: { backgroundColor: styles.bg, color: styles.text } }} size="sm">
               {screenLabel}
             </Badge>
           );
@@ -80,7 +84,7 @@ export const useTransactionsTable = ({ data, onOpenDetailsModal }: UseTransactio
       columnBuilder.accessor('securityId', {
         header: ({ column }) => (
           <TableSortingHeader
-            headerText={_(msg`Ativos`)}
+            headerText={'Ativos'}
             onToggleSorting={column.getToggleSortingHandler()}
             sortDirection={column.getIsSorted()}
           />
@@ -94,21 +98,21 @@ export const useTransactionsTable = ({ data, onOpenDetailsModal }: UseTransactio
       columnBuilder.accessor('balance', {
         header: ({ column }) => (
           <TableSortingHeader
-            headerText={_(msg`Saldo`)}
+            headerText={'Saldo'}
             onToggleSorting={column.getToggleSortingHandler()}
             sortDirection={column.getIsSorted()}
           />
         ),
         cell: ({ getValue }) => (
           <SensitiveText dotCount={4} dotSize={20} isHidden={false}>
-            <Text size="sm">{currencyFormatter(getValue(), 2, i18n.locale, selectedGrouping?.currency)}</Text>
+            <Text size="sm">{currencyFormatter(getValue(), 2, i18n.locale, selectedGroupingSummary?.currency)}</Text>
           </SensitiveText>
         ),
       }),
       columnBuilder.accessor('entityId.name', {
         header: ({ column }) => (
           <TableSortingHeader
-            headerText={_(msg`Instituição Financeira`)}
+            headerText={'Instituição Financeira'}
             onToggleSorting={column.getToggleSortingHandler()}
             sortDirection={column.getIsSorted()}
           />
@@ -130,7 +134,7 @@ export const useTransactionsTable = ({ data, onOpenDetailsModal }: UseTransactio
 
             {/* Botão de comentário do gestor — abre o modal de detalhes */}
             {row.original.comment && onOpenDetailsModal && (
-              <Tooltip label={_(msg`Comentário do gestor`)} withArrow>
+              <Tooltip label={'Comentário do gestor'} withArrow>
                 <ActionIcon variant="subtle" color="blue" size="sm" onClick={() => onOpenDetailsModal(row.original)}>
                   <ChatTextIcon size={16} weight="fill" />
                 </ActionIcon>
@@ -140,7 +144,7 @@ export const useTransactionsTable = ({ data, onOpenDetailsModal }: UseTransactio
         ),
       }),
     ],
-    [_, i18n.locale, onOpenDetailsModal, selectedGrouping?.currency],
+    [i18n.locale, onOpenDetailsModal, selectedGroupingSummary?.currency],
   );
 
   const table = useReactTable<TransactionPopulated>({

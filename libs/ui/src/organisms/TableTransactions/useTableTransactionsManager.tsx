@@ -8,10 +8,12 @@
 //   - Renderização do header com FilterButton + badges de filtros ativos
 //   - Renderização da tabela ou EmptyWidget
 
-import { TransactionPopulated } from '@boilerplate-frontend/types';
-import { getTransactionMappings, isEmpty, isNullOrUndefined } from '@boilerplate-frontend/utils';
-import { msg } from '@lingui/macro';
-import { useLingui } from '@lingui/react';
+import {
+  getTransactionMappings,
+  isEmptyArr,
+  isNullOrUndefined,
+  TransactionPopulated,
+} from '@boilerplate-frontend/utils';
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Badge, Box, Group, ScrollArea, Stack, Text, Tooltip } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
@@ -28,7 +30,6 @@ type UseTableTransactionsManagerProps = {
 };
 
 export const useTableTransactionsManager = ({ data }: UseTableTransactionsManagerProps) => {
-  const { _, i18n } = useLingui();
   const { TRANSACTION_TYPES_MAPPING } = getTransactionMappings();
 
   // ── Modal de filtros ────────────────────────────────────────────────────────
@@ -81,17 +82,17 @@ export const useTableTransactionsManager = ({ data }: UseTableTransactionsManage
         opened={filtersModalOpen}
         onClose={toggleFiltersModal}
         onSubmit={handleApplyFilter}
-        title={_(msg`Filtros`)}
+        title={'Filtros'}
         data={data}
         selectedValues={selectedTransactionTypes}
         filterOptions={[
           {
-            title: _(msg`Tipo de operação`),
+            title: 'Tipo de operação',
             key: 'beehusTransactionType',
             translate: TRANSACTION_TYPES_MAPPING,
           },
           {
-            title: _(msg`Instituição financeira`),
+            title: 'Instituição financeira',
             key: 'entityId.name' as keyof TransactionPopulated,
           },
         ]}
@@ -131,12 +132,12 @@ export const useTableTransactionsManager = ({ data }: UseTableTransactionsManage
             ))}
 
             {/* Botão de abrir filtros */}
-            <Tooltip label={_(msg`Filtrar movimentações`)} withArrow>
+            <Tooltip label={'Filtrar movimentações'} withArrow>
               <ActionIcon
                 variant={selectedTransactionTypes.length > 0 ? 'filled' : 'default'}
                 size="sm"
                 onClick={() => toggleFiltersModal()}
-                disabled={isNullOrUndefined(data) || isEmpty(data)}
+                disabled={isNullOrUndefined(data) || isEmptyArr(data)}
               >
                 <FunnelIcon size={14} />
               </ActionIcon>
@@ -145,8 +146,8 @@ export const useTableTransactionsManager = ({ data }: UseTableTransactionsManage
         </Group>
 
         {/* Tabela ou estado vazio */}
-        {isEmpty(filteredData) ? (
-          <EmptyWidget message={_(msg`Você não possui informações para o período solicitado.`)} />
+        {isEmptyArr(filteredData) ? (
+          <EmptyWidget message={'Você não possui informações para o período solicitado.'} />
         ) : (
           <ScrollArea>
             <Box px="md" pb="md">

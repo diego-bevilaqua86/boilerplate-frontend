@@ -15,7 +15,6 @@ import {
   TransactionPopulated,
   transactionTypesMappingStyles,
 } from '@boilerplate-frontend/utils';
-import { msg } from '@lingui/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Badge, Button, Divider, Modal, SimpleGrid, Stack, Table, Text, Textarea } from '@mantine/core';
@@ -44,11 +43,11 @@ const SummaryRow = ({ label, children, colSpan }: { label: string; children: Rea
 // ─── Componente principal ─────────────────────────────────────────────────────
 
 export const ModalTransactionDetails = ({ opened, onClose, transaction }: ModalTransactionDetailsProps) => {
-  const { _, i18n } = useLingui();
+  const { i18n } = useLingui();
 
   // transactionTypesMappingStyles retorna { screenLabel, color }
   // após migração — se ainda retornar { styles }, adaptar aqui
-  const { screenLabel, color } = transactionTypesMappingStyles(transaction?.beehusTransactionType);
+  const { screenLabel, styles } = transactionTypesMappingStyles(transaction?.beehusTransactionType);
 
   return (
     <Modal
@@ -72,31 +71,31 @@ export const ModalTransactionDetails = ({ opened, onClose, transaction }: ModalT
             <Table withRowBorders={false} verticalSpacing={4}>
               <Table.Tbody>
                 <Table.Tr>
-                  <SummaryRow label={_(msg`Carteira`)}>{transaction.walletId?.name ?? '-'}</SummaryRow>
-                  <SummaryRow label={_(msg`Instituição financeira`)}>{transaction.entityId?.name ?? '-'}</SummaryRow>
+                  <SummaryRow label={'Carteira'}>{transaction.walletId?.name ?? '-'}</SummaryRow>
+                  <SummaryRow label={'Instituição financeira'}>{transaction.entityId?.name ?? '-'}</SummaryRow>
                 </Table.Tr>
 
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={0}>
-                  <SummaryRow label={_(msg`Ativo`)}>{transaction.securityId?.beehusName ?? '-'}</SummaryRow>
-                  <SummaryRow label={_(msg`Operação`)}>
-                    <Badge variant="light" color={color} size="sm">
+                  <SummaryRow label={'Ativo'}>{transaction.securityId?.beehusName ?? '-'}</SummaryRow>
+                  <SummaryRow label={'Operação'}>
+                    <Badge variant="light" styles={{ root: { ...styles } }} size="sm">
                       {screenLabel}
                     </Badge>
                   </SummaryRow>
                 </SimpleGrid>
 
                 <Table.Tr>
-                  <SummaryRow label={_(msg`Data liquidação`)}>
+                  <SummaryRow label={'Data liquidação'}>
                     {transaction?.liquidationDate ? dateFormatter(transaction.liquidationDate, i18n.locale) : '-'}
                   </SummaryRow>
-                  <SummaryRow label={_(msg`Saldo`)}>
+                  <SummaryRow label={'Saldo'}>
                     {transaction?.balance
                       ? currencyFormatter(transaction.balance, 2, i18n.locale, transaction.currencyId)
                       : '-'}
                   </SummaryRow>
                 </Table.Tr>
 
-                <SummaryRow label={_(msg`Descrição`)} colSpan={2}>
+                <SummaryRow label={'Descrição'} colSpan={2}>
                   {transaction?.description ?? '-'}
                 </SummaryRow>
               </Table.Tbody>

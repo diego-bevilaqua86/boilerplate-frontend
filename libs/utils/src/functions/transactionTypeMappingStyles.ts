@@ -1,4 +1,4 @@
-import { getTransactionMappings, TransactionType } from '../types/Transaction.types';
+import { getTransactionMappings, TransactionType } from '../../../types/src/types/Transaction.types';
 import { isNullOrUndefined } from './isNullOrUndefined.fn';
 
 type TransactionMappingStyles = {

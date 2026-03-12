@@ -1,7 +1,7 @@
 import { PeriodType } from '@boilerplate-frontend/types';
 import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } from 'react';
+import { GroupingSummary } from '../../../../types/src/types/GroupingSummary.types';
 import { isNullOrUndefined } from '../../functions/isNullOrUndefined.fn';
-import { GroupingSummary } from '../../types/GroupingSummary.types';
 import { ContentRequestContextValue } from './ContentRequestContext.types';
 
 export type ContentRequestProviderProps = PropsWithChildren<{
