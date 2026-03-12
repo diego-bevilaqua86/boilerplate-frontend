@@ -167,27 +167,26 @@ export type UpcomingMaturities = {
   entity: string | null;
 };
 
-
 export type FetchLiquidityValuesFilter = {
   groupingId: string;
   select: (data: Liquidity) => Liquidity;
-}
+};
 export type FetchUpcomingMaturitiesFilter = {
   groupingId: string;
   select: (data: Array<UpcomingMaturities>) => Array<UpcomingMaturities>;
-}
+};
 export type FetchTransactionsFilter = {
   groupingId: string;
   period: PeriodType;
   select: (data: Array<TransactionPopulated>) => Array<TransactionPopulated>;
-  finalDate?: string,
-}
+  finalDate?: string;
+};
 
 export type FetchGrossUpAllocationFilter = {
   groupingId: string;
   select?: (data: GrossUpAllocation) => GrossUpAllocation;
-  finalDate?: string,
-}
+  finalDate?: string;
+};
 
 export type GrossUpAllocation = {
   _id: string;
@@ -198,11 +197,11 @@ export type GrossUpAllocation = {
 };
 
 export type FetchGrossUpRentabilityFilter = {
-  groupingId: string,
-  period: PeriodType,
-  select: (data: Array<GrossUpRentability>) => Array<GrossUpRentability>,
-  finalDate?: string,
-}
+  groupingId: string;
+  period: PeriodType;
+  select: (data: Array<GrossUpRentability>) => Array<GrossUpRentability>;
+  finalDate?: string;
+};
 
 export type GrossUpRentability = {
   label: string;
@@ -228,16 +227,11 @@ export type GrossUpBySecurity = {
 };
 
 export type FetchGrossUpBySecurityFilter = {
-  groupingId: string,
-  period: PeriodType,
-  select: (data: Array<GrossUpBySecurity>) => Array<GrossUpBySecurity>,
-  finalDate?: string,
-}
-
-export type TransactionPopulated = {
-  _id: string;
-  // TODO: Discutir como transferir essa tipagem pois involve o t`Lingui`
-}
+  groupingId: string;
+  period: PeriodType;
+  select: (data: Array<GrossUpBySecurity>) => Array<GrossUpBySecurity>;
+  finalDate?: string;
+};
 
 export type Liquidity = {
   _id: string;

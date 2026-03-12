@@ -17,12 +17,13 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
   initialSelectedClient,
   initialSelectedGrouping,
   initialSelectedTemplate,
+  initialSelectedGroupingSummary,
   availableTemplates,
   children,
 }) => {
   const [selectedClient] = useState<string | undefined>(initialSelectedClient);
   const [selectedGrouping] = useState<string>(initialSelectedGrouping);
-  const [selectedGroupingSummary] = useState<GroupingSummary>();
+  const [selectedGroupingSummary] = useState<GroupingSummary>(initialSelectedGroupingSummary);
   const [selectedTemplate, setSelectedTemplate] = useState<string>(initialSelectedTemplate);
 
   const handleTemplateChange = (template: string) => {
@@ -38,7 +39,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
       selectedGroupingSummary,
       handleTemplateChange,
     }),
-    [availableTemplates, selectedClient, selectedGrouping, selectedTemplate],
+    [availableTemplates, selectedClient, selectedGrouping, selectedTemplate, selectedGroupingSummary],
   );
 
   return <ContentRequestContext.Provider value={value}>{children}</ContentRequestContext.Provider>;
