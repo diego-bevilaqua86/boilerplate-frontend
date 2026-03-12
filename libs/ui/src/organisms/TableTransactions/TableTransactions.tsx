@@ -21,12 +21,8 @@
 //
 // Chave no registry: 'table-withdrawal-deposits'
 
-import {
-  isNullOrUndefined,
-  TransactionPopulated,
-  useContentRequest,
-  useRequestHooks,
-} from '@boilerplate-frontend/utils';
+import { TransactionPopulated } from '@boilerplate-frontend/types';
+import { isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { Trans } from '@lingui/react/macro';
 import { Text } from '@mantine/core';
 import { Suspense } from 'react';

@@ -40,6 +40,7 @@ import {
   mockRentabilityHistory,
   mockRentabilityOverPeriods,
   mockStockEarningsOverPeriods,
+  mockTransactionsPopulated,
   mockUpcomingMaturities,
   mockWithdrawalDepositsOverPeriods,
   netWorthMock,
@@ -74,27 +75,30 @@ export function createMockHook<T>(data: T) {
     failureReason: null as null,
     fetchStatus: 'idle' as const,
     promise: Promise.resolve(data),
-    refetch: () => new Promise<never>(() => { return; }),
+    refetch: () =>
+      new Promise<never>(() => {
+        return;
+      }),
   });
 }
 
 // Props base do provider com todos os mocks mapeados.
 // Exportado para permitir overrides nas stories de estado vazio.
 export const providerProps: RequestHooksProviderProps = {
-  useFetchNetWorthOverPeriods:      createMockHook(netWorthMock),
-  useFetchPerformanceOverPeriod:    createMockHook(performanceOverPeriodMock),
-  useFetchSecurityPositionByClass:  createMockHook(securityPositionByClassMock),
-  useFetchPerformance:              createMockHook(mockPerformanceOverPeriods),
-  useFetchRentability:              createMockHook(mockRentabilityOverPeriods),
-  useFetchStockEarnings:            createMockHook(mockStockEarningsOverPeriods),
-  useFetchPerformanceHistory:       createMockHook(mockRentabilityHistory),
-  useFetchWithdrawalDeposits:       createMockHook(mockWithdrawalDepositsOverPeriods),
-  useFetchUpcomingMaturities:       createMockHook(mockUpcomingMaturities),
-  useFetchLiquidityValues:          createMockHook(mockLiquidity),
-  useFetchTransactions:             createMockHook([]), // TODO: Adicionar mock
-  useFetchGrossUpAllocation:        createMockHook(mockGrossUpAllocation),
-  useFetchGrossUpRentability:       createMockHook(mockGrossUpRentability),
-  useFetchGrossUpBySecurity:        createMockHook(mockGrossUpBySecurity),
+  useFetchNetWorthOverPeriods: createMockHook(netWorthMock),
+  useFetchPerformanceOverPeriod: createMockHook(performanceOverPeriodMock),
+  useFetchSecurityPositionByClass: createMockHook(securityPositionByClassMock),
+  useFetchPerformance: createMockHook(mockPerformanceOverPeriods),
+  useFetchRentability: createMockHook(mockRentabilityOverPeriods),
+  useFetchStockEarnings: createMockHook(mockStockEarningsOverPeriods),
+  useFetchPerformanceHistory: createMockHook(mockRentabilityHistory),
+  useFetchWithdrawalDeposits: createMockHook(mockWithdrawalDepositsOverPeriods),
+  useFetchUpcomingMaturities: createMockHook(mockUpcomingMaturities),
+  useFetchLiquidityValues: createMockHook(mockLiquidity),
+  useFetchTransactions: createMockHook(mockTransactionsPopulated),
+  useFetchGrossUpAllocation: createMockHook(mockGrossUpAllocation),
+  useFetchGrossUpRentability: createMockHook(mockGrossUpRentability),
+  useFetchGrossUpBySecurity: createMockHook(mockGrossUpBySecurity),
 };
 
 export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story) => (

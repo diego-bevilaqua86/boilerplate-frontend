@@ -8,12 +8,8 @@
 //   - Renderização do header com FilterButton + badges de filtros ativos
 //   - Renderização da tabela ou EmptyWidget
 
-import {
-  getTransactionMappings,
-  isEmptyArr,
-  isNullOrUndefined,
-  TransactionPopulated,
-} from '@boilerplate-frontend/utils';
+import { getTransactionMappings, TransactionPopulated } from '@boilerplate-frontend/types';
+import { isEmptyArr, isNullOrUndefined } from '@boilerplate-frontend/utils';
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Badge, Box, Group, ScrollArea, Stack, Text, Tooltip } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
@@ -127,7 +123,7 @@ export const useTableTransactionsManager = ({ data }: UseTableTransactionsManage
                   </Text>
                 }
               >
-                {TRANSACTION_TYPES_MAPPING?.[item] ?? item}
+                {TRANSACTION_TYPES_MAPPING.find((m) => m.apiLabel === item)?.screenLabel ?? item}
               </Badge>
             ))}
 

@@ -1,4 +1,4 @@
-import { t } from '@lingui/macro';
+import { t } from '@lingui/core/macro';
 import isMongoId from 'validator/es/lib/isMongoId';
 import { z as zod } from 'zod';
 import { RequiredStringSchema } from '../validators/Default.validators';
@@ -6,10 +6,9 @@ import { getAssignedVariablesValidators } from './AssignedVariables.types';
 import { BaseDocument } from './Default.types';
 import { getWalletValidators } from './Wallet.types';
 
-const { AssignedVariablesSchema: AssignedVariables } = getAssignedVariablesValidators();
-const { WalletEditDTOSchema } = getWalletValidators();
-
 export const getWalletsGroupingValidators = () => {
+  const { WalletEditDTOSchema } = getWalletValidators();
+  const { AssignedVariablesSchema: AssignedVariables } = getAssignedVariablesValidators();
   const WalletsGroupingFilterSchema = zod.object({
     companyId: RequiredStringSchema(t`Selecione um parceiro`),
   });

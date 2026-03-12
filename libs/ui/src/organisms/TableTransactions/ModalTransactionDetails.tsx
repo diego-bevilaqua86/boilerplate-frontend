@@ -8,16 +8,12 @@
 //   Button react-bootstrap    → Button Mantine
 //   isMobile                  → removido — responsividade via SimpleGrid
 
-import {
-  currencyFormatter,
-  dateFormatter,
-  isNullOrUndefined,
-  TransactionPopulated,
-  transactionTypesMappingStyles,
-} from '@boilerplate-frontend/utils';
+import { TransactionPopulated } from '@boilerplate-frontend/types';
+import { currencyFormatter, dateFormatter, isNullOrUndefined } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Badge, Button, Divider, Modal, SimpleGrid, Stack, Table, Text, Textarea } from '@mantine/core';
+import { transactionTypesMappingStyles } from './transactionStyleMapping';
 
 export type ModalTransactionDetailsProps = {
   opened: boolean;

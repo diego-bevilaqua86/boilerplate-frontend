@@ -9,13 +9,8 @@
 //   Stack direction    → Group (Mantine)
 //   useClientCustomizationStore → useContentRequest (currency via contexto)
 
-import {
-  currencyFormatter,
-  dateFormatter,
-  TransactionPopulated,
-  transactionTypesMappingStyles,
-  useContentRequest,
-} from '@boilerplate-frontend/utils';
+import { TransactionPopulated } from '@boilerplate-frontend/types';
+import { currencyFormatter, dateFormatter, useContentRequest } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { ActionIcon, Badge, Group, Text, Tooltip } from '@mantine/core';
 import { ChatTextIcon } from '@phosphor-icons/react';
@@ -29,6 +24,7 @@ import {
 import { useMemo, useState } from 'react';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 import { TableSortingHeader } from '../../atoms/TableSortingHeader/TableSortingHeader';
+import { transactionTypesMappingStyles } from './transactionStyleMapping';
 
 const columnBuilder = createColumnHelper<TransactionPopulated>();
 
@@ -38,7 +34,7 @@ type UseTransactionsTableProps = {
 };
 
 export const useTransactionsTable = ({ data, onOpenDetailsModal }: UseTransactionsTableProps) => {
-  const { _, i18n } = useLingui();
+  const { i18n } = useLingui();
   const { selectedGroupingSummary } = useContentRequest();
   const [sorting, setSorting] = useState<Array<ColumnSort>>([{ id: 'liquidationDate', desc: true }]);
 

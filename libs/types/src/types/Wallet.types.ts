@@ -1,4 +1,4 @@
-import { t } from '@lingui/macro';
+import { t } from '@lingui/core/macro';
 import isDate from 'validator/es/lib/isDate';
 import isMongoId from 'validator/es/lib/isMongoId';
 import { z } from 'zod';
@@ -6,8 +6,6 @@ import { RequiredStringSchema } from '../validators/Default.validators';
 import { getAssignedVariablesValidators } from './AssignedVariables.types';
 import { APIMapping, BaseDocument } from './Default.types';
 import { getFinancialInstitutionsValidators } from './FinancialInstitutions.types';
-
-const { AssignedVariablesSchema: AssignedVariables } = getAssignedVariablesValidators();
 
 export const getWalletMappings = () => {
   const WALLET_CONSUMPTION_IDENTIFIERS_MAPPING: Readonly<Array<APIMapping<string>>> = [
@@ -48,6 +46,7 @@ export const WALLET_CONSUMPTION_IDENTIFIERS = [
 export type ConsumptionIdentifier = (typeof WALLET_CONSUMPTION_IDENTIFIERS)[number];
 
 export const getWalletValidators = () => {
+  const { AssignedVariablesSchema } = getAssignedVariablesValidators();
   const walletFiltersSchema = z.object({
     companyId: RequiredStringSchema(t`Selecione um parceiro`),
   });
@@ -55,7 +54,7 @@ export const getWalletValidators = () => {
   const WalletConsumptionIdentifierSchema = z
     .object({
       consumptionOrigin: z
-        .enum(WALLET_CONSUMPTION_IDENTIFIERS, { invalid_type_error: t`Selecione uma origem de dados.` })
+        .enum(WALLET_CONSUMPTION_IDENTIFIERS, { error: t`Selecione uma origem de dados.` })
         .optional(),
       consumptionId: z.string().optional(),
     })
@@ -106,7 +105,7 @@ export const getWalletValidators = () => {
       consumptionIdentifiers: z.array(WalletConsumptionIdentifierSchema).optional(),
       securitiesForExplosion: z.array(z.string()).optional().default([]),
     })
-    .merge(AssignedVariables)
+    .merge(AssignedVariablesSchema)
     .strict();
 
   const WalletEditDTOSchema = WalletCreateDTOSchema.merge(
