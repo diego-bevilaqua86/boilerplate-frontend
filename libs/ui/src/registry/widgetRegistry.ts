@@ -40,6 +40,7 @@ import { ComponentType } from 'react';
 import { CardGrossUpBySecurity } from '../organisms/CardGrossUpBySecurity/CardGrossUpBySecurity';
 import { CardGrossUpRentability } from '../organisms/CardGrossUpRentability/CardGrossUpRentability';
 import { CardLiquiditySecurities } from '../organisms/CardLiquiditySecurities/CardLiquiditySecurities';
+import { CardTransactions } from '../organisms/CardTransactions/CardTransactions';
 import { CardUpcomingMaturities } from '../organisms/CardUpcomingMaturities/CardUpcomingMaturities';
 import { ChartGrossUpAllocation } from '../organisms/ChartGrossUpAllocation/ChartGrossUpAllocation';
 import { ChartGroupingPositionByClassification } from '../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
@@ -52,6 +53,7 @@ import { TableGroupingRentability } from '../organisms/TableGroupingRentability/
 import { TableGroupingStockEarning } from '../organisms/TableGroupingStockEarning/TableGroupingStockEarning';
 import { TableLiquiditySecurities } from '../organisms/TableLiquiditySecurities/TableLiquiditySecurities';
 import { TableRentabilityHistory } from '../organisms/TableRentabilityHistory/TableRentabilityHistory';
+import { TableTransactions } from '../organisms/TableTransactions/TableTransactions';
 import { TableUpcomingMaturities } from '../organisms/TableUpcomingMaturities/TableUpcomingMaturities';
 import { TableWithdrawalDeposits } from '../organisms/TableWithdrawalDeposits/TableWithdrawalDeposits';
 
@@ -60,9 +62,9 @@ import { TableWithdrawalDeposits } from '../organisms/TableWithdrawalDeposits/Ta
 // (id, estado de loading, erro, etc.) sem que o widget precise conhecer
 // a estrutura do grid.
 export type BaseWidgetProps = {
-  id: string;        // Chave do widget no registry — coincide com item.i no layout
-  icon: string;      // Ícone identificador (reservado para uso futuro)
-  title: string;     // Título do widget (reservado para uso futuro)
+  id: string; // Chave do widget no registry — coincide com item.i no layout
+  icon: string; // Ícone identificador (reservado para uso futuro)
+  title: string; // Título do widget (reservado para uso futuro)
   isLoading: boolean;
   error: string | null;
   isStatic: boolean; // Se true, o widget não pode ser arrastado no grid
@@ -82,17 +84,21 @@ widgetRegistry.set('table-rentability-history', TableRentabilityHistory);
 widgetRegistry.set('table-withdrawal-deposits', TableWithdrawalDeposits);
 
 // ─── Vencimentos futuros ──────────────────────────────────────────────────────
-widgetRegistry.set('table-upcoming-maturities', TableUpcomingMaturities);         // desktop
-widgetRegistry.set('card-upcoming-maturities', CardUpcomingMaturities);           // mobile
+widgetRegistry.set('table-upcoming-maturities', TableUpcomingMaturities); // desktop
+widgetRegistry.set('card-upcoming-maturities', CardUpcomingMaturities); // mobile
 
 // ─── Gross Up ─────────────────────────────────────────────────────────────────
 widgetRegistry.set('chart-grossup-allocation', ChartGrossUpAllocation);
-widgetRegistry.set('table-grossup-rentability', TableGrossUpRentability);         // desktop
-widgetRegistry.set('card-grossup-rentability', CardGrossUpRentability);           // mobile
-widgetRegistry.set('table-grossup-security', TableGrossUpBySecurity);             // desktop
-widgetRegistry.set('card-grossup-security', CardGrossUpBySecurity);               // mobile
+widgetRegistry.set('table-grossup-rentability', TableGrossUpRentability); // desktop
+widgetRegistry.set('card-grossup-rentability', CardGrossUpRentability); // mobile
+widgetRegistry.set('table-grossup-security', TableGrossUpBySecurity); // desktop
+widgetRegistry.set('card-grossup-security', CardGrossUpBySecurity); // mobile
 
 // ─── Liquidez ─────────────────────────────────────────────────────────────────
-widgetRegistry.set('chart-liquidity', ChartLiquidityByPeriod);                    // desktop + tablet
-widgetRegistry.set('table-liquidity-securities', TableLiquiditySecurities);       // desktop + tablet
-widgetRegistry.set('card-liquidity-securities', CardLiquiditySecurities);         // mobile
+widgetRegistry.set('chart-liquidity', ChartLiquidityByPeriod); // desktop + tablet
+widgetRegistry.set('table-liquidity-securities', TableLiquiditySecurities); // desktop + tablet
+widgetRegistry.set('card-liquidity-securities', CardLiquiditySecurities); // mobile
+
+// ─── Movimentações ────────────────────────────────────────────────────────────
+widgetRegistry.set('table-transactions', TableTransactions); // desktop + tablet
+widgetRegistry.set('card-transactions', CardTransactions); // mobile

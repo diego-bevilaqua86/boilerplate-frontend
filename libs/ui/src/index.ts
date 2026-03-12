@@ -1,3 +1,4 @@
+export * from './organisms/CardTransactions/CardTransactions';
 export * from './organisms/TableTransactions/TableTransactions';
 export * from './organisms/CardLiquiditySecurities/CardLiquiditySecurities';
 export * from './organisms/TableLiquiditySecurities/TableLiquiditySecurities';
