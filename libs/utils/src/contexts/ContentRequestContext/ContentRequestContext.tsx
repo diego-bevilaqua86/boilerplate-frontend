@@ -1,3 +1,4 @@
+import { PeriodType } from '@boilerplate-frontend/types';
 import { createContext, FC, PropsWithChildren, useContext, useMemo, useState } from 'react';
 import { isNullOrUndefined } from '../../functions/isNullOrUndefined.fn';
 import { GroupingSummary } from '../../types/GroupingSummary.types';
@@ -8,6 +9,7 @@ export type ContentRequestProviderProps = PropsWithChildren<{
   initialSelectedGrouping: string;
   initialSelectedTemplate: string;
   initialSelectedGroupingSummary: GroupingSummary;
+  initialSelectedPeriod: PeriodType;
   availableTemplates: Array<string>;
 }>;
 
@@ -18,12 +20,14 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
   initialSelectedGrouping,
   initialSelectedTemplate,
   initialSelectedGroupingSummary,
+  initialSelectedPeriod,
   availableTemplates,
   children,
 }) => {
   const [selectedClient] = useState<string | undefined>(initialSelectedClient);
   const [selectedGrouping] = useState<string>(initialSelectedGrouping);
   const [selectedGroupingSummary] = useState<GroupingSummary>(initialSelectedGroupingSummary);
+  const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(initialSelectedPeriod);
   const [selectedTemplate, setSelectedTemplate] = useState<string>(initialSelectedTemplate);
 
   const handleTemplateChange = (template: string) => {
@@ -32,14 +36,15 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
 
   const value = useMemo<ContentRequestContextValue>(
     () => ({
+      availableTemplates,
       selectedClient,
       selectedGrouping,
-      selectedTemplate,
-      availableTemplates,
       selectedGroupingSummary,
+      selectedPeriod,
+      selectedTemplate,
       handleTemplateChange,
     }),
-    [availableTemplates, selectedClient, selectedGrouping, selectedTemplate, selectedGroupingSummary],
+    [availableTemplates, selectedClient, selectedGrouping, selectedTemplate, selectedGroupingSummary, selectedPeriod],
   );
 
   return <ContentRequestContext.Provider value={value}>{children}</ContentRequestContext.Provider>;
