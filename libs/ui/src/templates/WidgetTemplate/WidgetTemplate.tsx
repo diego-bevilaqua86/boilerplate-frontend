@@ -22,6 +22,15 @@ export const WidgetTemplate: FC<WidgetTemplateProps> = ({
     width >= 1280 ? 'desktop' : width >= 728 ? 'tablet' : 'mobile',
   );
 
+  // ── DIAGNÓSTICO — remover após identificar o problema ──
+  console.log({
+    width,
+    mounted,
+    currentBreakpoint,
+    currentLayoutKeys: (layouts[currentBreakpoint] ?? []).map((i) => i.i),
+  });
+  // ──────────────────────────────────────────────────────
+
   if (!mounted) return <div ref={containerRef} />;
 
   const currentLayout = layouts[currentBreakpoint] ?? [];
@@ -33,7 +42,7 @@ export const WidgetTemplate: FC<WidgetTemplateProps> = ({
         width={width}
         breakpoints={breakpoints}
         cols={cols}
-        rowHeight={32}
+        rowHeight={48} // ← aumentar de 32 para 48
         style={{ backgroundColor: '#E9ECEF' }}
         onBreakpointChange={(bp) => setCurrentBreakpoint(bp as BreakpointKey)}
       >

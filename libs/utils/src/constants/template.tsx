@@ -10,8 +10,8 @@ export const DEFAULT_BREAKPOINTS: Breakpoints<BreakpointKey> = {
 
 export const DEFAULT_COLS: Breakpoints<BreakpointKey> = {
   desktop: 12,
-  tablet: 8,
-  mobile: 4,
+  tablet: 12,
+  mobile: 1,
 };
 
 export const DEFAULT_DASHBOARD_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
@@ -25,24 +25,25 @@ export const DEFAULT_DASHBOARD_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
     { i: 'table-withdrawal-deposits', x: 8, y: 27, w: 4, h: 9 },
   ],
   tablet: [
-    { i: 'chart-grouping-position', x: 0, y: 0, w: 5, h: 10 },
-    { i: 'table-grouping-rentability', x: 5, y: 0, w: 3, h: 6 },
-    { i: 'table-stock-earning', x: 5, y: 6, w: 3, h: 4 },
-    { i: 'chart-performance', x: 0, y: 10, w: 8, h: 10 },
-    { i: 'table-rentability-history', x: 0, y: 20, w: 8, h: 3 },
-    { i: 'chart-net-worth', x: 0, y: 23, w: 5, h: 8 },
-    { i: 'table-withdrawal-deposits', x: 5, y: 23, w: 3, h: 8 },
+    { i: 'chart-grouping-position', x: 0, y: 0, w: 7, h: 10 },
+    { i: 'table-grouping-rentability', x: 7, y: 0, w: 5, h: 6 },
+    { i: 'table-stock-earning', x: 7, y: 6, w: 5, h: 4 },
+    { i: 'chart-performance', x: 0, y: 10, w: 12, h: 10 },
+    { i: 'table-rentability-history', x: 0, y: 20, w: 12, h: 3 },
+    { i: 'chart-net-worth', x: 0, y: 23, w: 7, h: 8 },
+    { i: 'table-withdrawal-deposits', x: 7, y: 23, w: 5, h: 8 },
   ],
   mobile: [
-    { i: 'chart-grouping-position', x: 0, y: 0, w: 6, h: 10 },
-    { i: 'table-grouping-rentability', x: 0, y: 10, w: 6, h: 6 },
-    { i: 'table-stock-earning', x: 0, y: 16, w: 6, h: 5 },
-    { i: 'chart-performance', x: 0, y: 21, w: 6, h: 10 },
-    { i: 'table-rentability-history', x: 0, y: 31, w: 6, h: 3 },
-    { i: 'chart-net-worth', x: 0, y: 34, w: 6, h: 8 },
-    { i: 'table-withdrawal-deposits', x: 0, y: 42, w: 6, h: 8 },
+    { i: 'chart-grouping-position', x: 0, y: 0, w: 1, h: 10 },
+    { i: 'table-grouping-rentability', x: 0, y: 10, w: 1, h: 6 },
+    { i: 'table-stock-earning', x: 0, y: 16, w: 1, h: 5 },
+    { i: 'chart-performance', x: 0, y: 21, w: 1, h: 10 },
+    { i: 'table-rentability-history', x: 0, y: 31, w: 1, h: 3 },
+    { i: 'chart-net-worth', x: 0, y: 34, w: 1, h: 8 },
+    { i: 'table-withdrawal-deposits', x: 0, y: 42, w: 1, h: 8 },
   ],
 };
+
 export const DEFAULT_WALLET_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   desktop: [
     { i: 'chart-grouping-position', x: 0, y: 0, w: 8, h: 12 },
@@ -54,24 +55,25 @@ export const DEFAULT_WALLET_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
     { i: 'table-withdrawal-deposits', x: 8, y: 27, w: 4, h: 9 },
   ],
   tablet: [
-    { i: 'chart-grouping-position', x: 0, y: 0, w: 5, h: 10 },
-    { i: 'table-grouping-rentability', x: 5, y: 0, w: 3, h: 6 },
-    { i: 'table-stock-earning', x: 5, y: 6, w: 3, h: 4 },
-    { i: 'chart-performance', x: 0, y: 10, w: 8, h: 10 },
-    { i: 'table-rentability-history', x: 0, y: 20, w: 8, h: 3 },
-    { i: 'chart-net-worth', x: 0, y: 23, w: 5, h: 8 },
-    { i: 'table-withdrawal-deposits', x: 5, y: 23, w: 3, h: 8 },
+    { i: 'chart-grouping-position', x: 0, y: 0, w: 7, h: 10 },
+    { i: 'table-grouping-rentability', x: 7, y: 0, w: 5, h: 6 },
+    { i: 'table-stock-earning', x: 7, y: 6, w: 5, h: 4 },
+    { i: 'chart-performance', x: 0, y: 10, w: 12, h: 10 },
+    { i: 'table-rentability-history', x: 0, y: 20, w: 12, h: 3 },
+    { i: 'chart-net-worth', x: 0, y: 23, w: 7, h: 8 },
+    { i: 'table-withdrawal-deposits', x: 7, y: 23, w: 5, h: 8 },
   ],
   mobile: [
-    { i: 'chart-grouping-position', x: 0, y: 0, w: 6, h: 10 },
-    { i: 'table-grouping-rentability', x: 0, y: 10, w: 6, h: 6 },
-    { i: 'table-stock-earning', x: 0, y: 16, w: 6, h: 5 },
-    { i: 'chart-performance', x: 0, y: 21, w: 6, h: 10 },
-    { i: 'table-rentability-history', x: 0, y: 31, w: 6, h: 3 },
-    { i: 'chart-net-worth', x: 0, y: 34, w: 6, h: 8 },
-    { i: 'table-withdrawal-deposits', x: 0, y: 42, w: 6, h: 8 },
+    { i: 'chart-grouping-position', x: 0, y: 0, w: 1, h: 10 },
+    { i: 'table-grouping-rentability', x: 0, y: 10, w: 1, h: 6 },
+    { i: 'table-stock-earning', x: 0, y: 16, w: 1, h: 5 },
+    { i: 'chart-performance', x: 0, y: 21, w: 1, h: 10 },
+    { i: 'table-rentability-history', x: 0, y: 31, w: 1, h: 3 },
+    { i: 'chart-net-worth', x: 0, y: 34, w: 1, h: 8 },
+    { i: 'table-withdrawal-deposits', x: 0, y: 42, w: 1, h: 8 },
   ],
 };
+
 export const DEFAULT_PERFORMANCE_ANALYSIS_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   desktop: [
     { i: 'chart-grouping-position', x: 0, y: 0, w: 8, h: 12 },
@@ -83,22 +85,22 @@ export const DEFAULT_PERFORMANCE_ANALYSIS_TEMPLATE: ResponsiveLayouts<Breakpoint
     { i: 'table-withdrawal-deposits', x: 8, y: 27, w: 4, h: 9 },
   ],
   tablet: [
-    { i: 'chart-grouping-position', x: 0, y: 0, w: 5, h: 10 },
-    { i: 'table-grouping-rentability', x: 5, y: 0, w: 3, h: 6 },
-    { i: 'table-stock-earning', x: 5, y: 6, w: 3, h: 4 },
-    { i: 'chart-performance', x: 0, y: 10, w: 8, h: 10 },
-    { i: 'table-rentability-history', x: 0, y: 20, w: 8, h: 3 },
-    { i: 'chart-net-worth', x: 0, y: 23, w: 5, h: 8 },
-    { i: 'table-withdrawal-deposits', x: 5, y: 23, w: 3, h: 8 },
+    { i: 'chart-grouping-position', x: 0, y: 0, w: 7, h: 10 },
+    { i: 'table-grouping-rentability', x: 7, y: 0, w: 5, h: 6 },
+    { i: 'table-stock-earning', x: 7, y: 6, w: 5, h: 4 },
+    { i: 'chart-performance', x: 0, y: 10, w: 12, h: 10 },
+    { i: 'table-rentability-history', x: 0, y: 20, w: 12, h: 3 },
+    { i: 'chart-net-worth', x: 0, y: 23, w: 7, h: 8 },
+    { i: 'table-withdrawal-deposits', x: 7, y: 23, w: 5, h: 8 },
   ],
   mobile: [
-    { i: 'chart-grouping-position', x: 0, y: 0, w: 6, h: 10 },
-    { i: 'table-grouping-rentability', x: 0, y: 10, w: 6, h: 6 },
-    { i: 'table-stock-earning', x: 0, y: 16, w: 6, h: 5 },
-    { i: 'chart-performance', x: 0, y: 21, w: 6, h: 10 },
-    { i: 'table-rentability-history', x: 0, y: 31, w: 6, h: 3 },
-    { i: 'chart-net-worth', x: 0, y: 34, w: 6, h: 8 },
-    { i: 'table-withdrawal-deposits', x: 0, y: 42, w: 6, h: 8 },
+    { i: 'chart-grouping-position', x: 0, y: 0, w: 1, h: 10 },
+    { i: 'table-grouping-rentability', x: 0, y: 10, w: 1, h: 6 },
+    { i: 'table-stock-earning', x: 0, y: 16, w: 1, h: 5 },
+    { i: 'chart-performance', x: 0, y: 21, w: 1, h: 10 },
+    { i: 'table-rentability-history', x: 0, y: 31, w: 1, h: 3 },
+    { i: 'chart-net-worth', x: 0, y: 34, w: 1, h: 8 },
+    { i: 'table-withdrawal-deposits', x: 0, y: 42, w: 1, h: 8 },
   ],
 };
 
@@ -109,38 +111,40 @@ export const DEFAULT_GROSS_UP_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
     { i: 'table-grossup-security', x: 0, y: 8, w: 12, h: 8 },
   ],
   tablet: [
-    { i: 'chart-grossup-allocation', x: 0, y: 0, w: 8, h: 8 },
-    { i: 'table-grossup-rentability', x: 0, y: 8, w: 8, h: 8, minW: 8, minH: 8 },
-    { i: 'table-grossup-security', x: 0, y: 8, w: 8, h: 8, minW: 8, minH: 8 },
+    { i: 'chart-grossup-allocation', x: 0, y: 0, w: 12, h: 8 },
+    { i: 'table-grossup-rentability', x: 0, y: 8, w: 12, h: 8 },
+    { i: 'table-grossup-security', x: 0, y: 16, w: 12, h: 8 },
   ],
   mobile: [
-    { i: 'chart-grossup-allocation', x: 0, y: 0, w: 4, h: 8 },
-    { i: 'card-grossup-rentability', x: 0, y: 8, w: 4, h: 8, minW: 4, minH: 4 },
-    { i: 'card-grossup-security', x: 0, y: 17, w: 4, h: 8, minW: 4, minH: 4 },
+    { i: 'chart-grossup-allocation', x: 0, y: 0, w: 1, h: 8 },
+    { i: 'card-grossup-rentability', x: 0, y: 8, w: 1, h: 8 },
+    { i: 'card-grossup-security', x: 0, y: 16, w: 1, h: 8 },
   ],
 };
 
 export const DEFAULT_TRANSACTIONS_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   desktop: [{ i: 'table-transactions', x: 0, y: 0, w: 12, h: 12 }],
-  tablet: [{ i: 'table-transactions', x: 0, y: 0, w: 8, h: 12 }],
-  mobile: [{ i: 'card-transactions', x: 0, y: 0, w: 4, h: 14 }],
+  tablet: [{ i: 'table-transactions', x: 0, y: 0, w: 12, h: 12 }],
+  mobile: [{ i: 'card-transactions', x: 0, y: 0, w: 1, h: 14, minH: 8 }],
 };
+
 export const DEFAULT_SECURITIES_LIQUIDITY_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   desktop: [
     { i: 'chart-liquidity', x: 0, y: 0, w: 12, h: 10 },
     { i: 'table-liquidity-securities', x: 0, y: 10, w: 12, h: 10 },
   ],
   tablet: [
-    { i: 'chart-liquidity', x: 0, y: 0, w: 8, h: 10 },
-    { i: 'table-liquidity-securities', x: 0, y: 10, w: 8, h: 10 },
+    { i: 'chart-liquidity', x: 0, y: 0, w: 12, h: 10 },
+    { i: 'table-liquidity-securities', x: 0, y: 10, w: 12, h: 10 },
   ],
   mobile: [
-    { i: 'chart-liquidity', x: 0, y: 0, w: 4, h: 10 },
-    { i: 'card-liquidity-securities', x: 0, y: 10, w: 4, h: 12 },
+    { i: 'chart-liquidity', x: 0, y: 0, w: 1, h: 10 },
+    { i: 'card-liquidity-securities', x: 0, y: 10, w: 1, h: 12 },
   ],
 };
+
 export const DEFAULT_UPCOMING_MATURITIES_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   desktop: [{ i: 'table-upcoming-maturities', x: 0, y: 0, w: 12, h: 12 }],
-  tablet: [{ i: 'table-upcoming-maturities', x: 0, y: 0, w: 8, h: 10 }],
-  mobile: [{ i: 'card-upcoming-maturities', x: 0, y: 0, w: 4, h: 12 }],
+  tablet: [{ i: 'table-upcoming-maturities', x: 0, y: 0, w: 12, h: 10 }],
+  mobile: [{ i: 'card-upcoming-maturities', x: 0, y: 0, w: 1, h: 12 }],
 };
