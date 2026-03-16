@@ -34,6 +34,7 @@ import {
   GrossUpAllocation,
   GrossUpBySecurity,
   GrossUpRentability,
+  GroupingProcessedPosition,
   GroupingSelectFinalDateFilter,
   Liquidity,
   NetWorthOverPeriods,
@@ -57,25 +58,19 @@ export type RequestHooksContextValue = {
     filter: FetchNetWorthOverPeriodFilter,
   ) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
 
-  useFetchPerformance: (
-    filter: FetchPeformanceFilter,
-  ) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
+  useFetchPerformance: (filter: FetchPeformanceFilter) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
 
   useFetchPerformanceHistory: (
     filter: FetchPerformanceHistoryFilter,
   ) => UseSuspenseQueryResult<Array<RentabilityHistory>, Error>;
 
-  useFetchRentability: (
-    filter: FetchRentabilityFilter,
-  ) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
+  useFetchRentability: (filter: FetchRentabilityFilter) => UseSuspenseQueryResult<RentabilityOverPeriods, Error>;
 
   useFetchSecurityPositionByClass: (
     filter: FetchSecurityPositionByClassFilter,
   ) => UseSuspenseQueryResult<SecurityPositionByClass, Error>;
 
-  useFetchStockEarnings: (
-    filter: FetchStockEarningsFilter,
-  ) => UseSuspenseQueryResult<StockEarningsOverPeriods, Error>;
+  useFetchStockEarnings: (filter: FetchStockEarningsFilter) => UseSuspenseQueryResult<StockEarningsOverPeriods, Error>;
 
   // GroupingSelectFinalDateFilter centraliza o padrão {groupingId, select, finalDate}
   useFetchWithdrawalDeposits: (
@@ -86,17 +81,11 @@ export type RequestHooksContextValue = {
     filter: FetchUpcomingMaturitiesFilter,
   ) => UseSuspenseQueryResult<Array<UpcomingMaturities>, Error>;
 
-  useFetchLiquidityValues: (
-    filter: FetchLiquidityValuesFilter,
-  ) => UseSuspenseQueryResult<Liquidity, Error>;
+  useFetchLiquidityValues: (filter: FetchLiquidityValuesFilter) => UseSuspenseQueryResult<Liquidity, Error>;
 
-  useFetchTransactions: (
-    filter: FetchTransactionsFilter,
-  ) => UseSuspenseQueryResult<Array<TransactionPopulated>, Error>;
+  useFetchTransactions: (filter: FetchTransactionsFilter) => UseSuspenseQueryResult<Array<TransactionPopulated>, Error>;
 
-  useFetchGrossUpAllocation: (
-    filter: FetchGrossUpAllocationFilter,
-  ) => UseSuspenseQueryResult<GrossUpAllocation, Error>;
+  useFetchGrossUpAllocation: (filter: FetchGrossUpAllocationFilter) => UseSuspenseQueryResult<GrossUpAllocation, Error>;
 
   useFetchGrossUpRentability: (
     filter: FetchGrossUpRentabilityFilter,
@@ -106,4 +95,8 @@ export type RequestHooksContextValue = {
   useFetchGrossUpBySecurity: (
     filter: FetchGrossUpRentabilityFilter,
   ) => UseSuspenseQueryResult<Array<GrossUpBySecurity>, Error>;
+
+  useFetchGroupingProcessedPosition: (
+    filter: GroupingSelectFinalDateFilter<GroupingProcessedPosition>,
+  ) => UseSuspenseQueryResult<GroupingProcessedPosition, Error>;
 };

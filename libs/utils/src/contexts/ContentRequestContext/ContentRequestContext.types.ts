@@ -10,5 +10,6 @@ export type ContentRequestContextValue = {
   selectedGroupingSummary: GroupingSummary;
   selectedTemplate: string;
   selectedPeriod: PeriodType;
+  palette: Array<string>;
   handleTemplateChange: (template: string) => void | Promise<void>;
 };

@@ -7,7 +7,7 @@
 //   (client-data-access, partner-data-access) pois isso criaria acoplamento
 //   entre a lib de UI e a camada de dados. O RequestHooksContext resolve
 //   isso invertendo a dependência: a aplicação injeta os hooks via Provider,
-//   e os widgets os consomem via useRequestHooks() sem saber de onde vêm (i.e. proxy). 
+//   e os widgets os consomem via useRequestHooks() sem saber de onde vêm (i.e. proxy).
 //
 // Benefícios:
 //   - Widgets são independentes da fonte de dados (client vs partner [e possíveis outras futuras fontes])
@@ -60,6 +60,7 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
   useFetchGrossUpAllocation,
   useFetchGrossUpRentability,
   useFetchGrossUpBySecurity,
+  useFetchGroupingProcessedPosition,
   children,
 }) => {
   // useMemo garante que o objeto de contexto só é recriado quando algum
@@ -80,6 +81,7 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
       useFetchGrossUpAllocation,
       useFetchGrossUpRentability,
       useFetchGrossUpBySecurity,
+      useFetchGroupingProcessedPosition,
     }),
     [
       useFetchPerformanceOverPeriod,
@@ -96,14 +98,11 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
       useFetchGrossUpAllocation,
       useFetchGrossUpRentability,
       useFetchGrossUpBySecurity,
+      useFetchGroupingProcessedPosition,
     ],
   );
 
-  return (
-    <RequestHooksContext.Provider value={value}>
-      {children}
-    </RequestHooksContext.Provider>
-  );
+  return <RequestHooksContext.Provider value={value}>{children}</RequestHooksContext.Provider>;
 };
 
 // Lança erro explícito se usado fora do Provider — facilita diagnóstico

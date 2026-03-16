@@ -35,6 +35,7 @@ import {
   mockGrossUpAllocation,
   mockGrossUpBySecurity,
   mockGrossUpRentability,
+  mockGroupingProcessedPosition,
   mockLiquidity,
   mockPerformanceOverPeriods,
   mockRentabilityHistory,
@@ -99,6 +100,7 @@ export const providerProps: RequestHooksProviderProps = {
   useFetchGrossUpAllocation: createMockHook(mockGrossUpAllocation),
   useFetchGrossUpRentability: createMockHook(mockGrossUpRentability),
   useFetchGrossUpBySecurity: createMockHook(mockGrossUpBySecurity),
+  useFetchGroupingProcessedPosition: createMockHook(mockGroupingProcessedPosition),
 };
 
 export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story) => (

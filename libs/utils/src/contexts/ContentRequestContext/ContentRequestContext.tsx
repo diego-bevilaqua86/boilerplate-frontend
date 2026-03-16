@@ -9,6 +9,7 @@ export type ContentRequestProviderProps = PropsWithChildren<{
   initialSelectedTemplate: string;
   initialSelectedGroupingSummary: GroupingSummary;
   initialSelectedPeriod: PeriodType;
+  initialPalette: Array<string>;
   availableTemplates: Array<string>;
 }>;
 
@@ -20,6 +21,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
   initialSelectedTemplate,
   initialSelectedGroupingSummary,
   initialSelectedPeriod,
+  initialPalette,
   availableTemplates,
   children,
 }) => {
@@ -28,6 +30,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
   const [selectedGroupingSummary] = useState<GroupingSummary>(initialSelectedGroupingSummary);
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(initialSelectedPeriod);
   const [selectedTemplate, setSelectedTemplate] = useState<string>(initialSelectedTemplate);
+  const [palette, setPalette] = useState<Array<string>>(initialPalette);
 
   const handleTemplateChange = (template: string) => {
     setSelectedTemplate(template);
@@ -41,9 +44,18 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
       selectedGroupingSummary,
       selectedPeriod,
       selectedTemplate,
+      palette,
       handleTemplateChange,
     }),
-    [availableTemplates, selectedClient, selectedGrouping, selectedTemplate, selectedGroupingSummary, selectedPeriod],
+    [
+      availableTemplates,
+      selectedClient,
+      selectedGrouping,
+      selectedTemplate,
+      selectedGroupingSummary,
+      selectedPeriod,
+      palette,
+    ],
   );
 
   return <ContentRequestContext.Provider value={value}>{children}</ContentRequestContext.Provider>;
