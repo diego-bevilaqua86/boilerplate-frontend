@@ -1,21 +1,22 @@
 // useInvestmentPositionTable.tsx
-import { ClientGroupingSecuritiesTableRow, SecurityDetailsRequest, useAuthStore } from '@boilerplate-frontend/types';
-import { TableActionButtons } from '@boilerplate-frontend/ui';
+import { ClientGroupingSecuritiesTableRow, SecurityDetailsRequest } from '@boilerplate-frontend/types';
 import { currencyFormatter, numberFormatter, percentFormatter } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Box, Group, RingProgress, Text } from '@mantine/core';
-import { CaretDownFillIcon, CaretDownIcon, CaretRightFillIcon, CaretRightIcon } from '@phosphor-icons/react';
+import { ActionIcon, Box, Group, RingProgress, Text } from '@mantine/core';
+import { CaretDownIcon, CaretRightIcon } from '@phosphor-icons/react';
 import {
   createColumnHelper,
   ExpandedState,
   getCoreRowModel,
   getExpandedRowModel,
+  OnChangeFn,
   useReactTable,
 } from '@tanstack/react-table';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
+import { TableActionButtons } from '../../atoms/TableActionButtons/TableActionButtons';
 import { TableSortingHeader } from '../../atoms/TableSortingHeader/TableSortingHeader';
 
 const columnBuilder = createColumnHelper<ClientGroupingSecuritiesTableRow>();
@@ -25,6 +26,8 @@ export type UseInvestmentPositionTableProps = {
   currency: string;
   palette: Array<string>;
   onSelectSecurity?: (req: SecurityDetailsRequest) => void;
+  expanded?: ExpandedState;
+  onExpandedChange?: OnChangeFn<ExpandedState>; // ← tipo correto
 };
 
 export const useInvestmentPositionTable = ({
@@ -32,21 +35,70 @@ export const useInvestmentPositionTable = ({
   currency,
   palette,
   onSelectSecurity,
+  expanded: externalExpanded,
+  onExpandedChange,
 }: UseInvestmentPositionTableProps) => {
   const { _, i18n } = useLingui();
-  const [userAuthData] = useAuthStore((state) => [state.userAuth]);
+
+  // Usa estado interno apenas se não for controlado externamente
+  const [internalExpanded, setInternalExpanded] = useState<ExpandedState>({});
+  const expanded = externalExpanded ?? internalExpanded;
+  const handleExpandedChange: OnChangeFn<ExpandedState> = useCallback(
+    (updaterOrValue) => {
+      if (onExpandedChange) {
+        onExpandedChange(updaterOrValue);
+      } else {
+        setInternalExpanded((prev) => (typeof updaterOrValue === 'function' ? updaterOrValue(prev) : updaterOrValue));
+      }
+    },
+    [onExpandedChange],
+  );
+
+  let renderCount = 0;
+  console.log('useInvestmentPositionTable render:', ++renderCount, {
+    rowDataLength: rowData.length,
+    expanded,
+    hasExternalExpanded: externalExpanded !== undefined,
+  });
 
   const columns = useMemo(
     () => [
+      // ── Coluna de expand — evento isolado com stopPropagation ─────────────────
+      columnBuilder.display({
+        id: 'expandColumn',
+        cell: ({ row }) => {
+          if (!row.getCanExpand()) return null;
+          return (
+            <ActionIcon
+              variant="subtle"
+              color="gray"
+              size="sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                row.toggleExpanded();
+              }}
+            >
+              {row.depth === 0 ? (
+                row.getIsExpanded() ? (
+                  <CaretDownIcon size={12} />
+                ) : (
+                  <CaretRightIcon size={12} />
+                )
+              ) : row.getIsExpanded() ? (
+                <CaretDownIcon size={12} />
+              ) : (
+                <CaretRightIcon size={12} />
+              )}
+            </ActionIcon>
+          );
+        },
+      }),
+
+      // ── Classes ───────────────────────────────────────────────────────────────
       columnBuilder.accessor('classificationOrSecurity', {
         header: () => <Trans>Classes</Trans>,
         cell: ({ getValue, row }) => (
-          <Group
-            gap="xs"
-            wrap="nowrap"
-            onClick={row.getToggleExpandedHandler()}
-            style={{ cursor: row.getCanExpand() ? 'pointer' : 'auto' }}
-          >
+          <Group gap="xs" wrap="nowrap">
             {row.depth === 0 && (
               <RingProgress
                 size={32}
@@ -56,32 +108,16 @@ export const useInvestmentPositionTable = ({
               />
             )}
             <Box style={{ paddingLeft: `${row.depth * 1.5}rem` }}>
-              <Group gap={4} wrap="nowrap">
-                {row.getCanExpand() && (
-                  <Text size="xs" c="dimmed" style={{ lineHeight: 1 }}>
-                    {row.depth === 0 ? (
-                      row.getIsExpanded() ? (
-                        <CaretDownFillIcon size={12} />
-                      ) : (
-                        <CaretRightFillIcon size={12} />
-                      )
-                    ) : row.getIsExpanded() ? (
-                      <CaretDownIcon size={12} />
-                    ) : (
-                      <CaretRightIcon size={12} />
-                    )}
-                  </Text>
-                )}
-                <Text size="sm" fw={row.depth === 0 || row.depth === 1 ? 600 : 400}>
-                  {getValue()}
-                </Text>
-              </Group>
+              <Text size="sm" fw={row.depth === 0 || row.depth === 1 ? 600 : 400}>
+                {getValue()}
+              </Text>
             </Box>
           </Group>
         ),
         footer: () => <Trans>Total</Trans>,
       }),
 
+      // ── Quantidade ────────────────────────────────────────────────────────────
       columnBuilder.accessor('quantity', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -91,17 +127,13 @@ export const useInvestmentPositionTable = ({
           />
         ),
         cell: ({ getValue, row }) => (
-          <Text
-            size="sm"
-            fw={row.depth === 0 ? 600 : 400}
-            onClick={row.getToggleExpandedHandler()}
-            style={{ cursor: row.getCanExpand() ? 'pointer' : 'auto' }}
-          >
+          <Text size="sm" fw={row.depth === 0 ? 600 : 400}>
             {row.getCanExpand() ? '' : numberFormatter(getValue(), 2, i18n.locale)}
           </Text>
         ),
       }),
 
+      // ── Preço ─────────────────────────────────────────────────────────────────
       columnBuilder.accessor('pu', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -111,16 +143,15 @@ export const useInvestmentPositionTable = ({
           />
         ),
         cell: ({ getValue, row }) => (
-          <Box onClick={row.getToggleExpandedHandler()} style={{ cursor: row.getCanExpand() ? 'pointer' : 'auto' }}>
-            <SensitiveText dotCount={4} dotSize={20} isHidden={false}>
-              <Text size="sm" fw={row.depth === 0 ? 600 : 400}>
-                {row.getCanExpand() ? '' : currencyFormatter(getValue(), 2, i18n.locale)}
-              </Text>
-            </SensitiveText>
-          </Box>
+          <SensitiveText dotCount={4} dotSize={20} isHidden={false}>
+            <Text size="sm" fw={row.depth === 0 ? 600 : 400}>
+              {row.getCanExpand() ? '' : currencyFormatter(getValue(), 2, i18n.locale)}
+            </Text>
+          </SensitiveText>
         ),
       }),
 
+      // ── Saldo ─────────────────────────────────────────────────────────────────
       columnBuilder.accessor('balance', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -130,13 +161,11 @@ export const useInvestmentPositionTable = ({
           />
         ),
         cell: ({ getValue, row }) => (
-          <Box onClick={row.getToggleExpandedHandler()} style={{ cursor: row.getCanExpand() ? 'pointer' : 'auto' }}>
-            <SensitiveText dotCount={4} dotSize={20} isHidden={false}>
-              <Text size="sm" fw={row.depth === 0 ? 600 : 400}>
-                {currencyFormatter(getValue(), 2, i18n.locale, currency)}
-              </Text>
-            </SensitiveText>
-          </Box>
+          <SensitiveText dotCount={4} dotSize={20} isHidden={false}>
+            <Text size="sm" fw={row.depth === 0 ? 600 : 400}>
+              {currencyFormatter(getValue(), 2, i18n.locale, currency)}
+            </Text>
+          </SensitiveText>
         ),
         footer: ({ table: { getPrePaginationRowModel } }) => {
           const total = getPrePaginationRowModel().rows.reduce(
@@ -151,6 +180,7 @@ export const useInvestmentPositionTable = ({
         },
       }),
 
+      // ── % Patrimônio ──────────────────────────────────────────────────────────
       columnBuilder.accessor('percentage', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -160,12 +190,7 @@ export const useInvestmentPositionTable = ({
           />
         ),
         cell: ({ getValue, row }) => (
-          <Text
-            size="sm"
-            fw={row.depth === 0 ? 600 : 400}
-            onClick={row.getToggleExpandedHandler()}
-            style={{ cursor: row.getCanExpand() ? 'pointer' : 'auto' }}
-          >
+          <Text size="sm" fw={row.depth === 0 ? 600 : 400}>
             {percentFormatter(getValue(), 2, i18n.locale)}
           </Text>
         ),
@@ -178,6 +203,7 @@ export const useInvestmentPositionTable = ({
         },
       }),
 
+      // ── Carteira ──────────────────────────────────────────────────────────────
       columnBuilder.accessor('walletName', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -186,24 +212,19 @@ export const useInvestmentPositionTable = ({
             sortDirection={column.getIsSorted()}
           />
         ),
-        cell: ({ getValue, row }) => (
-          <Text
-            size="sm"
-            onClick={row.getToggleExpandedHandler()}
-            style={{ cursor: row.getCanExpand() ? 'pointer' : 'auto' }}
-          >
-            {getValue()}
-          </Text>
-        ),
+        cell: ({ getValue }) => <Text size="sm">{getValue()}</Text>,
       }),
 
+      // ── Ações ─────────────────────────────────────────────────────────────────
       columnBuilder.display({
         id: 'actionsColumn',
         cell: ({ row }) => {
           const parentRow = row.getParentRow()?.original;
-
-          // TODO: Preciso verificar se ainda precisamos disso
-          //if (companyId !== '23313334000110' && (!row.original.children || row.original.children.length === 0)) {
+          // const { companyId } = userAuthData!;
+          // if (
+          //   companyId !== '23313334000110' &&
+          //   (!row.original.children || row.original.children.length === 0)
+          // ) {
           return (
             <TableActionButtons
               row={{
@@ -215,20 +236,20 @@ export const useInvestmentPositionTable = ({
               onOpenModalRow={onSelectSecurity}
             />
           );
+          // }
+          // return null;
         },
       }),
     ],
     [_, palette, currency, i18n.locale, onSelectSecurity],
   );
 
-  const [expanded, setExpanded] = useState<ExpandedState>({});
-
   const table = useReactTable<ClientGroupingSecuritiesTableRow>({
     data: rowData,
     columns,
     state: { expanded },
-    onExpandedChange: setExpanded,
-    getSubRows: (row) => row.children,
+    onExpandedChange: handleExpandedChange,
+    getSubRows: (row) => row.children ?? [],
     getCoreRowModel: getCoreRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
     enableExpanding: true,

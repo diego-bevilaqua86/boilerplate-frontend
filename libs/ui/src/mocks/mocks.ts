@@ -445,6 +445,7 @@ export const mockGroupingProcessedPosition: GroupingProcessedPosition = {
   referenceDate: '2025-03-01',
   portfolioTotal: {
     balance: 1_000_000,
+    percentual: 100,
   },
   securityTable: [
     {
@@ -461,6 +462,7 @@ export const mockGroupingProcessedPosition: GroupingProcessedPosition = {
       pu: 1050.25,
       quantity: 428.47,
       hierarchicalVariable: {
+        _id: 'var-001',
         variable1: 'Renda Fixa',
         variable2: 'Crédito Privado',
         variable3: 'CRI',
@@ -482,6 +484,7 @@ export const mockGroupingProcessedPosition: GroupingProcessedPosition = {
       pu: 1020.1,
       quantity: 294.08,
       hierarchicalVariable: {
+        _id: 'var-002',
         variable1: 'Renda Fixa',
         variable2: 'Crédito Privado',
         variable3: 'LCI',
@@ -503,6 +506,7 @@ export const mockGroupingProcessedPosition: GroupingProcessedPosition = {
       pu: 38.5,
       quantity: 6493.51,
       hierarchicalVariable: {
+        _id: 'var-003',
         variable1: 'Renda Variável',
         variable2: 'Ações',
         variable3: null,

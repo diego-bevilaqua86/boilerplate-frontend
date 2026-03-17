@@ -16,6 +16,7 @@ export * from '../../types/src/types/GrossUp.types';
 export * from '../../types/src/types/GroupingSummary.types';
 export * from '../../types/src/types/Partner.types';
 export * from '../../types/src/types/Security.types';
+export * from '../../types/src/types/SecurityDetails.types';
 export * from '../../types/src/types/Transaction.types';
 export * from '../../types/src/types/Wallet.types';
 export * from '../../types/src/types/WalletsGrouping.types';

@@ -23,13 +23,13 @@
 //
 // Chave no registry: 'table-wallet'
 
-import { GroupingProcessedPosition } from '@boilerplate-frontend/types';
+import { GroupingProcessedPosition, SecurityDetailsRequest } from '@boilerplate-frontend/types';
 import { isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { SegmentedControl, Text } from '@mantine/core';
-import { Suspense, useState } from 'react';
+import { Suspense, useCallback, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
@@ -95,11 +95,25 @@ const TableWalletContent = ({
   data,
   selectedVariant,
   palette,
+  onSelectSecurity,
 }: {
   data: GroupingProcessedPosition;
   selectedVariant: WalletVariant;
   palette: Array<string>;
+  onSelectSecurity?: (req: SecurityDetailsRequest) => void;
 }) => {
-  const { renderTable } = useTableWalletManager({ data, selectedVariant, palette });
+  // Estabiliza a referência para não causar recriação de colunas
+  const stableOnSelectSecurity = useCallback(
+    (req: SecurityDetailsRequest) => onSelectSecurity?.(req),
+    [onSelectSecurity],
+  );
+
+  const { renderTable } = useTableWalletManager({
+    data,
+    selectedVariant,
+    palette,
+    onSelectSecurity: stableOnSelectSecurity,
+  });
+
   return renderTable();
 };
