@@ -1,4 +1,5 @@
-import { ContentRequestProvider, ContentRequestProviderProps, GroupingSummary } from '@boilerplate-frontend/utils';
+import { GroupingSummary } from '@boilerplate-frontend/types';
+import { ContentRequestProvider, ContentRequestProviderProps } from '@boilerplate-frontend/utils';
 import { ReactRenderer } from '@storybook/react';
 import { DecoratorFunction } from 'storybook/internal/csf';
 
@@ -13,9 +14,7 @@ const initialSelectedGroupingSummary: GroupingSummary = {
   isOwn: true,
   fxRate: 1,
   fxDate: null,
-  benchmarks: [
-    { securityId: 'CDI', isPrimary: true },
-  ],
+  benchmarks: [{ securityId: 'CDI', isPrimary: true }],
 };
 
 export const withContentRequestProvider: DecoratorFunction<ReactRenderer> = (Story) => {
@@ -24,6 +23,8 @@ export const withContentRequestProvider: DecoratorFunction<ReactRenderer> = (Sto
     initialSelectedGrouping: '6973a8942d6ab09393738777',
     initialSelectedTemplate: '28579b25-7639-5aee-be74-88225d9939d8', // Template chamado "dashboard"
     initialSelectedGroupingSummary: initialSelectedGroupingSummary,
+    initialSelectedPeriod: 'year',
+    initialPalette: [],
     availableTemplates: [],
   };
 
