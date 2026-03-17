@@ -54,13 +54,6 @@ export const useInvestmentPositionTable = ({
     [onExpandedChange],
   );
 
-  let renderCount = 0;
-  console.log('useInvestmentPositionTable render:', ++renderCount, {
-    rowDataLength: rowData.length,
-    expanded,
-    hasExternalExpanded: externalExpanded !== undefined,
-  });
-
   const columns = useMemo(
     () => [
       // ── Coluna de expand — evento isolado com stopPropagation ─────────────────
@@ -220,11 +213,12 @@ export const useInvestmentPositionTable = ({
         id: 'actionsColumn',
         cell: ({ row }) => {
           const parentRow = row.getParentRow()?.original;
-          // const { companyId } = userAuthData!;
-          // if (
-          //   companyId !== '23313334000110' &&
-          //   (!row.original.children || row.original.children.length === 0)
-          // ) {
+
+          // Botão só aparece nas folhas — linhas sem filhos (ativos individuais)
+          // Mesma lógica do legado: !children || children.length === 0
+          const isLeaf = !row.original.children || row.original.children.length === 0;
+          if (!isLeaf) return null;
+
           return (
             <TableActionButtons
               row={{
@@ -236,8 +230,6 @@ export const useInvestmentPositionTable = ({
               onOpenModalRow={onSelectSecurity}
             />
           );
-          // }
-          // return null;
         },
       }),
     ],
