@@ -49,6 +49,7 @@ import { ChartSecurityPerformance } from '../organisms/ChartSecurityPerformance/
 import { NetWorthOverPeriod } from '../organisms/NetWorthOverPeriod/NetWorthOverPeriod';
 import { PerformanceOverPeriod } from '../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
 import { SecurityCouponDividends } from '../organisms/SecurityCouponDividends/SecurityCouponDividends';
+import { SecurityDetailsInfo } from '../organisms/SecurityDetailsInfo/SecurityDetailsInfo';
 import { SecurityDetailsSummary } from '../organisms/SecurityDetailsSummary/SecurityDetailsSummary';
 import { SecurityDetailsTransactions } from '../organisms/SecurityDetailsTransactions/SecurityDetailsTransactions';
 import { SecurityTotalEarnings } from '../organisms/SecurityTotalEarnings/SecurityTotalEarnings';
@@ -115,7 +116,7 @@ widgetRegistry.set('table-wallet', TableWallets); // desktop + tablet
 
 // ─── Detalhe do ativo ─────────────────────────────────────────────────────────
 widgetRegistry.set('security-summary', SecurityDetailsSummary);
-// widgetRegistry.set('security-info',             SecurityDetailsInfo);
+widgetRegistry.set('security-info', SecurityDetailsInfo);
 widgetRegistry.set('chart-security-performance', ChartSecurityPerformance);
 widgetRegistry.set('security-coupon-dividends', SecurityCouponDividends);
 widgetRegistry.set('security-total-earnings', SecurityTotalEarnings);
