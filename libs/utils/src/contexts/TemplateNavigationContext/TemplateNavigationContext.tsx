@@ -53,12 +53,10 @@ export type TemplateNavigationParams = Record<string, unknown>;
 export type TemplateRenderer = (params?: TemplateNavigationParams) => React.ReactNode;
 
 export type TemplateNavigationContextValue = {
-  // Navega para um template filho passando parâmetros opcionais ao renderer
   navigateTo: (templateId: string, params?: TemplateNavigationParams) => void;
-  // Retorna ao template pai limpando o estado de navegação
   navigateBack: () => void;
-  // Template filho atualmente ativo — null quando está no template pai
   currentTemplateId: string | null;
+  currentParams: TemplateNavigationParams | undefined;
 };
 
 export type TemplateNavigationProviderProps = PropsWithChildren<{
@@ -88,8 +86,8 @@ export const TemplateNavigationProvider: FC<TemplateNavigationProviderProps> = (
   }, []);
 
   const value = useMemo<TemplateNavigationContextValue>(
-    () => ({ navigateTo, navigateBack, currentTemplateId }),
-    [navigateTo, navigateBack, currentTemplateId],
+    () => ({ navigateTo, navigateBack, currentTemplateId, currentParams }),
+    [navigateTo, navigateBack, currentTemplateId, currentParams],
   );
 
   // Quando há template filho ativo, renderiza o renderer correspondente

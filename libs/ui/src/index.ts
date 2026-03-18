@@ -1,3 +1,4 @@
+export * from './organisms/SecurityDetailsSummary/SecurityDetailsSummary';
 export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableActionButtons/TableActionButtons';
 export * from './atoms/TableSortingHeader/TableSortingHeader';
