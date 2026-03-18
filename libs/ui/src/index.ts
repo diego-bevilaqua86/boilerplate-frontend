@@ -1,3 +1,4 @@
+export * from './organisms/SecurityTotalEarnings/SecurityTotalEarnings';
 export * from './organisms/SecurityDetailsTransactions/SecurityDetailsTransactions';
 export * from './organisms/SecurityDetailsSummary/SecurityDetailsSummary';
 export * from './atoms/SensitiveText/SensitiveText';

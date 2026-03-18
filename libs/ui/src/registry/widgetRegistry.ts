@@ -47,7 +47,9 @@ import { ChartGroupingPositionByClassification } from '../organisms/ChartGroupin
 import { ChartLiquidityByPeriod } from '../organisms/ChartLiquidityByPeriod/ChartLiquidityByPeriod';
 import { NetWorthOverPeriod } from '../organisms/NetWorthOverPeriod/NetWorthOverPeriod';
 import { PerformanceOverPeriod } from '../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
+import { SecurityDetailsSummary } from '../organisms/SecurityDetailsSummary/SecurityDetailsSummary';
 import { SecurityDetailsTransactions } from '../organisms/SecurityDetailsTransactions/SecurityDetailsTransactions';
+import { SecurityTotalEarnings } from '../organisms/SecurityTotalEarnings/SecurityTotalEarnings';
 import { TableGrossUpBySecurity } from '../organisms/TableGrossUpBySecurity/TableGrossUpBySecurity';
 import { TableGrossUpRentability } from '../organisms/TableGrossUpRentability/TableGrossUpRentability';
 import { TableGroupingRentability } from '../organisms/TableGroupingRentability/TableGroupingRentability';
@@ -110,9 +112,9 @@ widgetRegistry.set('table-wallet', TableWallets); // desktop + tablet
 // card-wallet → mobile (a ser implementado: CardWallet)
 
 // ─── Detalhe do ativo ─────────────────────────────────────────────────────────
-// widgetRegistry.set('security-summary',          SecurityDetailsSummary);
+widgetRegistry.set('security-summary', SecurityDetailsSummary);
 // widgetRegistry.set('security-info',             SecurityDetailsInfo);
 // widgetRegistry.set('chart-security-performance',ChartSecurityPerformance);
 // widgetRegistry.set('security-coupon-dividends', SecurityCouponDividends);
-// widgetRegistry.set('security-total-earnings',   SecurityTotalEarnings);
+widgetRegistry.set('security-total-earnings', SecurityTotalEarnings);
 widgetRegistry.set('security-transactions', SecurityDetailsTransactions);
