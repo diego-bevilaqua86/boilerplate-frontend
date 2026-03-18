@@ -1,3 +1,4 @@
+export * from './templates/ModalTemplate/ModalTemplate';
 export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableActionButtons/TableActionButtons';
 export * from './atoms/TableSortingHeader/TableSortingHeader';
