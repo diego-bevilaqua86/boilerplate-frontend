@@ -1,3 +1,4 @@
+export * from './organisms/ChartSecurityPerformance/ChartSecurityPerformance';
 export * from './organisms/SecurityCouponDividends/SecurityCouponDividends';
 export * from './organisms/SecurityTotalEarnings/SecurityTotalEarnings';
 export * from './organisms/SecurityDetailsTransactions/SecurityDetailsTransactions';

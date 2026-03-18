@@ -1044,19 +1044,41 @@ export const mockSecurityTransactions: Array<TransactionPopulated> = [
 
 export const mockSecurityPerformance: ParameterizedPerformances = {
   currency: 'BRL',
-  dates: ['2025-01-01', '2025-02-01', '2025-03-01'],
+  dates: [
+    '2024-01-01',
+    '2024-02-01',
+    '2024-03-01',
+    '2024-04-01',
+    '2024-05-01',
+    '2024-06-01',
+    '2024-07-01',
+    '2024-08-01',
+    '2024-09-01',
+    '2024-10-01',
+    '2024-11-01',
+    '2024-12-01',
+    '2025-01-01',
+    '2025-02-01',
+    '2025-03-01',
+  ],
   performance: [
     {
       itemId: 'sec-001',
       itemName: 'CRI Habitacional 2024',
       itemType: 'security',
-      values: [0, 0.012, 0.025],
+      values: [0, 0.008, 0.015, 0.021, 0.028, 0.034, 0.041, 0.049, 0.055, 0.062, 0.07, 0.078, 0.085, 0.091, 0.098],
     },
     {
       itemId: 'CDI',
       itemName: 'CDI',
       itemType: 'benchmark',
-      values: [0, 0.009, 0.018],
+      values: [0, 0.006, 0.011, 0.017, 0.022, 0.028, 0.033, 0.039, 0.044, 0.05, 0.055, 0.061, 0.066, 0.072, 0.077],
+    },
+    {
+      itemId: 'IPCA',
+      itemName: 'IPCA',
+      itemType: 'benchmark',
+      values: [0, 0.004, 0.009, 0.013, 0.018, 0.022, 0.027, 0.031, 0.036, 0.04, 0.045, 0.049, 0.054, 0.058, 0.063],
     },
   ],
 };
