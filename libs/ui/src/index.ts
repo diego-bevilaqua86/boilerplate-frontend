@@ -1,4 +1,3 @@
-export * from './templates/ModalTemplate/ModalTemplate';
 export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableActionButtons/TableActionButtons';
 export * from './atoms/TableSortingHeader/TableSortingHeader';
@@ -35,6 +34,7 @@ export * from './storybook/decorators/withContentRequestProvider';
 export * from './storybook/decorators/withRequestHooksProvider';
 export * from './storybook/decorators/withTemplateNavigationProvider';
 export * from './templates/DashboardTemplate/DashboardTemplate';
+export * from './templates/ModalTemplate/ModalTemplate';
 export * from './templates/WalletTemplate/WalletTemplate';
 export * from './templates/WidgetTemplate/WidgetTemplate';
 

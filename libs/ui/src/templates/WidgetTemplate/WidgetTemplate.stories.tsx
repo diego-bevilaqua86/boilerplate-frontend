@@ -1,4 +1,4 @@
-// WidgetTemplate.stories.tsx
+// WidgetTemplate.stories.tsx — atualizado
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   DEFAULT_DASHBOARD_TEMPLATE,
@@ -14,16 +14,10 @@ import { withRequestHooksProvider } from '../../storybook/decorators/withRequest
 import { withTemplateNavigationProvider } from '../../storybook/decorators/withTemplateNavigationProvider';
 import { WidgetTemplate } from './WidgetTemplate';
 
-type BreakpointKey = 'desktop' | 'tablet' | 'mobile';
-
 const meta = {
   component: WidgetTemplate,
   title: 'UI/Templates/WidgetTemplate',
-  decorators: [
-    withRequestHooksProvider,
-    withContentRequestProvider,
-    withTemplateNavigationProvider, // ← necessário para qualquer template com TableWallet
-  ],
+  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateNavigationProvider],
 } satisfies Meta<typeof WidgetTemplate>;
 
 export default meta;

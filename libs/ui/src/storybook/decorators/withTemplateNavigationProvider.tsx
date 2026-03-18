@@ -5,21 +5,13 @@
 // SecurityDetailsTemplate implementado.
 
 import { TemplateNavigationProvider } from '@boilerplate-frontend/utils';
-import { Center, Text } from '@mantine/core';
 import { ReactRenderer } from '@storybook/react';
 import { DecoratorFunction } from 'storybook/internal/csf';
+import { DEFAULT_GROSS_UP_TEMPLATE } from '../../../../utils/src/constants/template';
+import { ModalTemplate } from '../../templates/ModalTemplate/ModalTemplate';
 
 const renderers = {
-  'security-details': (params?: Record<string, unknown>) => {
-    console.log('[TemplateNavigation] renderizando security-details com params:', params);
-    return (
-      <Center h="100vh">
-        <Text c="dimmed" size="sm">
-          [Storybook] SecurityDetailsTemplate — params: {JSON.stringify(params)}
-        </Text>
-      </Center>
-    );
-  },
+  'security-details': () => <ModalTemplate title="Gross Up (teste de navegação)" layouts={DEFAULT_GROSS_UP_TEMPLATE} />,
 };
 
 export const withTemplateNavigationProvider: DecoratorFunction<ReactRenderer> = (Story) => (
