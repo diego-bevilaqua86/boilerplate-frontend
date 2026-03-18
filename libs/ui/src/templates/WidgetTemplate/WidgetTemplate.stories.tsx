@@ -1,6 +1,5 @@
 // WidgetTemplate.stories.tsx
 import type { Meta, StoryObj } from '@storybook/react-vite';
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import {
   DEFAULT_DASHBOARD_TEMPLATE,
   DEFAULT_GROSS_UP_TEMPLATE,
@@ -10,11 +9,21 @@ import {
   DEFAULT_UPCOMING_MATURITIES_TEMPLATE,
   DEFAULT_WALLET_TEMPLATE,
 } from '../../../../utils/src/constants/template';
+import { withContentRequestProvider } from '../../storybook/decorators/withContentRequestProvider';
+import { withRequestHooksProvider } from '../../storybook/decorators/withRequestHooksProvider';
+import { withTemplateNavigationProvider } from '../../storybook/decorators/withTemplateNavigationProvider';
 import { WidgetTemplate } from './WidgetTemplate';
+
+type BreakpointKey = 'desktop' | 'tablet' | 'mobile';
 
 const meta = {
   component: WidgetTemplate,
   title: 'UI/Templates/WidgetTemplate',
+  decorators: [
+    withRequestHooksProvider,
+    withContentRequestProvider,
+    withTemplateNavigationProvider, // ← necessário para qualquer template com TableWallet
+  ],
 } satisfies Meta<typeof WidgetTemplate>;
 
 export default meta;

@@ -55,6 +55,7 @@ import { TableLiquiditySecurities } from '../organisms/TableLiquiditySecurities/
 import { TableRentabilityHistory } from '../organisms/TableRentabilityHistory/TableRentabilityHistory';
 import { TableTransactions } from '../organisms/TableTransactions/TableTransactions';
 import { TableUpcomingMaturities } from '../organisms/TableUpcomingMaturities/TableUpcomingMaturities';
+import { TableWallets } from '../organisms/TableWallets/TableWallets';
 import { TableWithdrawalDeposits } from '../organisms/TableWithdrawalDeposits/TableWithdrawalDeposits';
 
 // BaseWidgetProps é o contrato mínimo que todo widget registrado deve aceitar.
@@ -102,3 +103,7 @@ widgetRegistry.set('card-liquidity-securities', CardLiquiditySecurities); // mob
 // ─── Movimentações ────────────────────────────────────────────────────────────
 widgetRegistry.set('table-transactions', TableTransactions); // desktop + tablet
 widgetRegistry.set('card-transactions', CardTransactions); // mobile
+
+// ─── Carteira ─────────────────────────────────────────────────────────────────
+widgetRegistry.set('table-wallet', TableWallets); // desktop + tablet
+// card-wallet → mobile (a ser implementado: CardWallet)

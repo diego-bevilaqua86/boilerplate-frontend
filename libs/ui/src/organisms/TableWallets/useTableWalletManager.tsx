@@ -1,12 +1,5 @@
 // useTableWalletManager.tsx
-//
-// Manager do widget TableWallet.
-//
-// renderTable é memoizado via useMemo para evitar re-render em cascata —
-// uma função nova a cada render causaria loop ao ser chamada como JSX
-// diretamente no TableWalletContent.
-
-import { GroupingProcessedPosition, SecurityDetailsRequest } from '@boilerplate-frontend/types';
+import { GroupingProcessedPosition } from '@boilerplate-frontend/types';
 import { isEmptyArr } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
@@ -29,15 +22,9 @@ type UseTableWalletManagerProps = {
   data: GroupingProcessedPosition;
   selectedVariant: WalletVariant;
   palette: Array<string>;
-  onSelectSecurity?: (req: SecurityDetailsRequest) => void;
 };
 
-export const useTableWalletManager = ({
-  data,
-  selectedVariant,
-  palette,
-  onSelectSecurity,
-}: UseTableWalletManagerProps) => {
+export const useTableWalletManager = ({ data, selectedVariant, palette }: UseTableWalletManagerProps) => {
   const { _ } = useLingui();
 
   // ── Filtro de entidades ───────────────────────────────────────────────────
@@ -52,20 +39,14 @@ export const useTableWalletManager = ({
     [toggleFiltersModal],
   );
 
-  // ── onSelectSecurity estável ──────────────────────────────────────────────
-  const stableOnSelectSecurity = useCallback(
-    (req: SecurityDetailsRequest) => onSelectSecurity?.(req),
-    [onSelectSecurity],
-  );
-
-  // ── Estado de expand — vive no manager para sobreviver a trocas de aba ────
+  // ── Estado de expand ──────────────────────────────────────────────────────
   const [expanded, setExpanded] = useState<ExpandedState>({});
 
   const handleExpandedChange: OnChangeFn<ExpandedState> = useCallback((updaterOrValue) => {
     setExpanded((prev) => (typeof updaterOrValue === 'function' ? updaterOrValue(prev) : updaterOrValue));
   }, []);
 
-  // ── Adaptação e filtragem — memoizado em useManageWalletTableData ─────────
+  // ── Adaptação e filtragem ─────────────────────────────────────────────────
   const {
     investments: { mainClassificationsRows },
     filteredProvisions,
@@ -81,7 +62,6 @@ export const useTableWalletManager = ({
     rowData: mainClassificationsRows,
     currency: data.groupingCurrency,
     palette,
-    onSelectSecurity: stableOnSelectSecurity,
     expanded,
     onExpandedChange: handleExpandedChange,
   });
@@ -126,7 +106,7 @@ export const useTableWalletManager = ({
 
   const active = variantMap[selectedVariant];
 
-  // ── renderTable memoizado — evita re-render em cascata ────────────────────
+  // ── renderTable memoizado ─────────────────────────────────────────────────
   const renderTable = useMemo(
     () => () => (
       <>

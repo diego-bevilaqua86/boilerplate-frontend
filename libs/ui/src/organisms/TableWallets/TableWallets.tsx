@@ -1,35 +1,11 @@
 // TableWallet.tsx
-//
-// Widget desktop para exibição da carteira em três variantes.
-//
-// Arquitetura em três camadas:
-//   1. Camada de apresentação (TableWallet)
-//      — BaseWidget com SegmentedControl no header.
-//      — selectedVariant é estado de UI puro — instanciado aqui,
-//        não precisa aguardar dados.
-//
-//   2. Camada de dados (TableWalletDataRequest)
-//      — useFetchGroupingProcessedPosition: uma única requisição
-//        retorna os dados das três variantes.
-//      — palette vem de useContentRequest.
-//
-//   3. Camada de conteúdo (TableWalletContent)
-//      — Instancia useTableWalletManager após dados disponíveis.
-//
-// Variantes:
-//   position   → posição de investimento (árvore hierárquica expansível)
-//   provisions → provisões
-//   balance    → saldo em conta corrente
-//
-// Chave no registry: 'table-wallet'
-
-import { GroupingProcessedPosition, SecurityDetailsRequest } from '@boilerplate-frontend/types';
+import { GroupingProcessedPosition } from '@boilerplate-frontend/types';
 import { isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { SegmentedControl, Text } from '@mantine/core';
-import { Suspense, useCallback, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
@@ -41,7 +17,7 @@ export type WalletVariant = 'position' | 'provisions' | 'balance';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 
-export const TableWallet = () => {
+export const TableWallets = () => {
   const { _ } = useLingui();
   const [selectedVariant, setSelectedVariant] = useState<WalletVariant>('position');
 
@@ -90,30 +66,18 @@ const TableWalletDataRequest = ({ selectedVariant }: { selectedVariant: WalletVa
 };
 
 // ─── Camada de conteúdo ───────────────────────────────────────────────────────
+// onSelectSecurity removido — navegação via TemplateNavigationContext.
+// useInvestmentPositionTable chama navigateTo() diretamente.
 
 const TableWalletContent = ({
   data,
   selectedVariant,
   palette,
-  onSelectSecurity,
 }: {
   data: GroupingProcessedPosition;
   selectedVariant: WalletVariant;
   palette: Array<string>;
-  onSelectSecurity?: (req: SecurityDetailsRequest) => void;
 }) => {
-  // Estabiliza a referência para não causar recriação de colunas
-  const stableOnSelectSecurity = useCallback(
-    (req: SecurityDetailsRequest) => onSelectSecurity?.(req),
-    [onSelectSecurity],
-  );
-
-  const { renderTable } = useTableWalletManager({
-    data,
-    selectedVariant,
-    palette,
-    onSelectSecurity: stableOnSelectSecurity,
-  });
-
+  const { renderTable } = useTableWalletManager({ data, selectedVariant, palette });
   return renderTable();
 };
