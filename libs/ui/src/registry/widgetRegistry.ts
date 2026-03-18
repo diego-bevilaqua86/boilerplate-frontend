@@ -107,3 +107,11 @@ widgetRegistry.set('card-transactions', CardTransactions); // mobile
 // ─── Carteira ─────────────────────────────────────────────────────────────────
 widgetRegistry.set('table-wallet', TableWallets); // desktop + tablet
 // card-wallet → mobile (a ser implementado: CardWallet)
+
+// ─── Detalhe do ativo ─────────────────────────────────────────────────────────
+// widgetRegistry.set('security-summary',          SecurityDetailsSummary);
+// widgetRegistry.set('security-info',             SecurityDetailsInfo);
+// widgetRegistry.set('chart-security-performance',ChartSecurityPerformance);
+// widgetRegistry.set('security-coupon-dividends', SecurityCouponDividends);
+// widgetRegistry.set('security-total-earnings',   SecurityTotalEarnings);
+// widgetRegistry.set('security-transactions',     SecurityDetailsTransactions);

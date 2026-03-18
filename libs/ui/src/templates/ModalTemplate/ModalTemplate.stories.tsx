@@ -26,16 +26,16 @@ export const GrossUp: Story = {
   },
 };
 
-export const UpcomingMaturities: Story = {
-  args: {
-    title: 'Vencimentos Futuros',
-    layouts: DEFAULT_UPCOMING_MATURITIES_TEMPLATE,
-  },
-};
-
 export const SecuritiesLiquidity: Story = {
   args: {
     title: 'Liquidez',
     layouts: DEFAULT_SECURITIES_LIQUIDITY_TEMPLATE,
+  },
+};
+
+export const UpcomingMaturities: Story = {
+  args: {
+    title: 'Vencimentos Futuros',
+    layouts: DEFAULT_UPCOMING_MATURITIES_TEMPLATE,
   },
 };

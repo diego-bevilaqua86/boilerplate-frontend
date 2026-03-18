@@ -32,6 +32,7 @@ import { RequestHooksProvider, RequestHooksProviderProps } from '@boilerplate-fr
 import { ReactRenderer } from '@storybook/react';
 import { DecoratorFunction } from 'storybook/internal/csf';
 import {
+  mockCouponDividends,
   mockGrossUpAllocation,
   mockGrossUpBySecurity,
   mockGrossUpRentability,
@@ -40,7 +41,11 @@ import {
   mockPerformanceOverPeriods,
   mockRentabilityHistory,
   mockRentabilityOverPeriods,
+  mockSecurityPerformance,
+  mockSecuritySummary,
+  mockSecurityTransactions,
   mockStockEarningsOverPeriods,
+  mockTotalEarnings,
   mockTransactionsPopulated,
   mockUpcomingMaturities,
   mockWithdrawalDepositsOverPeriods,
@@ -101,6 +106,11 @@ export const providerProps: RequestHooksProviderProps = {
   useFetchGrossUpRentability: createMockHook(mockGrossUpRentability),
   useFetchGrossUpBySecurity: createMockHook(mockGrossUpBySecurity),
   useFetchGroupingProcessedPosition: createMockHook(mockGroupingProcessedPosition),
+  useFetchSecuritySummary: createMockHook(mockSecuritySummary),
+  useFetchSecurityTransactions: createMockHook(mockSecurityTransactions),
+  useFetchSecurityCouponDividends: createMockHook(mockCouponDividends),
+  useFetchSecurityTotalEarnings: createMockHook(mockTotalEarnings),
+  useFetchSecurityPerformance: createMockHook(mockSecurityPerformance),
 };
 
 export const withRequestHooksProvider: DecoratorFunction<ReactRenderer> = (Story) => (

@@ -127,3 +127,33 @@ export const DEFAULT_UPCOMING_MATURITIES_TEMPLATE: ResponsiveLayouts<BreakpointK
   tablet: [{ i: 'table-upcoming-maturities', x: 0, y: 0, w: 12, h: 10 }],
   mobile: [{ i: 'card-upcoming-maturities', x: 0, y: 0, w: 1, h: 12 }],
 };
+
+export const DEFAULT_SECURITY_DETAILS_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
+  desktop: [
+    { i: 'security-summary', x: 0, y: 0, w: 12, h: 4 },
+    { i: 'security-info', x: 0, y: 4, w: 12, h: 7 },
+    { i: 'chart-security-performance', x: 0, y: 11, w: 12, h: 10 },
+    { i: 'table-rentability-history', x: 0, y: 21, w: 12, h: 4 },
+    { i: 'security-coupon-dividends', x: 0, y: 25, w: 6, h: 6 },
+    { i: 'security-total-earnings', x: 6, y: 25, w: 6, h: 6 },
+    { i: 'security-transactions', x: 0, y: 31, w: 12, h: 10 },
+  ],
+  tablet: [
+    { i: 'security-summary', x: 0, y: 0, w: 12, h: 4 },
+    { i: 'security-info', x: 0, y: 4, w: 12, h: 8 },
+    { i: 'chart-security-performance', x: 0, y: 12, w: 12, h: 10 },
+    { i: 'table-rentability-history', x: 0, y: 22, w: 12, h: 4 },
+    { i: 'security-coupon-dividends', x: 0, y: 26, w: 6, h: 6 },
+    { i: 'security-total-earnings', x: 6, y: 26, w: 6, h: 6 },
+    { i: 'security-transactions', x: 0, y: 32, w: 12, h: 10 },
+  ],
+  mobile: [
+    { i: 'security-summary', x: 0, y: 0, w: 1, h: 5 },
+    { i: 'security-info', x: 0, y: 5, w: 1, h: 8 },
+    { i: 'chart-security-performance', x: 0, y: 13, w: 1, h: 10 },
+    { i: 'table-rentability-history', x: 0, y: 23, w: 1, h: 4 },
+    { i: 'security-coupon-dividends', x: 0, y: 27, w: 1, h: 6 },
+    { i: 'security-total-earnings', x: 0, y: 33, w: 1, h: 6 },
+    { i: 'security-transactions', x: 0, y: 39, w: 1, h: 10 },
+  ],
+};
