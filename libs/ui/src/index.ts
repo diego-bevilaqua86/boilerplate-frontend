@@ -1,3 +1,4 @@
+export * from './organisms/CardWallets/CardWallets';
 export * from './organisms/SecurityDetailsInfo/SecurityDetailsInfo';
 export * from './organisms/ChartSecurityPerformance/ChartSecurityPerformance';
 export * from './organisms/SecurityCouponDividends/SecurityCouponDividends';

@@ -47,10 +47,7 @@ export const DEFAULT_DASHBOARD_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
 export const DEFAULT_WALLET_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
   desktop: [{ i: 'table-wallet', x: 0, y: 0, w: 12, h: 14 }],
   tablet: [{ i: 'table-wallet', x: 0, y: 0, w: 12, h: 14 }],
-  mobile: [
-    // card-wallet ainda não implementado — será adicionado ao criar CardWallet
-    // { i: 'card-wallet', x: 0, y: 0, w: 1, h: 16 },
-  ],
+  mobile: [{ i: 'card-wallet', x: 0, y: 0, w: 1, h: 18 }],
 };
 
 export const DEFAULT_PERFORMANCE_ANALYSIS_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {

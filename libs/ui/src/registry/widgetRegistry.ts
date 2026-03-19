@@ -42,6 +42,7 @@ import { CardGrossUpRentability } from '../organisms/CardGrossUpRentability/Card
 import { CardLiquiditySecurities } from '../organisms/CardLiquiditySecurities/CardLiquiditySecurities';
 import { CardTransactions } from '../organisms/CardTransactions/CardTransactions';
 import { CardUpcomingMaturities } from '../organisms/CardUpcomingMaturities/CardUpcomingMaturities';
+import { CardWallets } from '../organisms/CardWallets/CardWallets';
 import { ChartGrossUpAllocation } from '../organisms/ChartGrossUpAllocation/ChartGrossUpAllocation';
 import { ChartGroupingPositionByClassification } from '../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
 import { ChartLiquidityByPeriod } from '../organisms/ChartLiquidityByPeriod/ChartLiquidityByPeriod';
@@ -112,7 +113,7 @@ widgetRegistry.set('card-transactions', CardTransactions); // mobile
 
 // ─── Carteira ─────────────────────────────────────────────────────────────────
 widgetRegistry.set('table-wallet', TableWallets); // desktop + tablet
-// card-wallet → mobile (a ser implementado: CardWallet)
+widgetRegistry.set('card-wallet', CardWallets); // mobile
 
 // ─── Detalhe do ativo ─────────────────────────────────────────────────────────
 widgetRegistry.set('security-summary', SecurityDetailsSummary);
