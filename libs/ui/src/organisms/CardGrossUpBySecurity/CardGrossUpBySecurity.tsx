@@ -33,14 +33,14 @@ export const CardGrossUpBySecurity = () => {
   return (
     <BaseWidget>
       <BaseWidget.Header>
-        <Text><Trans>Gross up por ativo</Trans></Text>
+        <Text>
+          <Trans>Gross up por ativo</Trans>
+        </Text>
       </BaseWidget.Header>
       <BaseWidget.Content>
         {/* ErrorBoundary captura erros lançados pela camada de dados */}
         <ErrorBoundary
-          fallbackRender={({ error }) => (
-            <ErrorCard title="Erro na busca de gross up por ativo..." error={error} />
-          )}
+          fallbackRender={({ error }) => <ErrorCard title="Erro na busca de gross up por ativo..." error={error} />}
         >
           {/* Suspense exibe o skeleton enquanto a requisição está pendente */}
           <Suspense fallback={<TablePlaceholder size="sm" />}>
@@ -68,13 +68,13 @@ const CardGrossUpBySecurityDataRequest = () => {
     select: (data) => data,
   });
 
+  // Manager: encapsula toda a lógica de filtro, busca e renderização dos cards
+  const { renderList } = useCardGrossUpBySecurityManager({ data });
+
   // Estado vazio: delega ao EmptyWidget o padrão visual de ausência de dados
   if (isNullOrUndefined(data) || isEmptyArr(data)) {
     return <EmptyWidget />;
   }
-
-  // Manager: encapsula toda a lógica de filtro, busca e renderização dos cards
-  const { renderList } = useCardGrossUpBySecurityManager({ data });
 
   return renderList();
 };
