@@ -11,6 +11,7 @@ import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
+import { TableWalletView } from './TableWalletView';
 import { useTableWalletManager } from './useTableWalletManager';
 
 export type WalletVariant = 'position' | 'provisions' | 'balance';
@@ -78,6 +79,6 @@ const TableWalletContent = ({
   selectedVariant: WalletVariant;
   palette: Array<string>;
 }) => {
-  const { renderTable } = useTableWalletManager({ data, selectedVariant, palette });
-  return renderTable();
+  const managerState = useTableWalletManager({ data, selectedVariant, palette });
+  return <TableWalletView {...managerState} />;
 };
