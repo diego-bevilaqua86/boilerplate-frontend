@@ -1,82 +1,439 @@
-# BoilerplateFrontend
+# boilerplate-frontend — Arquitetura de Widgets
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+## Sumário
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+1. [Visão geral](#1-visão-geral)
+2. [Stack](#2-stack)
+3. [Sistema de grid — WidgetTemplate](#3-sistema-de-grid--widgettemplate)
+4. [Padrão de widget — três camadas](#4-padrão-de-widget--três-camadas)
+5. [Injeção de dependências — RequestHooksContext](#5-injeção-de-dependências--requesthookscontext)
+6. [Contexto de conteúdo — ContentRequestContext](#6-contexto-de-conteúdo--contentrequestcontext)
+7. [Navegação entre templates — ModalTemplateContext](#7-navegação-entre-templates--modaltemplatecontext)
+8. [Registry de widgets](#8-registry-de-widgets)
+9. [Templates disponíveis](#9-templates-disponíveis)
+10. [Adicionando um novo widget](#10-adicionando-um-novo-widget)
+11. [Roadmap](#11-roadmap)
+12. [Tarefas pendentes](#12-tarefas-pendentes)
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+---
 
-## Finish your CI setup
+## 1. Visão geral
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/AVxw0DfKFQ)
+O sistema de widgets é uma camada de UI responsiva construída sobre `react-grid-layout`. Cada **template** define um layout de grid com posições e tamanhos para um conjunto de **widgets**. Os widgets são componentes React independentes, registrados centralmente, que buscam e exibem dados de forma isolada.
 
-
-## Run tasks
-
-To run the dev server for your app, use:
-
-```sh
-npx nx serve boilerplate-frontend
+```
+Host (aplicação)
+  └── TemplateNavigationProvider (futuro: ModalTemplateProvider)
+        └── ContentRequestProvider
+              └── RequestHooksProvider
+                    └── WidgetTemplate (grid)
+                          ├── Widget A
+                          ├── Widget B
+                          └── Widget C
 ```
 
-To create a production bundle:
+---
 
-```sh
-npx nx build boilerplate-frontend
+## 2. Stack
+
+| Responsabilidade | Biblioteca |
+|---|---|
+| Grid responsivo | `react-grid-layout` |
+| UI e tema | `@mantine/core`, `@mantine/charts` |
+| Tabelas | `@tanstack/react-table` |
+| Ícones | `@phosphor-icons/react` |
+| i18n | `@lingui/react`, `@lingui/core` |
+| Testes / documentação visual | Storybook |
+
+---
+
+## 3. Sistema de grid — WidgetTemplate
+
+`WidgetTemplate` é o componente que monta o grid. Ele recebe um `layouts` prop com as posições de cada widget por breakpoint e renderiza os widgets via `widgetRegistry`.
+
+**Breakpoints:**
+
+| Chave | Largura mínima | Colunas |
+|---|---|---|
+| `desktop` | 1280px | 12 |
+| `tablet` | 728px | 12 |
+| `mobile` | 0px | 1 |
+
+**Decisão de implementação relevante:** todos os widgets de todos os breakpoints são mantidos no DOM simultaneamente. Widgets do breakpoint inativo ficam com `visibility: hidden` e `pointerEvents: none`. Isso evita que o grid perca referências internas ao trocar de breakpoint, o que causava widgets minúsculos.
+
+```
+libs/utils/src/constants/template.tsx   ← definição dos layouts
+libs/ui/src/templates/WidgetTemplate/   ← componente do grid
+libs/ui/src/hooks/useRenderWidget.tsx   ← renderiza widget por chave
+libs/ui/src/registry/widgetRegistry.tsx ← mapa chave → componente
 ```
 
-To see all available targets to run for a project, run:
+---
 
-```sh
-npx nx show project boilerplate-frontend
+## 4. Padrão de widget — três camadas
+
+Todo widget segue obrigatoriamente esta estrutura. Referência: `TableTransactions`.
+
+```
+┌─────────────────────────────────────────────────┐
+│  Camada 1 — Apresentação                        │
+│  BaseWidget + ErrorBoundary + Suspense          │
+│  Não conhece dados. Não faz requisições.        │
+└──────────────────┬──────────────────────────────┘
+                   │
+┌──────────────────▼──────────────────────────────┐
+│  Camada 2 — Dados                               │
+│  useRequestHooks() + useContentRequest()        │
+│  Busca dados. Suspende enquanto carrega.        │
+│  Delega ao conteúdo após dados disponíveis.     │
+└──────────────────┬──────────────────────────────┘
+                   │
+┌──────────────────▼──────────────────────────────┐
+│  Camada 3 — Conteúdo                            │
+│  useXxxManager() + XxxView                      │
+│  Hook: estado, filtros, lógica de negócio.      │
+│  View: JSX puro, sem lógica própria.            │
+└─────────────────────────────────────────────────┘
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+### Hook manager + View
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+O manager **não retorna JSX**. Retorna estado e handlers. O componente `View` recebe tudo via props e renderiza.
 
-## Add new projects
-
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/react:app demo
+```tsx
+// ✅ padrão correto
+const TableWalletContent = ({ data, selectedVariant, palette }) => {
+  const managerState = useTableWalletManager({ data, selectedVariant, palette });
+  return <TableWalletView {...managerState} />;
+};
 ```
 
-To generate a new library, use:
+### Estados obrigatórios
 
-```sh
-npx nx g @nx/react:lib mylib
+Todo widget deve tratar os três estados:
+
+| Estado | Componente |
+|---|---|
+| Carregamento | `TablePlaceholder` (via `Suspense`) |
+| Erro | `ErrorCard` (via `ErrorBoundary`) |
+| Vazio | `EmptyWidget` |
+
+---
+
+## 5. Injeção de dependências — RequestHooksContext
+
+Widgets em `libs/ui` não importam hooks de dados diretamente. Os hooks são injetados via `RequestHooksProvider` pela aplicação host, e consumidos com `useRequestHooks()`.
+
+**Por quê:** permite que o mesmo widget funcione com fontes de dados diferentes (`client-data-access`, `partner-data-access`) e seja mockado no Storybook sem alterar código.
+
+```tsx
+// Host
+<RequestHooksProvider
+  useFetchTransactions={useFetchTransactions}
+  useFetchLiquidityValues={useFetchLiquidityValues}
+  // ...
+>
+  <App />
+</RequestHooksProvider>
+
+// Widget
+const { useFetchTransactions } = useRequestHooks();
+const { data } = useFetchTransactions({ groupingId, period });
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+```
+libs/utils/src/contexts/RequestHooksContext/
+  RequestHooksContext.tsx       ← Provider + useRequestHooks()
+  RequestHooksContext.types.ts  ← tipagem de todos os hooks
+```
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
+## 6. Contexto de conteúdo — ContentRequestContext
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Fornece dados de contexto do usuário para todos os widgets sem prop drilling.
 
-## Install Nx Console
+```tsx
+const { selectedGrouping, selectedPeriod, palette } = useContentRequest();
+```
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+```
+libs/utils/src/contexts/ContentRequestContext/
+  ContentRequestContext.tsx
+```
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+---
 
-## Useful links
+## 7. Navegação entre templates — ModalTemplateContext
 
-Learn more:
+> ⚠️ **Em migração:** atualmente implementado como `TemplateNavigationContext`. A migração para `ModalTemplateContext` está planejada — ver [Tarefa 2](#tarefa-2--migração-templatenavigationcontext--modaltemplatecontext).
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Problema resolvido
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Alguns widgets precisam abrir um template filho completo ao ser clicados (ex: `TableWallet` → `SecurityDetailsTemplate`). O widget não pode conhecer o router ou a estrutura de rotas da aplicação.
+
+### Implementação atual (`TemplateNavigationContext`)
+
+O provider troca os `children` pelo renderer do template filho quando `navigateTo` é chamado. **Problema:** isso desmonta o template pai, perdendo estado dos widgets (filtros, expand de linhas, variante ativa).
+
+### Implementação futura (`ModalTemplateContext`)
+
+O provider **mantém o template pai montado** e abre um `Modal` do Mantine por cima, preservando todo o estado.
+
+```
+Estado atual:                    Estado futuro:
+                                 ┌─────────────────────┐
+navigateTo() →                   │  Modal (Mantine)     │
+  desmonta pai    →               │  ModalTemplate       │
+  monta filho                     │  (template filho)    │
+                                 └─────────────────────┘
+                                 ┌─────────────────────┐
+                                 │  WidgetTemplate pai  │
+                                 │  (preservado)        │
+                                 └─────────────────────┘
+```
+
+### API (atual e futura — mesma interface para os widgets)
+
+```tsx
+// Em qualquer widget
+const { navigateTo, navigateBack, currentParams } = useTemplateNavigation();
+// futuro: useModalTemplate()
+
+navigateTo('security-details', {
+  walletId, securityId, beehusName, klass,
+});
+```
+
+Os widgets do template filho leem `currentParams` para buscar seus dados:
+
+```tsx
+const { currentParams } = useTemplateNavigation();
+const walletId = currentParams?.walletId as string ?? '';
+```
+
+```
+libs/utils/src/contexts/TemplateNavigationContext/   ← atual
+libs/utils/src/contexts/ModalTemplateContext/        ← futuro
+libs/ui/src/templates/ModalTemplate/                 ← template filho
+libs/ui/src/storybook/decorators/withTemplateNavigationProvider.tsx
+```
+
+---
+
+## 8. Registry de widgets
+
+Mapa central de `string → ComponentType`. O `WidgetTemplate` usa o registry para renderizar cada posição do grid pelo identificador `i` do layout.
+
+```
+Convenção de chaves:   <tipo>-<domínio>-<recurso>
+  chart-   → gráfico
+  table-   → tabela (desktop/tablet)
+  card-    → versão mobile/compacta
+```
+
+```tsx
+widgetRegistry.set('table-wallet', TableWallet);
+widgetRegistry.set('card-wallet',  CardWallet);
+```
+
+```
+libs/ui/src/registry/widgetRegistry.tsx
+```
+
+---
+
+## 9. Templates disponíveis
+
+| Constante | Chave | Status |
+|---|---|---|
+| `DEFAULT_DASHBOARD_TEMPLATE` | — | ✔ Pronto |
+| `DEFAULT_WALLET_TEMPLATE` | — | ✔ Pronto |
+| `DEFAULT_GROSS_UP_TEMPLATE` | — | ✔ Pronto |
+| `DEFAULT_SECURITIES_LIQUIDITY_TEMPLATE` | — | ✔ Pronto |
+| `DEFAULT_UPCOMING_MATURITIES_TEMPLATE` | — | ✔ Pronto |
+| `DEFAULT_TRANSACTIONS_TEMPLATE` | — | ✔ Pronto |
+| `DEFAULT_SECURITY_DETAILS_TEMPLATE` | `security-details` | ✔ Pronto |
+| `DEFAULT_PERFORMANCE_ANALYSIS_TEMPLATE` | — | ◑ Em andamento |
+| — | — | ◷ Detalhamento de classe |
+
+```
+libs/utils/src/constants/template.tsx
+```
+
+---
+
+## 10. Adicionando um novo widget
+
+```
+1. Crie a pasta:
+   libs/ui/src/organisms/<NomeWidget>/
+     <NomeWidget>.tsx
+     use<NomeWidget>Manager.ts    ← estado e lógica (sem JSX)
+     <NomeWidget>View.tsx         ← JSX puro
+     <NomeWidget>.stories.tsx
+
+2. Implemente as três camadas (ver seção 4)
+
+3. Registre no widgetRegistry:
+   widgetRegistry.set('chave-do-widget', NomeWidget);
+
+4. Adicione ao template correspondente em template.tsx
+
+5. Adicione o hook de dados ao RequestHooksContext.types.ts
+   e ao RequestHooksProvider
+
+6. Crie o mock em libs/ui/src/mocks/mocks.ts
+   e adicione ao providerProps em withRequestHooksProvider.tsx
+
+7. Se o widget chama navigateTo(), adicione
+   withTemplateNavigationProvider ao meta do story
+```
+
+---
+
+## 11. Roadmap
+
+### Etapa 1 — Templates & Widgets *(finalizando)*
+- [x] Arquitetura de widgets (três camadas, registry, grid)
+- [x] RequestHooksContext, ContentRequestContext
+- [x] TemplateNavigationContext + ModalTemplate
+- [x] Dashboard, Gross Up, Liquidez, Vencimentos, Movimentações
+- [x] Detalhamento de ativo, Carteira
+- [ ] Análise de Performance *(José)*
+- [ ] Detalhamento de classe
+
+### Etapa 2 — Padronização & Estilização
+- [ ] 2.1 Revisão arquitetural — camadas, estados, nomenclatura, i18n
+- [ ] 2.2 Revisão de estilização — Mantine theme, light/dark, moléculas
+- [ ] 2.3 Revisão de funcionalidades — filtros, dados, comportamento
+
+### Etapa 3 — Ferramentas de Template & Parametrização
+- [ ] Edição de template pelo usuário
+- [ ] Persistência de layout
+- [ ] Parametrização via dropdowns
+
+---
+
+## 12. Tarefas pendentes
+
+---
+
+### Tarefa 1 — Refatoração manager → manager + View
+
+**Motivação:** hooks que retornam JSX (`renderTable()`, `renderList()`) misturam lógica e apresentação, dificultam testes e exigem `useMemo` manual em JSX para evitar re-renders.
+
+**Padrão alvo:**
+
+```tsx
+// Antes
+const { renderTable } = useTableWalletManager({ data, selectedVariant, palette });
+return renderTable();
+
+// Depois
+const managerState = useTableWalletManager({ data, selectedVariant, palette });
+return <TableWalletView {...managerState} />;
+```
+
+**Widgets afetados:**
+
+| Widget | Manager atual | View a criar |
+|---|---|---|
+| `TableWallet` | `useTableWalletManager` | `TableWalletView` |
+| `CardWallet` | `useCardWalletInvestmentsManager` | `CardWalletInvestmentsView` |
+| `CardWallet` | `useCardWalletProvisionsManager` | `CardWalletProvisionsView` |
+| `CardWallet` | `useCardWalletBalanceManager` | `CardWalletBalanceView` |
+| `TableTransactions` | `useTableTransactionsManager` | `TableTransactionsView` |
+| `CardTransactions` | `useCardTransactionsManager` | `CardTransactionsView` |
+| `TableLiquiditySecurities` | `useTableLiquiditySecuritiesManager` | `TableLiquiditySecuritiesView` |
+| `CardLiquiditySecurities` | `useCardLiquiditySecuritiesManager` | `CardLiquiditySecuritiesView` |
+| `CardUpcomingMaturities` | `useCardUpcomingMaturitiesManager` | `CardUpcomingMaturitiesView` |
+| `TableGrossUpBySecurity` | `useGrossUpBySecurityTable` (hook de tabela) | sem View — já é atômico |
+| `CardGrossUpBySecurity` | `useCardGrossUpBySecurityManager` | `CardGrossUpBySecurityView` |
+| `CardGrossUpRentability` | `useCardGrossUpRentabilityManager` | `CardGrossUpRentabilityView` |
+
+**Regras para o manager após refatoração:**
+- Retorna apenas estado e handlers — sem nenhum elemento JSX
+- `useMemo` apenas em dados (arrays, objetos) — nunca em funções que retornam JSX
+- Exporta um tipo `<NomeWidget>ManagerState` para tipar o View
+
+---
+
+### Tarefa 2 — Migração TemplateNavigationContext → ModalTemplateContext
+
+**Motivação:** a implementação atual substitui o template pai pelo filho, desmontando todos os widgets do pai e perdendo estado (filtros ativos, linhas expandidas, variante selecionada no SegmentedControl).
+
+**Solução:** o provider passa a abrir um `Modal` do Mantine por cima do template pai, que permanece montado.
+
+**Alterações necessárias:**
+
+**`ModalTemplateContext.tsx`** (novo, substituindo `TemplateNavigationContext.tsx`):
+
+```tsx
+// Diferenças em relação ao atual:
+// - Estado: modalOpened (boolean) + currentTemplateId + currentParams
+// - Renderização: Modal do Mantine wrappa o renderer, não substitui children
+// - API pública idêntica para os widgets: navigateTo / navigateBack / currentParams
+
+export const ModalTemplateProvider: FC<ModalTemplateProviderProps> = ({
+  renderers, children,
+}) => {
+  const [currentTemplateId, setCurrentTemplateId] = useState<string | null>(null);
+  const [currentParams, setCurrentParams] = useState<TemplateNavigationParams | undefined>(undefined);
+
+  const navigateTo = useCallback((templateId, params) => {
+    setCurrentParams(params);
+    setCurrentTemplateId(templateId);
+  }, []);
+
+  const navigateBack = useCallback(() => {
+    setCurrentTemplateId(null);
+    setCurrentParams(undefined);
+  }, []);
+
+  const activeRenderer = currentTemplateId ? renderers[currentTemplateId] : null;
+
+  return (
+    <ModalTemplateContext.Provider value={{ navigateTo, navigateBack, currentParams, currentTemplateId }}>
+      {children} {/* ← pai permanece montado */}
+      <Modal
+        opened={currentTemplateId !== null}
+        onClose={navigateBack}
+        fullScreen
+        withCloseButton={false} // ModalTemplate tem seu próprio header
+      >
+        {activeRenderer?.(currentParams)}
+      </Modal>
+    </ModalTemplateContext.Provider>
+  );
+};
+```
+
+**Arquivos a alterar:**
+
+| Arquivo | Alteração |
+|---|---|
+| `TemplateNavigationContext.tsx` | Renomear para `ModalTemplateContext.tsx`, adicionar `Modal` do Mantine |
+| `useTemplateNavigation()` | Renomear para `useModalTemplate()` |
+| `ModalTemplate.tsx` | Remover lógica de header fixo de voltar — o `Modal` do Mantine provê o comportamento de fechar; o botão de voltar permanece mas chama `closeModal()` |
+| `withTemplateNavigationProvider.tsx` | Renomear para `withModalTemplateProvider.tsx` |
+| `useInvestmentPositionTable.tsx` | Atualizar import: `useTemplateNavigation` → `useModalTemplate` |
+| `useCardWalletInvestmentsManager.tsx` | Atualizar import |
+| Todos os widgets que chamam `navigateTo` | Atualizar import do hook |
+| Todos os stories com `withTemplateNavigationProvider` | Substituir decorator |
+| `libs/utils/src/index.ts` | Exportar `ModalTemplateContext` em vez de `TemplateNavigationContext` |
+
+**Widgets que chamam `navigateTo` e precisam atualizar o import:**
+
+- `useInvestmentPositionTable.tsx`
+- `useCardWalletInvestmentsManager.tsx`
+- Qualquer widget futuro de Análise de Performance que abra detalhamento
+
+**Widgets que leem `currentParams` e precisam atualizar o import:**
+
+- `SecurityDetailsSummary.tsx`
+- `SecurityDetailsInfo.tsx`
+- `ChartSecurityPerformance.tsx`
+- `SecurityCouponDividends.tsx`
+- `SecurityTotalEarnings.tsx`
+- `SecurityDetailsTransactions.tsx`
