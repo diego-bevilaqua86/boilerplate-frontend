@@ -1,4 +1,18 @@
-// TableWallet.tsx
+// CardWallet.tsx
+//
+// Widget mobile para exibição da carteira em três variantes.
+// Espelho mobile do TableWallet — mesma arquitetura de três camadas
+// e mesmas três variantes (position, provisions, balance).
+//
+// Variante position → useCardWalletInvestmentsManager (acordeão hierárquico)
+// Variante provisions → useCardWalletProvisionsManager
+// Variante balance → useCardWalletBalanceManager
+//
+// Navegação para detalhamento de ativo via TemplateNavigationContext —
+// mesmo mecanismo do TableWallet, sem acoplamento com router.
+//
+// Chave no registry: 'card-wallet'
+
 import { GroupingProcessedPosition } from '@boilerplate-frontend/types';
 import { isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
@@ -11,14 +25,14 @@ import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { TableWalletView } from './TableWalletView';
-import { useTableWalletManager } from './useTableWalletManager';
-
-export type WalletVariant = 'position' | 'provisions' | 'balance';
+import { WalletVariant } from '../TableWallets/TableWallets';
+import { useCardWalletBalanceManager } from './useCardWalletBalanceManager';
+import { useCardWalletInvestmentsManager } from './useCardWalletInvestmentsManager';
+import { useCardWalletProvisionsManager } from './useCardWalletProvisionsManager';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 
-export const TableWallets = () => {
+export const CardWallets = () => {
   const { _ } = useLingui();
   const [selectedVariant, setSelectedVariant] = useState<WalletVariant>('position');
 
@@ -41,8 +55,8 @@ export const TableWallets = () => {
       </BaseWidget.Header>
       <BaseWidget.Content>
         <ErrorBoundary fallbackRender={({ error }) => <ErrorCard title="Erro ao carregar carteira..." error={error} />}>
-          <Suspense fallback={<TablePlaceholder size="lg" />}>
-            <TableWalletDataRequest selectedVariant={selectedVariant} />
+          <Suspense fallback={<TablePlaceholder size="sm" />}>
+            <CardWalletDataRequest selectedVariant={selectedVariant} />
           </Suspense>
         </ErrorBoundary>
       </BaseWidget.Content>
@@ -52,7 +66,7 @@ export const TableWallets = () => {
 
 // ─── Camada de dados ──────────────────────────────────────────────────────────
 
-const TableWalletDataRequest = ({ selectedVariant }: { selectedVariant: WalletVariant }) => {
+const CardWalletDataRequest = ({ selectedVariant }: { selectedVariant: WalletVariant }) => {
   const { selectedGrouping, palette } = useContentRequest();
   const { useFetchGroupingProcessedPosition } = useRequestHooks();
 
@@ -63,14 +77,13 @@ const TableWalletDataRequest = ({ selectedVariant }: { selectedVariant: WalletVa
 
   if (isNullOrUndefined(data)) return <EmptyWidget />;
 
-  return <TableWalletContent data={data} selectedVariant={selectedVariant} palette={palette ?? []} />;
+  return <CardWalletContent data={data} selectedVariant={selectedVariant} palette={palette ?? []} />;
 };
 
 // ─── Camada de conteúdo ───────────────────────────────────────────────────────
-// onSelectSecurity removido — navegação via TemplateNavigationContext.
-// useInvestmentPositionTable chama navigateTo() diretamente.
+// Cada variante instancia seu próprio manager — sem hooks condicionais.
 
-const TableWalletContent = ({
+const CardWalletContent = ({
   data,
   selectedVariant,
   palette,
@@ -79,6 +92,15 @@ const TableWalletContent = ({
   selectedVariant: WalletVariant;
   palette: Array<string>;
 }) => {
-  const managerState = useTableWalletManager({ data, selectedVariant, palette });
-  return <TableWalletView {...managerState} />;
+  const { renderList: renderInvestments } = useCardWalletInvestmentsManager({ data, palette });
+  const { renderList: renderProvisions } = useCardWalletProvisionsManager({ data });
+  const { renderList: renderBalance } = useCardWalletBalanceManager({ data });
+
+  const renderers: Record<WalletVariant, () => React.ReactNode> = {
+    position: renderInvestments,
+    provisions: renderProvisions,
+    balance: renderBalance,
+  };
+
+  return renderers[selectedVariant]();
 };

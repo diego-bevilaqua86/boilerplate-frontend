@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import WalletTemplate from './WalletTemplate';
+import ModalTemplate from './ModalTemplate';
 
-describe('WalletTemplate', () => {
+describe('ModalTemplate', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<WalletTemplate />);
+    const { baseElement } = render(<ModalTemplate />);
     expect(baseElement).toBeTruthy();
   });
 });

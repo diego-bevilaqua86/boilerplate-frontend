@@ -40,15 +40,22 @@ import { ComponentType } from 'react';
 import { CardGrossUpBySecurity } from '../organisms/CardGrossUpBySecurity/CardGrossUpBySecurity';
 import { CardGrossUpRentability } from '../organisms/CardGrossUpRentability/CardGrossUpRentability';
 import { CardLiquiditySecurities } from '../organisms/CardLiquiditySecurities/CardLiquiditySecurities';
+import { CardPerformanceAnalysisEarningByClassification } from '../organisms/CardPerformanceAnalysisEarningByClassification/CardPerformanceAnalysisEarningByClassification';
 import { CardTransactions } from '../organisms/CardTransactions/CardTransactions';
 import { CardUpcomingMaturities } from '../organisms/CardUpcomingMaturities/CardUpcomingMaturities';
+import { CardWallets } from '../organisms/CardWallets/CardWallets';
 import { ChartGrossUpAllocation } from '../organisms/ChartGrossUpAllocation/ChartGrossUpAllocation';
 import { ChartGroupingPositionByClassification } from '../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
 import { ChartLiquidityByPeriod } from '../organisms/ChartLiquidityByPeriod/ChartLiquidityByPeriod';
-import { CardPerformanceAnalysisEarningByClassification } from '../organisms/CardPerformanceAnalysisEarningByClassification/CardPerformanceAnalysisEarningByClassification';
 import { ChartPerformanceAnalysisEarningByClassification } from '../organisms/ChartPerformanceAnalysisEarningByClassification/ChartPerformanceAnalysisEarningByClassification';
+import { ChartSecurityPerformance } from '../organisms/ChartSecurityPerformance/ChartSecurityPerformance';
 import { NetWorthOverPeriod } from '../organisms/NetWorthOverPeriod/NetWorthOverPeriod';
 import { PerformanceOverPeriod } from '../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
+import { SecurityCouponDividends } from '../organisms/SecurityCouponDividends/SecurityCouponDividends';
+import { SecurityDetailsInfo } from '../organisms/SecurityDetailsInfo/SecurityDetailsInfo';
+import { SecurityDetailsSummary } from '../organisms/SecurityDetailsSummary/SecurityDetailsSummary';
+import { SecurityDetailsTransactions } from '../organisms/SecurityDetailsTransactions/SecurityDetailsTransactions';
+import { SecurityTotalEarnings } from '../organisms/SecurityTotalEarnings/SecurityTotalEarnings';
 import { TableGrossUpBySecurity } from '../organisms/TableGrossUpBySecurity/TableGrossUpBySecurity';
 import { TableGrossUpRentability } from '../organisms/TableGrossUpRentability/TableGrossUpRentability';
 import { TableGroupingRentability } from '../organisms/TableGroupingRentability/TableGroupingRentability';
@@ -58,6 +65,7 @@ import { TablePerformanceAnalysisEarningByClassification } from '../organisms/Ta
 import { TableRentabilityHistory } from '../organisms/TableRentabilityHistory/TableRentabilityHistory';
 import { TableTransactions } from '../organisms/TableTransactions/TableTransactions';
 import { TableUpcomingMaturities } from '../organisms/TableUpcomingMaturities/TableUpcomingMaturities';
+import { TableWallets } from '../organisms/TableWallets/TableWallets';
 import { TableWithdrawalDeposits } from '../organisms/TableWithdrawalDeposits/TableWithdrawalDeposits';
 
 // BaseWidgetProps é o contrato mínimo que todo widget registrado deve aceitar.
@@ -110,3 +118,14 @@ widgetRegistry.set('card-transactions', CardTransactions); // mobile
 widgetRegistry.set('chart-performance-earning', ChartPerformanceAnalysisEarningByClassification);
 widgetRegistry.set('table-performance-earning', TablePerformanceAnalysisEarningByClassification); // desktop
 widgetRegistry.set('card-performance-earning', CardPerformanceAnalysisEarningByClassification); // mobile
+// ─── Carteira ─────────────────────────────────────────────────────────────────
+widgetRegistry.set('table-wallet', TableWallets); // desktop + tablet
+widgetRegistry.set('card-wallet', CardWallets); // mobile
+
+// ─── Detalhe do ativo ─────────────────────────────────────────────────────────
+widgetRegistry.set('security-summary', SecurityDetailsSummary);
+widgetRegistry.set('security-info', SecurityDetailsInfo);
+widgetRegistry.set('chart-security-performance', ChartSecurityPerformance);
+widgetRegistry.set('security-coupon-dividends', SecurityCouponDividends);
+widgetRegistry.set('security-total-earnings', SecurityTotalEarnings);
+widgetRegistry.set('security-transactions', SecurityDetailsTransactions);

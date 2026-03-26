@@ -1,6 +1,11 @@
 // useInvestmentPositionTable.tsx
-import { ClientGroupingSecuritiesTableRow, SecurityDetailsRequest } from '@boilerplate-frontend/types';
-import { currencyFormatter, numberFormatter, percentFormatter } from '@boilerplate-frontend/utils';
+import { ClientGroupingSecuritiesTableRow } from '@boilerplate-frontend/types';
+import {
+  currencyFormatter,
+  numberFormatter,
+  percentFormatter,
+  useTemplateNavigation,
+} from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
@@ -25,24 +30,23 @@ export type UseInvestmentPositionTableProps = {
   rowData: Array<ClientGroupingSecuritiesTableRow>;
   currency: string;
   palette: Array<string>;
-  onSelectSecurity?: (req: SecurityDetailsRequest) => void;
   expanded?: ExpandedState;
-  onExpandedChange?: OnChangeFn<ExpandedState>; // ← tipo correto
+  onExpandedChange?: OnChangeFn<ExpandedState>;
 };
 
 export const useInvestmentPositionTable = ({
   rowData,
   currency,
   palette,
-  onSelectSecurity,
   expanded: externalExpanded,
   onExpandedChange,
 }: UseInvestmentPositionTableProps) => {
   const { _, i18n } = useLingui();
+  const { navigateTo } = useTemplateNavigation();
 
-  // Usa estado interno apenas se não for controlado externamente
   const [internalExpanded, setInternalExpanded] = useState<ExpandedState>({});
   const expanded = externalExpanded ?? internalExpanded;
+
   const handleExpandedChange: OnChangeFn<ExpandedState> = useCallback(
     (updaterOrValue) => {
       if (onExpandedChange) {
@@ -56,7 +60,7 @@ export const useInvestmentPositionTable = ({
 
   const columns = useMemo(
     () => [
-      // ── Coluna de expand — evento isolado com stopPropagation ─────────────────
+      // ── Coluna de expand ──────────────────────────────────────────────────
       columnBuilder.display({
         id: 'expandColumn',
         cell: ({ row }) => {
@@ -71,23 +75,13 @@ export const useInvestmentPositionTable = ({
                 row.toggleExpanded();
               }}
             >
-              {row.depth === 0 ? (
-                row.getIsExpanded() ? (
-                  <CaretDownIcon size={12} />
-                ) : (
-                  <CaretRightIcon size={12} />
-                )
-              ) : row.getIsExpanded() ? (
-                <CaretDownIcon size={12} />
-              ) : (
-                <CaretRightIcon size={12} />
-              )}
+              {row.getIsExpanded() ? <CaretDownIcon size={12} /> : <CaretRightIcon size={12} />}
             </ActionIcon>
           );
         },
       }),
 
-      // ── Classes ───────────────────────────────────────────────────────────────
+      // ── Classes ───────────────────────────────────────────────────────────
       columnBuilder.accessor('classificationOrSecurity', {
         header: () => <Trans>Classes</Trans>,
         cell: ({ getValue, row }) => (
@@ -110,7 +104,7 @@ export const useInvestmentPositionTable = ({
         footer: () => <Trans>Total</Trans>,
       }),
 
-      // ── Quantidade ────────────────────────────────────────────────────────────
+      // ── Quantidade ────────────────────────────────────────────────────────
       columnBuilder.accessor('quantity', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -126,7 +120,7 @@ export const useInvestmentPositionTable = ({
         ),
       }),
 
-      // ── Preço ─────────────────────────────────────────────────────────────────
+      // ── Preço ─────────────────────────────────────────────────────────────
       columnBuilder.accessor('pu', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -144,7 +138,7 @@ export const useInvestmentPositionTable = ({
         ),
       }),
 
-      // ── Saldo ─────────────────────────────────────────────────────────────────
+      // ── Saldo ─────────────────────────────────────────────────────────────
       columnBuilder.accessor('balance', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -173,7 +167,7 @@ export const useInvestmentPositionTable = ({
         },
       }),
 
-      // ── % Patrimônio ──────────────────────────────────────────────────────────
+      // ── % Patrimônio ──────────────────────────────────────────────────────
       columnBuilder.accessor('percentage', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -196,7 +190,7 @@ export const useInvestmentPositionTable = ({
         },
       }),
 
-      // ── Carteira ──────────────────────────────────────────────────────────────
+      // ── Carteira ──────────────────────────────────────────────────────────
       columnBuilder.accessor('walletName', {
         header: ({ column }) => (
           <TableSortingHeader
@@ -208,14 +202,13 @@ export const useInvestmentPositionTable = ({
         cell: ({ getValue }) => <Text size="sm">{getValue()}</Text>,
       }),
 
-      // ── Ações ─────────────────────────────────────────────────────────────────
+      // ── Ações — apenas nas folhas ─────────────────────────────────────────
+      // Botão de detalhes só aparece em linhas sem filhos (ativos individuais).
+      // Chama navigateTo via TemplateNavigationContext — sem acoplamento com router.
       columnBuilder.display({
         id: 'actionsColumn',
         cell: ({ row }) => {
           const parentRow = row.getParentRow()?.original;
-
-          // Botão só aparece nas folhas — linhas sem filhos (ativos individuais)
-          // Mesma lógica do legado: !children || children.length === 0
           const isLeaf = !row.original.children || row.original.children.length === 0;
           if (!isLeaf) return null;
 
@@ -227,13 +220,13 @@ export const useInvestmentPositionTable = ({
                 beehusName: row.original.classificationOrSecurity,
                 klass: parentRow?.classificationOrSecurity ?? '',
               }}
-              onOpenModalRow={onSelectSecurity}
+              onOpenModalRow={(req) => navigateTo('security-details', req)}
             />
           );
         },
       }),
     ],
-    [_, palette, currency, i18n.locale, onSelectSecurity],
+    [_, palette, currency, i18n.locale, navigateTo],
   );
 
   const table = useReactTable<ClientGroupingSecuritiesTableRow>({

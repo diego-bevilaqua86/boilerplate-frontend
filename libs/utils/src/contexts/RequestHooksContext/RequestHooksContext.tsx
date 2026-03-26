@@ -62,6 +62,11 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
   useFetchGrossUpRentability,
   useFetchGrossUpBySecurity,
   useFetchGroupingProcessedPosition,
+  useFetchSecuritySummary,
+  useFetchSecurityTransactions,
+  useFetchSecurityCouponDividends,
+  useFetchSecurityTotalEarnings,
+  useFetchSecurityPerformance,
   children,
 }) => {
   // useMemo garante que o objeto de contexto só é recriado quando algum
@@ -84,6 +89,11 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
       useFetchGrossUpRentability,
       useFetchGrossUpBySecurity,
       useFetchGroupingProcessedPosition,
+      useFetchSecuritySummary,
+      useFetchSecurityTransactions,
+      useFetchSecurityCouponDividends,
+      useFetchSecurityTotalEarnings,
+      useFetchSecurityPerformance,
     }),
     [
       useFetchGenericTableData,
@@ -102,6 +112,11 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
       useFetchGrossUpRentability,
       useFetchGrossUpBySecurity,
       useFetchGroupingProcessedPosition,
+      useFetchSecuritySummary,
+      useFetchSecurityTransactions,
+      useFetchSecurityCouponDividends,
+      useFetchSecurityTotalEarnings,
+      useFetchSecurityPerformance,
     ],
   );
 

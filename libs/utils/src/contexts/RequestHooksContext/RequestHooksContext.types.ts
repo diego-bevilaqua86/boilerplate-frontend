@@ -20,6 +20,7 @@
 //     {groupingId, select, finalDate} comum a vários hooks
 
 import {
+  CouponDividends,
   FetchGenericTableDataFilter,
   FetchGrossUpAllocationFilter,
   FetchGrossUpRentabilityFilter,
@@ -40,11 +41,15 @@ import {
   GroupingSelectFinalDateFilter,
   Liquidity,
   NetWorthOverPeriods,
+  ParameterizedPerformances,
   PerformanceOverPeriods,
+  PeriodType,
   RentabilityHistory,
   RentabilityOverPeriods,
   SecurityPositionByClass,
   StockEarningsOverPeriods,
+  TGetReportSecuritySummaryResponse,
+  TotalEarnings,
   TransactionPopulated,
   UpcomingMaturities,
   WithdrawalDepositsOverPeriods,
@@ -105,4 +110,46 @@ export type RequestHooksContextValue = {
   useFetchGroupingProcessedPosition: (
     filter: GroupingSelectFinalDateFilter<GroupingProcessedPosition>,
   ) => UseSuspenseQueryResult<GroupingProcessedPosition, Error>;
+
+  useFetchSecuritySummary: (params: {
+    walletId: string;
+    securityId: string;
+    positionDate: string;
+    groupingId?: string;
+    select?: (data: TGetReportSecuritySummaryResponse) => TGetReportSecuritySummaryResponse;
+  }) => { data: TGetReportSecuritySummaryResponse };
+
+  useFetchSecurityTransactions: (params: {
+    walletId: string;
+    securityId: string;
+    period: PeriodType;
+    groupingId?: string;
+    select?: (data: Array<TransactionPopulated>) => Array<TransactionPopulated>;
+  }) => { data: Array<TransactionPopulated> };
+
+  useFetchSecurityCouponDividends: (params: {
+    walletId: string;
+    securityId: string;
+    period: PeriodType;
+    groupingId?: string;
+    select?: (data: CouponDividends) => CouponDividends;
+  }) => { data: CouponDividends };
+
+  useFetchSecurityTotalEarnings: (params: {
+    walletId: string;
+    securityId: string;
+    period: PeriodType;
+    groupingId?: string;
+    select?: (data: TotalEarnings) => TotalEarnings;
+  }) => { data: TotalEarnings };
+
+  useFetchSecurityPerformance: (params: {
+    walletId: string;
+    securityId: string;
+    period: PeriodType;
+    currency: string;
+    groupingId?: string;
+    benchmarks?: Array<string>;
+    select?: (data: ParameterizedPerformances) => ParameterizedPerformances;
+  }) => { data: ParameterizedPerformances };
 };

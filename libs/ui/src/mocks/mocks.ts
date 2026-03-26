@@ -1,15 +1,20 @@
 import {
+  CouponDividends,
   GenericTableData,
   GrossUpAllocation,
   GrossUpBySecurity,
   GrossUpRentability,
   GroupingProcessedPosition,
+  ISecurities,
   Liquidity,
+  ParameterizedPerformances,
   PerformanceOverPeriods,
   RentabilityHistory,
   RentabilityOverPeriods,
   SecurityPositionByClass,
   StockEarningsOverPeriods,
+  TGetReportSecuritySummaryResponse,
+  TotalEarnings,
   TransactionPopulated,
   UpcomingMaturities,
   WithdrawalDepositsOverPeriods,
@@ -3727,6 +3732,107 @@ export const mockGenericTableData: GenericTableData = {
       accFinancialEarningsInTargetFx: 0,
       rentabilityInTargetFx: 0,
       contributionYieldInTargetFx: 0,
+    },
+  ],
+};
+// mocks.ts — adicionar
+
+export const mockSecuritySummary: TGetReportSecuritySummaryResponse = {
+  groupingNavPercentual: 0.45,
+  walletNavPercentual: 0.32,
+  currency: 'BRL',
+  balance: 450_000,
+  mainId: 'CRI-2024-001',
+  maturityDate: '2028-12-31',
+  initialDateOnWallet: '2024-01-15',
+  emissionRate: 'CDI + 2%',
+  redemptionSettlementDays: 2,
+  redemptionNAVDays: 1,
+  subscriptionSettlementDays: 2,
+  subscriptionNAVDays: 1,
+  entity: {
+    _id: 'entity-001',
+    name: 'Banco Itaú',
+  },
+  wallet: {
+    _id: 'wallet-001',
+    name: 'Carteira Renda Fixa',
+  },
+  grouping: {
+    _id: 'grouping-001',
+    companyId: '12.345.678/0001-99',
+  },
+  security: {
+    _id: 'sec-001',
+    beehusName: 'CRI Habitacional 2024',
+    securityType: 'bonds',
+  } as ISecurities,
+};
+
+export const mockCouponDividends: CouponDividends = {
+  initialDate: '2025-01-01',
+  finalDate: '2025-03-01',
+  balance: 12_500,
+};
+
+export const mockTotalEarnings: TotalEarnings = {
+  initialDate: '2024-01-15',
+  finalDate: '2025-03-01',
+  totalEarnings: 38_750,
+};
+
+export const mockSecurityTransactions: Array<TransactionPopulated> = [
+  {
+    _id: 'txn-001',
+    liquidationDate: '2025-02-15',
+    beehusTransactionType: 'subscription',
+    balance: 450_000,
+    description: 'Aporte inicial CRI Habitacional',
+    comment: null,
+    walletId: { _id: 'wallet-001', name: 'Carteira Renda Fixa' },
+    securityId: { _id: 'sec-001', beehusName: 'CRI Habitacional 2024' },
+    entityId: { _id: 'entity-001', name: 'Banco Itaú' },
+    currencyId: 'BRL',
+  },
+];
+
+export const mockSecurityPerformance: ParameterizedPerformances = {
+  currency: 'BRL',
+  dates: [
+    '2024-01-01',
+    '2024-02-01',
+    '2024-03-01',
+    '2024-04-01',
+    '2024-05-01',
+    '2024-06-01',
+    '2024-07-01',
+    '2024-08-01',
+    '2024-09-01',
+    '2024-10-01',
+    '2024-11-01',
+    '2024-12-01',
+    '2025-01-01',
+    '2025-02-01',
+    '2025-03-01',
+  ],
+  performance: [
+    {
+      itemId: 'sec-001',
+      itemName: 'CRI Habitacional 2024',
+      itemType: 'security',
+      values: [0, 0.008, 0.015, 0.021, 0.028, 0.034, 0.041, 0.049, 0.055, 0.062, 0.07, 0.078, 0.085, 0.091, 0.098],
+    },
+    {
+      itemId: 'CDI',
+      itemName: 'CDI',
+      itemType: 'benchmark',
+      values: [0, 0.006, 0.011, 0.017, 0.022, 0.028, 0.033, 0.039, 0.044, 0.05, 0.055, 0.061, 0.066, 0.072, 0.077],
+    },
+    {
+      itemId: 'IPCA',
+      itemName: 'IPCA',
+      itemType: 'benchmark',
+      values: [0, 0.004, 0.009, 0.013, 0.018, 0.022, 0.027, 0.031, 0.036, 0.04, 0.045, 0.049, 0.054, 0.058, 0.063],
     },
   ],
 };
