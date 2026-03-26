@@ -45,6 +45,8 @@ import { CardUpcomingMaturities } from '../organisms/CardUpcomingMaturities/Card
 import { ChartGrossUpAllocation } from '../organisms/ChartGrossUpAllocation/ChartGrossUpAllocation';
 import { ChartGroupingPositionByClassification } from '../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
 import { ChartLiquidityByPeriod } from '../organisms/ChartLiquidityByPeriod/ChartLiquidityByPeriod';
+import { CardPerformanceAnalysisEarningByClassification } from '../organisms/CardPerformanceAnalysisEarningByClassification/CardPerformanceAnalysisEarningByClassification';
+import { ChartPerformanceAnalysisEarningByClassification } from '../organisms/ChartPerformanceAnalysisEarningByClassification/ChartPerformanceAnalysisEarningByClassification';
 import { NetWorthOverPeriod } from '../organisms/NetWorthOverPeriod/NetWorthOverPeriod';
 import { PerformanceOverPeriod } from '../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
 import { TableGrossUpBySecurity } from '../organisms/TableGrossUpBySecurity/TableGrossUpBySecurity';
@@ -52,6 +54,7 @@ import { TableGrossUpRentability } from '../organisms/TableGrossUpRentability/Ta
 import { TableGroupingRentability } from '../organisms/TableGroupingRentability/TableGroupingRentability';
 import { TableGroupingStockEarning } from '../organisms/TableGroupingStockEarning/TableGroupingStockEarning';
 import { TableLiquiditySecurities } from '../organisms/TableLiquiditySecurities/TableLiquiditySecurities';
+import { TablePerformanceAnalysisEarningByClassification } from '../organisms/TablePerformanceAnalysisEarningByClassification/TablePerformanceAnalysisEarningByClassification';
 import { TableRentabilityHistory } from '../organisms/TableRentabilityHistory/TableRentabilityHistory';
 import { TableTransactions } from '../organisms/TableTransactions/TableTransactions';
 import { TableUpcomingMaturities } from '../organisms/TableUpcomingMaturities/TableUpcomingMaturities';
@@ -102,3 +105,8 @@ widgetRegistry.set('card-liquidity-securities', CardLiquiditySecurities); // mob
 // ─── Movimentações ────────────────────────────────────────────────────────────
 widgetRegistry.set('table-transactions', TableTransactions); // desktop + tablet
 widgetRegistry.set('card-transactions', CardTransactions); // mobile
+
+// ─── Analise de performance ───────────────────────────────────────────────────
+widgetRegistry.set('chart-performance-earning', ChartPerformanceAnalysisEarningByClassification);
+widgetRegistry.set('table-performance-earning', TablePerformanceAnalysisEarningByClassification); // desktop
+widgetRegistry.set('card-performance-earning', CardPerformanceAnalysisEarningByClassification); // mobile

@@ -46,6 +46,7 @@ export type RequestHooksProviderProps = PropsWithChildren<RequestHooksContextVal
 const RequestHooksContext = createContext<RequestHooksContextValue | null>(null);
 
 export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
+  useFetchGenericTableData,
   useFetchPerformanceOverPeriod,
   useFetchNetWorthOverPeriods,
   useFetchSecurityPositionByClass,
@@ -67,6 +68,7 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
   // hook mudar — evita re-renders desnecessários em todos os consumidores
   const value = useMemo<RequestHooksContextValue>(
     () => ({
+      useFetchGenericTableData,
       useFetchPerformanceOverPeriod,
       useFetchNetWorthOverPeriods,
       useFetchSecurityPositionByClass,
@@ -84,6 +86,7 @@ export const RequestHooksProvider: FC<RequestHooksProviderProps> = ({
       useFetchGroupingProcessedPosition,
     }),
     [
+      useFetchGenericTableData,
       useFetchPerformanceOverPeriod,
       useFetchNetWorthOverPeriods,
       useFetchSecurityPositionByClass,

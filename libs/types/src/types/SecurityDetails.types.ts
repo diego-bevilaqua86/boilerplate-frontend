@@ -1,3 +1,5 @@
+import { HierarchicalVariable } from './ClientWallet.types';
+import { PeriodType } from './Common.types';
 import { Security } from './Security.types';
 
 export type SecurityDetailsRequest = {
@@ -95,3 +97,124 @@ export type SecurityPublishedPosition = {
   subscriptionNAVDays: number | null;
   security: Security;
 };
+
+/**********************************************************
+ * Inicio - Tipagens para genericTable
+ ***********************************************************/
+export type SecurityId = {
+  beehusName: string;
+  securityType: string | null;
+  currency: string;
+  mainId: string | null;
+};
+
+export type WalletId = {
+  name: string;
+  currency: string;
+  companyId: string;
+};
+
+export type GroupingId = {
+  name: string;
+  currency: string;
+  companyId: string;
+};
+
+export type EntityId = {
+  name: string | null;
+  country: string | null;
+};
+
+export type ClassificationTableItem = {
+  classLabel: string;
+  balance: number;
+  plPercent: number | null;
+  financialEarnings: number;
+  rentability: number;
+  contributionYield: number;
+};
+
+export type SecurityTableItem = {
+  beehusName: string;
+  balance: number;
+  plPercent: number;
+  financialEarnings: number;
+  rentability: number;
+  contributionYield: number | null;
+  entity: string | null;
+  hierarchicalVariable: HierarchicalVariable & { _id: string };
+};
+
+export type PortfolioData = {
+  _id: string;
+  name: string;
+  currency: string;
+  initialDate: string;
+  finalDate: string;
+  classificationTable: Array<ClassificationTableItem>;
+  securityTable: Array<SecurityTableItem>;
+};
+
+export type TableRow = {
+  securityId: SecurityId;
+  walletId: WalletId;
+  groupingId: GroupingId;
+  entityId: EntityId;
+  variable1: string;
+  variable2: string | null;
+  variable3: string | null;
+  variable4: string | null;
+  variable5: string | null;
+  targetFxContribution: number;
+  targetTotalContribution: number;
+  targetGlobalContribution: number;
+  balanceInTargetFx: number;
+  formerBalanceInTargetFx: number;
+  rentabilityInTargetFx: number;
+  securityPercentualSampleData: number;
+  contributionYieldSampleData: number;
+  accFinancialEarningsInTargetFx: number;
+};
+
+export type HierarchicalData = {
+  variable1: string;
+  variable2: string | null;
+  variable3: string | null;
+  variable4: string | null;
+  variable5: string | null;
+  level: string;
+  balanceInTargetFx: number;
+  rentabilityInTargetFx: number;
+  accFinancialEarningsInTargetFx: number;
+  percentualSampleDataInTargetFx: number;
+  contributionYieldInTargetFx: number;
+};
+
+export type GenericTableData = {
+  initialDate: string;
+  finalDate: string;
+  tableRows: Array<TableRow>;
+  hierarchicalData: Array<HierarchicalData>;
+};
+
+export type GenericTableDataRequestFilter = {
+  groupingId: string;
+  walletId: string;
+  securityId: string;
+};
+
+export type FetchGenericTableDataFilter = {
+  clientId?: string;
+  targetCurrency: string; //(moeda do agrupamento selecionado)
+  period?: PeriodType;
+  initialDate?: string; //(padrão ISO)
+  finalDate?: string; //(padrão ISO)
+  filters?: Array<GenericTableDataRequestFilter>;
+  fullWallets?: boolean;
+  fullGroupings?: boolean;
+  select?: (data: GenericTableData) => GenericTableData;
+};
+
+/**********************************************************
+ * Fim - Tipagens para genericTable
+ ***********************************************************/

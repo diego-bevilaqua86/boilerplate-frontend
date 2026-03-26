@@ -20,6 +20,7 @@
 //     {groupingId, select, finalDate} comum a vários hooks
 
 import {
+  FetchGenericTableDataFilter,
   FetchGrossUpAllocationFilter,
   FetchGrossUpRentabilityFilter,
   FetchLiquidityValuesFilter,
@@ -31,6 +32,7 @@ import {
   FetchStockEarningsFilter,
   FetchTransactionsFilter,
   FetchUpcomingMaturitiesFilter,
+  GenericTableData,
   GrossUpAllocation,
   GrossUpBySecurity,
   GrossUpRentability,
@@ -50,6 +52,10 @@ import {
 import { UseSuspenseQueryResult } from '@tanstack/react-query';
 
 export type RequestHooksContextValue = {
+  useFetchGenericTableData: (filter: FetchGenericTableDataFilter) => UseSuspenseQueryResult<GenericTableData, Error>;
+  // useFetchPerformanceByClassification: (filter: unknown) => UseSuspenseQueryResult<unknown, Error>;
+  // useFetchAvailableFilters: (filter: unknown) => UseSuspenseQueryResult<unknown, Error>;
+
   useFetchNetWorthOverPeriods: (
     filter: FetchNetWorthOverPeriodFilter,
   ) => UseSuspenseQueryResult<NetWorthOverPeriods, Error>;

@@ -32,6 +32,7 @@ import { RequestHooksProvider, RequestHooksProviderProps } from '@boilerplate-fr
 import { ReactRenderer } from '@storybook/react';
 import { DecoratorFunction } from 'storybook/internal/csf';
 import {
+  mockGenericTableData,
   mockGrossUpAllocation,
   mockGrossUpBySecurity,
   mockGrossUpRentability,
@@ -86,6 +87,7 @@ export function createMockHook<T>(data: T) {
 // Props base do provider com todos os mocks mapeados.
 // Exportado para permitir overrides nas stories de estado vazio.
 export const providerProps: RequestHooksProviderProps = {
+  useFetchGenericTableData: createMockHook(mockGenericTableData),
   useFetchNetWorthOverPeriods: createMockHook(netWorthMock),
   useFetchPerformanceOverPeriod: createMockHook(performanceOverPeriodMock),
   useFetchSecurityPositionByClass: createMockHook(securityPositionByClassMock),
