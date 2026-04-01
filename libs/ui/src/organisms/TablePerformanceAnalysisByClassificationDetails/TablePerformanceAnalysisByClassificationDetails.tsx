@@ -1,7 +1,5 @@
-// import './TablePerformanceAnalysisEarningByClassification.scss';
-
 import {
-  ClassificationTableItem,
+  ClientContributionByClassificationTableRow,
   ParameterizedTableFiltersDTO,
   PerformanceRequestFilter,
 } from '@boilerplate-frontend/types';
@@ -20,12 +18,12 @@ import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { usePerformanceAnalysisEarningByClassificationTable } from './usePerformanceAnalysisEarningByClassificationTable';
-import { useTablePerformanceAnalysisEarningByClassificationAdapter } from './useTablePerformanceAnalysisEarningByClassificationAdapter';
+import { usePerformanceAnalysisByClassificationDetailsTable } from './usePerformanceAnalysisByClassificationDetailsTable';
+import { useTablePerformanceAnalysisByClassificationDetailsAdapter } from './useTablePerformanceAnalysisByClassificationDetailsAdapter';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 
-export function TablePerformanceAnalysisEarningByClassification() {
+export function TablePerformanceAnalysisByClassificationDetails() {
   return (
     <BaseWidget>
       <BaseWidget.Header>
@@ -40,7 +38,7 @@ export function TablePerformanceAnalysisEarningByClassification() {
           )}
         >
           <Suspense fallback={<TablePlaceholder size="lg" />}>
-            <TablePerformanceAnalysisEarningByClassificationDataRequest />
+            <TablePerformanceAnalysisByClassificationDetailsDataRequest />
           </Suspense>
         </ErrorBoundary>
       </BaseWidget.Content>
@@ -50,15 +48,14 @@ export function TablePerformanceAnalysisEarningByClassification() {
 
 // ─── Camada de dados ──────────────────────────────────────────────────────────
 
-export function TablePerformanceAnalysisEarningByClassificationDataRequest() {
+export function TablePerformanceAnalysisByClassificationDetailsDataRequest() {
   const { selectedPeriod, selectedGroupingSummary } = useContentRequest();
   const { useFetchAvailableFilters, useFetchGenericTableData } = useRequestHooks();
-
+  const { currentParams } = useTemplateNavigation();
   const { data: availableFilters } = useFetchAvailableFilters({
     groupingId: selectedGroupingSummary._id,
     period: selectedPeriod,
   });
-
   const performanceRequestFilters = availableFilters.map<PerformanceRequestFilter>((filter) => ({
     groupingId: filter.grouping._id,
     walletId: filter.wallet._id,
@@ -76,9 +73,12 @@ export function TablePerformanceAnalysisEarningByClassificationDataRequest() {
 
   const { data } = useFetchGenericTableData(genericTableFilter);
 
-  const { tableData } = useTablePerformanceAnalysisEarningByClassificationAdapter({
+  const classification = currentParams?.classification as string;
+
+  const { adaptedData } = useTablePerformanceAnalysisByClassificationDetailsAdapter({
     genericTableData: data,
     groupingSummary: selectedGroupingSummary,
+    classification,
   });
 
   if (isNullOrUndefined(data)) return <EmptyWidget />;
@@ -86,8 +86,8 @@ export function TablePerformanceAnalysisEarningByClassificationDataRequest() {
   return (
     <Box px="md" pb="md">
       <ScrollArea>
-        <TablePerformanceAnalysisEarningByClassificationContent
-          data={tableData}
+        <TablePerformanceAnalysisByClassificationDetailsContent
+          data={adaptedData}
           currency={selectedGroupingSummary.currency}
         />
       </ScrollArea>
@@ -97,23 +97,16 @@ export function TablePerformanceAnalysisEarningByClassificationDataRequest() {
 
 // ─── Camada de conteúdo ───────────────────────────────────────────────────────
 
-type TablePerformanceAnalysisEarningByClassificationContentProps = {
-  data: Array<ClassificationTableItem>;
+type TablePerformanceAnalysisByClassificationDetailsContentProps = {
+  data: Array<ClientContributionByClassificationTableRow>;
   currency: string;
 };
 
-function TablePerformanceAnalysisEarningByClassificationContent({
+function TablePerformanceAnalysisByClassificationDetailsContent({
   data,
   currency,
-}: TablePerformanceAnalysisEarningByClassificationContentProps) {
-  const { navigateTo } = useTemplateNavigation();
-  const { table } = usePerformanceAnalysisEarningByClassificationTable({
-    data,
-    currency,
-    onAction: (row) => {
-      navigateTo('performance-details', { classification: row.classificationOrSecurity });
-    },
-  });
+}: TablePerformanceAnalysisByClassificationDetailsContentProps) {
+  const { table } = usePerformanceAnalysisByClassificationDetailsTable({ data, currency });
 
   return <BaseTable table={table} />;
 }

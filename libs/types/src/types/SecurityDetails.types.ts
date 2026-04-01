@@ -126,12 +126,26 @@ export type EntityId = {
 };
 
 export type ClassificationTableItem = {
-  classLabel: string;
+  classificationOrSecurity?: string;
+  hierarchicalVariable: HierarchicalVariable;
+  hierarchicalLevel: string;
   balance: number;
-  plPercent: number | null;
+  plPercent: number;
   financialEarnings: number;
   rentability: number;
   contributionYield: number;
+};
+
+export type ClientContributionByClassificationTableRow = {
+  classificationOrSecurity: string;
+  beehusName?: string;
+  plPercent: number;
+  rentability: number;
+  balance: number;
+  financialEarnings: number;
+  contributionYield: number;
+  entity: string;
+  children?: Array<ClientContributionByClassificationTableRow>;
 };
 
 export type SecurityTableItem = {

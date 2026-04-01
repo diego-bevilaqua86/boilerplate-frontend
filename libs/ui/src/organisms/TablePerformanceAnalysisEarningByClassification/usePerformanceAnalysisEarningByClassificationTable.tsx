@@ -52,7 +52,7 @@ export const usePerformanceAnalysisEarningByClassificationTable = ({
 
   const columns = useMemo(
     () => [
-      columnBuilder.accessor('classLabel', {
+      columnBuilder.accessor('classificationOrSecurity', {
         header: ({ column }) => (
           <TableSortingHeader
             headerText={`Classes`}
@@ -180,10 +180,10 @@ export const usePerformanceAnalysisEarningByClassificationTable = ({
       columnBuilder.display({
         id: 'actionsColumn',
         cell: ({ row }) =>
-          row.original.classLabel === `Provisões` ||
-          row.original.classLabel === `Total do portfólio` ||
-          row.original.classLabel === `Ganhos/Despesas` ||
-          row.original.classLabel === `Saldo em conta` ? null : (
+          row.original.classificationOrSecurity === `Provisões` ||
+          row.original.classificationOrSecurity === `Total do portfólio` ||
+          row.original.classificationOrSecurity === `Ganhos/Despesas` ||
+          row.original.classificationOrSecurity === `Saldo em conta` ? null : (
             <TableActionButtons row={row.original} onOpenModalRow={onAction} />
           ),
       }),

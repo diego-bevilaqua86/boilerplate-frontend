@@ -1,5 +1,5 @@
 import { GenericTableData } from '@boilerplate-frontend/types';
-import { currencyFormatter, percentFormatter } from '@boilerplate-frontend/utils';
+import { currencyFormatter, percentFormatter, useTemplateNavigation } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react/macro';
 import { Button, Text } from '@mantine/core';
 import { ArrowCircleUpRightIcon } from '@phosphor-icons/react';
@@ -11,6 +11,7 @@ export const useChartPerformanceAnalysisEarningByClassificationManager = (
   targetCurrency: string,
 ) => {
   const { i18n } = useLingui();
+  const { navigateTo } = useTemplateNavigation();
   const [formatType, setFormatType] = useState<'currency' | 'percentage'>('currency');
   const { earningsByClassificationChartData } = useChartPerformanceAnalysisEarningByClassificationAdapter(
     data,
@@ -66,7 +67,7 @@ export const useChartPerformanceAnalysisEarningByClassificationManager = (
             disabled={
               payload.value === 'Ganhos/Despesas' || payload.value === 'Saldo em conta' || payload.value === 'Total'
             }
-            onClick={() => alert(payload.value)}
+            onClick={() => navigateTo('performance-details', { classification: payload.value })}
             rightSection={
               payload.value !== 'Ganhos/Despesas' && payload.value !== 'Saldo em conta' && payload.value !== 'Total' ? (
                 <ArrowCircleUpRightIcon size={16} />

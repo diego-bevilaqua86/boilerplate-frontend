@@ -136,3 +136,21 @@ export const DEFAULT_SECURITY_DETAILS_TEMPLATE: ResponsiveLayouts<BreakpointKey>
     { i: 'security-transactions', x: 0, y: 39, w: 1, h: 10 },
   ],
 };
+
+export const DEFAULT_PERFORMANCE_ANALYSIS_DETAILS_TEMPLATE: ResponsiveLayouts<BreakpointKey> = {
+  desktop: [
+    { i: 'performance-summary', x: 0, y: 0, w: 12, h: 3 },
+    { i: 'chart-performance-classification', x: 0, y: 0, w: 12, h: 10 },
+    { i: 'table-performance-classification', x: 0, y: 0, w: 12, h: 10 },
+  ],
+  tablet: [
+    { i: 'performance-summary', x: 0, y: 0, w: 12, h: 3 },
+    { i: 'chart-performance-classification', x: 0, y: 0, w: 12, h: 10 },
+    { i: 'table-performance-classification', x: 0, y: 0, w: 12, h: 10 },
+  ],
+  mobile: [
+    { i: 'performance-summary', x: 0, y: 0, w: 1, h: 3 },
+    { i: 'chart-performance-classification', x: 0, y: 0, w: 1, h: 10 },
+    { i: 'table-performance-classification', x: 0, y: 0, w: 1, h: 10 },
+  ],
+};

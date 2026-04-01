@@ -12,4 +12,5 @@ export type ContentRequestContextValue = {
   selectedPeriod: PeriodType;
   palette: Array<string>;
   handleTemplateChange: (template: string) => void | Promise<void>;
+  handleSelectedPeriod: (period: PeriodType) => void;
 };

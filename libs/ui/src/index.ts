@@ -34,6 +34,7 @@ export * from './organisms/TableGrossUpRentability/TableGrossUpRentability';
 export * from './organisms/TableGroupingRentability/TableGroupingRentability';
 export * from './organisms/TableGroupingStockEarning/TableGroupingStockEarning';
 export * from './organisms/TableLiquiditySecurities/TableLiquiditySecurities';
+export * from './organisms/TablePerformanceAnalysisByClassificationDetails/TablePerformanceAnalysisByClassificationDetails';
 export * from './organisms/TablePerformanceAnalysisEarningByClassification/TablePerformanceAnalysisEarningByClassification';
 export * from './organisms/TableRentabilityHistory/TableRentabilityHistory';
 export * from './organisms/TableTransactions/TableTransactions';

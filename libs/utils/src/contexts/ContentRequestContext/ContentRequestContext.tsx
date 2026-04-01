@@ -32,6 +32,10 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
   const [selectedTemplate, setSelectedTemplate] = useState<string>(initialSelectedTemplate);
   const [palette, setPalette] = useState<Array<string>>(initialPalette);
 
+  const handleSelectedPeriod = (period: PeriodType) => {
+    setSelectedPeriod(period);
+  };
+
   const handleTemplateChange = (template: string) => {
     setSelectedTemplate(template);
   };
@@ -46,6 +50,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
       selectedTemplate,
       palette,
       handleTemplateChange,
+      handleSelectedPeriod,
     }),
     [
       availableTemplates,
