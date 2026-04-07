@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import ErrorCard from './ErrorCard';
+import { ErrorCard } from './ErrorCard';
 
 const meta: Meta<typeof ErrorCard> = {
   component: ErrorCard,
