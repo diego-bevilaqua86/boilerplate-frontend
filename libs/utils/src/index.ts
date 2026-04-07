@@ -10,7 +10,7 @@ export {
   type RequestHooksProviderProps,
 } from './contexts/RequestHooksContext/RequestHooksContext';
 export { type RequestHooksContextValue } from './contexts/RequestHooksContext/RequestHooksContext.types';
-export * from './contexts/TemplateNavigationContext/TemplateNavigationContext';
+export * from './contexts/TemplateModalContext/TemplateModalContext';
 
 export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/template';
 
