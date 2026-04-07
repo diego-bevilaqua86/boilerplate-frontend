@@ -2,11 +2,11 @@
 //
 // Manager da variante "Posição" do CardWallet.
 // Renderiza lista acordeão de classificações → filhos → ativos folha.
-// Ao clicar em um ativo folha, dispara navigateTo('security-details').
+// Ao clicar em um ativo folha, dispara handleOpen('security-details').
 // Filtragem por entidade via ModalFilters (mesma lógica do useTableWalletManager).
 
 import { ClientGroupingSecuritiesTableRow, GroupingProcessedPosition } from '@boilerplate-frontend/types';
-import { currencyFormatter, isEmptyArr, percentFormatter, useTemplateNavigation } from '@boilerplate-frontend/utils';
+import { currencyFormatter, isEmptyArr, percentFormatter, useTemplateModal } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Accordion, ActionIcon, Group, Paper, RingProgress, ScrollArea, Stack, Text, Tooltip } from '@mantine/core';
@@ -62,7 +62,7 @@ const InvestmentLeafItem = ({
 
 export const useCardWalletInvestmentsManager = ({ data, palette }: UseCardWalletInvestmentsManagerProps) => {
   const { i18n, _ } = useLingui();
-  const { navigateTo } = useTemplateNavigation();
+  const { handleOpen } = useTemplateModal();
 
   const [filtersModalOpen, toggleFiltersModal] = useToggle([false, true] as const);
   const [selectedEntities, setSelectedEntities] = useState<Array<string>>([]);
@@ -157,7 +157,7 @@ export const useCardWalletInvestmentsManager = ({ data, palette }: UseCardWallet
                                 currency={data.groupingCurrency}
                                 locale={i18n.locale}
                                 onPress={() =>
-                                  navigateTo('security-details', {
+                                  handleOpen('security-details', {
                                     walletId: child.walletId,
                                     securityId: child.securityId,
                                     beehusName: child.classificationOrSecurity,
@@ -191,7 +191,7 @@ export const useCardWalletInvestmentsManager = ({ data, palette }: UseCardWallet
                                         currency={data.groupingCurrency}
                                         locale={i18n.locale}
                                         onPress={() =>
-                                          navigateTo('security-details', {
+                                          handleOpen('security-details', {
                                             walletId: leaf.walletId,
                                             securityId: leaf.securityId,
                                             beehusName: leaf.classificationOrSecurity,
@@ -226,7 +226,7 @@ export const useCardWalletInvestmentsManager = ({ data, palette }: UseCardWallet
       filtersModalOpen,
       toggleFiltersModal,
       handleApplyFilter,
-      navigateTo,
+      handleOpen,
       palette,
     ],
   );

@@ -3,12 +3,7 @@ import {
   ParameterizedTableFiltersDTO,
   PerformanceRequestFilter,
 } from '@boilerplate-frontend/types';
-import {
-  isNullOrUndefined,
-  useContentRequest,
-  useRequestHooks,
-  useTemplateNavigation,
-} from '@boilerplate-frontend/utils';
+import { isNullOrUndefined, useContentRequest, useRequestHooks, useTemplateModal } from '@boilerplate-frontend/utils';
 import { Trans } from '@lingui/react/macro';
 import { Box, ScrollArea, Text } from '@mantine/core';
 import { Suspense } from 'react';
@@ -51,7 +46,7 @@ export function TablePerformanceAnalysisByClassificationDetails() {
 export function TablePerformanceAnalysisByClassificationDetailsDataRequest() {
   const { selectedPeriod, selectedGroupingSummary } = useContentRequest();
   const { useFetchAvailableFilters, useFetchGenericTableData } = useRequestHooks();
-  const { currentParams } = useTemplateNavigation();
+  const { currentParams } = useTemplateModal();
   const { data: availableFilters } = useFetchAvailableFilters({
     groupingId: selectedGroupingSummary._id,
     period: selectedPeriod,

@@ -1,5 +1,5 @@
-// withTemplateNavigationProvider.tsx
-import { TemplateNavigationProvider } from '@boilerplate-frontend/utils';
+// withTemplateModalProvider.tsx
+import { TemplateModalProvider } from '@boilerplate-frontend/utils';
 import { ReactRenderer } from '@storybook/react';
 import { DecoratorFunction } from 'storybook/internal/csf';
 import {
@@ -15,8 +15,8 @@ const renderers = {
   ),
 };
 
-export const withTemplateNavigationProvider: DecoratorFunction<ReactRenderer> = (Story) => (
-  <TemplateNavigationProvider renderers={renderers}>
+export const withTemplateModalProvider: DecoratorFunction<ReactRenderer> = (Story) => (
+  <TemplateModalProvider renderers={renderers}>
     <Story />
-  </TemplateNavigationProvider>
+  </TemplateModalProvider>
 );

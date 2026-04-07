@@ -21,56 +21,37 @@
 //     ),
 //   }}
 
-import { DEFAULT_BREAKPOINTS, DEFAULT_COLS, useTemplateNavigation } from '@boilerplate-frontend/utils';
+import { DEFAULT_BREAKPOINTS, DEFAULT_COLS, isNullOrUndefined, useTemplateModal } from '@boilerplate-frontend/utils';
 import { Trans } from '@lingui/react/macro';
-import { ActionIcon, Box, Group, Text, Tooltip } from '@mantine/core';
+import { ActionIcon, Box, Group, Modal, Text, Tooltip } from '@mantine/core';
 import { ArrowLeftIcon } from '@phosphor-icons/react';
-import { FC, useMemo, useState } from 'react';
-import { Breakpoints, LayoutItem, Responsive, ResponsiveLayouts, useContainerWidth } from 'react-grid-layout';
-import { useRenderWidget } from '../../hooks/useRenderWidget';
+import { FC } from 'react';
+import { Breakpoints, ResponsiveLayouts } from 'react-grid-layout';
+import { WidgetTemplate } from '../WidgetTemplate/WidgetTemplate';
 
 type BreakpointKey = 'desktop' | 'tablet' | 'mobile';
 
 type ModalTemplateProps = {
+  defaultOpened?: boolean;
   title: string;
   layouts: ResponsiveLayouts<BreakpointKey>;
   breakpoints?: Breakpoints<BreakpointKey>;
   cols?: Breakpoints<BreakpointKey>;
 };
 
-const resolveBreakpoint = (width: number): BreakpointKey =>
-  width >= DEFAULT_BREAKPOINTS.desktop ? 'desktop' : width >= DEFAULT_BREAKPOINTS.tablet ? 'tablet' : 'mobile';
-
 export const ModalTemplate: FC<ModalTemplateProps> = ({
+  defaultOpened,
   title,
   layouts,
   breakpoints = DEFAULT_BREAKPOINTS,
   cols = DEFAULT_COLS,
 }) => {
-  const { navigateBack } = useTemplateNavigation();
-  const { width, containerRef, mounted } = useContainerWidth();
-  const { renderWidget } = useRenderWidget();
+  const { opened, handleClose } = useTemplateModal();
 
-  const [currentBreakpoint, setCurrentBreakpoint] = useState<BreakpointKey>(() => resolveBreakpoint(width));
-
-  const allItems = useMemo<LayoutItem[]>(
-    () =>
-      Object.values(layouts)
-        .flat()
-        .reduce<LayoutItem[]>((acc, item) => {
-          if (!acc.find((i) => i.i === item.i)) acc.push(item);
-          return acc;
-        }, []),
-    [layouts],
-  );
-
-  const visibleKeys = useMemo(
-    () => new Set((layouts[currentBreakpoint] ?? []).map((item) => item.i)),
-    [layouts, currentBreakpoint],
-  );
+  const openModal = isNullOrUndefined(defaultOpened) ? opened : defaultOpened;
 
   return (
-    <Box style={{ width: '100%', minHeight: '100vh' }}>
+    <Modal opened={openModal} onClose={handleClose} fullScreen>
       {/* ── Header do template modal ────────────────────────────────────── */}
       <Box
         px="md"
@@ -86,7 +67,7 @@ export const ModalTemplate: FC<ModalTemplateProps> = ({
       >
         <Group gap="sm">
           <Tooltip label={<Trans>Voltar</Trans>} withArrow>
-            <ActionIcon variant="subtle" color="blue" size="md" onClick={navigateBack}>
+            <ActionIcon variant="subtle" color="blue" size="md" onClick={handleClose}>
               <ArrowLeftIcon size={18} />
             </ActionIcon>
           </Tooltip>
@@ -96,34 +77,7 @@ export const ModalTemplate: FC<ModalTemplateProps> = ({
         </Group>
       </Box>
 
-      {/* ── Grid de widgets ─────────────────────────────────────────────── */}
-      <div ref={containerRef} style={{ width: '100%' }}>
-        {mounted && (
-          <Responsive
-            layouts={layouts}
-            width={width || containerRef.current?.offsetWidth || 800}
-            breakpoints={breakpoints}
-            cols={cols}
-            rowHeight={32}
-            style={{ backgroundColor: 'var(--mantine-color-gray-0)' }}
-            onBreakpointChange={(bp) => setCurrentBreakpoint(bp as BreakpointKey)}
-          >
-            {allItems.map((item) => (
-              <div
-                key={item.i}
-                style={{
-                  height: '100%',
-                  overflow: 'hidden',
-                  visibility: visibleKeys.has(item.i) ? 'visible' : 'hidden',
-                  pointerEvents: visibleKeys.has(item.i) ? 'auto' : 'none',
-                }}
-              >
-                {renderWidget(item)}
-              </div>
-            ))}
-          </Responsive>
-        )}
-      </div>
-    </Box>
+      <WidgetTemplate layouts={layouts} breakpoints={breakpoints} cols={cols} />
+    </Modal>
   );
 };

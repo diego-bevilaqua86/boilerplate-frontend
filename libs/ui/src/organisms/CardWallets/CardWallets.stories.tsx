@@ -2,13 +2,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { withContentRequestProvider } from '../../storybook/decorators/withContentRequestProvider';
 import { withRequestHooksProvider } from '../../storybook/decorators/withRequestHooksProvider';
-import { withTemplateNavigationProvider } from '../../storybook/decorators/withTemplateNavigationProvider';
+import { withTemplateModalProvider } from '../../storybook/decorators/withTemplateModalProvider';
 import { CardWallets } from './CardWallets';
 
 const meta: Meta<typeof CardWallets> = {
   component: CardWallets,
   title: 'UI/Organisms/CardWallets',
-  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateNavigationProvider],
+  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateModalProvider],
 };
 
 export default meta;

@@ -5,7 +5,7 @@ import {
   percentFormatter,
   useContentRequest,
   useRequestHooks,
-  useTemplateNavigation,
+  useTemplateModal,
 } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
@@ -39,7 +39,7 @@ export function PerformanceAnalysisSummary() {
 
 export function PerformanceAnalysisSummaryDataRequest() {
   const { _ } = useLingui();
-  const { currentParams } = useTemplateNavigation();
+  const { currentParams } = useTemplateModal();
   const { selectedPeriod, selectedGroupingSummary } = useContentRequest();
   const { useFetchGenericTableData } = useRequestHooks();
 

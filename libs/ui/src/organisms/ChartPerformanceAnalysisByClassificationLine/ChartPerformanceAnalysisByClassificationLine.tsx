@@ -1,4 +1,4 @@
-import { useContentRequest, useRequestHooks, useTemplateNavigation } from '@boilerplate-frontend/utils';
+import { useContentRequest, useRequestHooks, useTemplateModal } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
@@ -31,10 +31,10 @@ export function ChartPerformanceAnalysisByClassificationLine() {
 
 export function ChartPerformanceAnalysisByClassificationLineDataRequest() {
   const { _ } = useLingui();
-  const { currentParams } = useTemplateNavigation();
+  const { currentParams } = useTemplateModal();
   const classification = currentParams?.classification as string;
 
-  // const { currentParams } = useTemplateNavigation();
+  // const { currentParams } = useTemplateModal();
   const { selectedPeriod, selectedGroupingSummary } = useContentRequest();
   const { useFetchPerformanceByClassification } = useRequestHooks();
 

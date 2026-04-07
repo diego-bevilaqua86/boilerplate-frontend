@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { withContentRequestProvider } from '../../storybook/decorators/withContentRequestProvider';
 import { withRequestHooksProvider } from '../../storybook/decorators/withRequestHooksProvider';
-import { withTemplateNavigationProvider } from '../../storybook/decorators/withTemplateNavigationProvider';
+import { withTemplateModalProvider } from '../../storybook/decorators/withTemplateModalProvider';
 import { TablePerformanceAnalysisEarningByClassification } from './TablePerformanceAnalysisEarningByClassification';
 
 const meta = {
   component: TablePerformanceAnalysisEarningByClassification,
   title: 'UI/Organisms/TablePerformanceAnalysisEarningByClassification',
-  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateNavigationProvider],
+  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateModalProvider],
 } satisfies Meta<typeof TablePerformanceAnalysisEarningByClassification>;
 export default meta;
 

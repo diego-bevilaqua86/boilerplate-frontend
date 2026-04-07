@@ -5,12 +5,7 @@ import {
   ParameterizedTableFiltersDTO,
   PerformanceRequestFilter,
 } from '@boilerplate-frontend/types';
-import {
-  isNullOrUndefined,
-  useContentRequest,
-  useRequestHooks,
-  useTemplateNavigation,
-} from '@boilerplate-frontend/utils';
+import { isNullOrUndefined, useContentRequest, useRequestHooks, useTemplateModal } from '@boilerplate-frontend/utils';
 import { Trans } from '@lingui/react/macro';
 import { Box, ScrollArea, Text } from '@mantine/core';
 import { Suspense } from 'react';
@@ -106,12 +101,12 @@ function TablePerformanceAnalysisEarningByClassificationContent({
   data,
   currency,
 }: TablePerformanceAnalysisEarningByClassificationContentProps) {
-  const { navigateTo } = useTemplateNavigation();
+  const { handleOpen } = useTemplateModal();
   const { table } = usePerformanceAnalysisEarningByClassificationTable({
     data,
     currency,
     onAction: (row) => {
-      navigateTo('performance-details', { classification: row.classificationOrSecurity });
+      handleOpen('performance-details', { classification: row.classificationOrSecurity });
     },
   });
 

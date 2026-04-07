@@ -6,7 +6,7 @@
 // Chave no registry: 'security-transactions'
 
 import { TransactionPopulated } from '@boilerplate-frontend/types';
-import { isNullOrUndefined, useRequestHooks, useTemplateNavigation } from '@boilerplate-frontend/utils';
+import { isNullOrUndefined, useRequestHooks, useTemplateModal } from '@boilerplate-frontend/utils';
 import { Trans } from '@lingui/react/macro';
 import { Text } from '@mantine/core';
 import { Suspense } from 'react';
@@ -37,7 +37,7 @@ export const SecurityDetailsTransactions = () => (
 );
 
 const SecurityDetailsTransactionsDataRequest = () => {
-  const { currentParams } = useTemplateNavigation();
+  const { currentParams } = useTemplateModal();
   const { useFetchSecurityTransactions } = useRequestHooks();
 
   const walletId = (currentParams?.walletId as string) ?? '';
