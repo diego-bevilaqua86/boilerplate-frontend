@@ -55,6 +55,7 @@ Elemento visual mínimo. Não tem estado próprio. Não usa contextos de dados. 
 - [ ] Sem chamadas diretas de contextos do domínio (`useTemplateModal`, `useContentRequest`)
 - [ ] Comportamento determinado 100% pelas props recebidas
 - [ ] Testável com render simples, sem providers
+- [ ] Arquivo `<Componente>.stories.tsx` criado com título `'UI/Atoms/<Componente>'`
 
 ---
 
@@ -103,6 +104,7 @@ Composição de um ou mais átomos com uma responsabilidade única bem definida.
 - [ ] Estado local permitido apenas para UI (abrir modal, valor de input)
 - [ ] Props tipadas explicitamente — sem `any`
 - [ ] Não registrada no `widgetRegistry`
+- [ ] Arquivo `<Componente>.stories.tsx` criado com título `'UI/Molecules/<Componente>'`
 
 ---
 
@@ -161,6 +163,7 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
 - [ ] Registrado no `widgetRegistry` com chave `<tipo>-<domínio>-<recurso>`
 - [ ] Hooks de dados consumidos exclusivamente via `useRequestHooks()`
 - [ ] Adapters chamados na Camada 2 — nunca no View
+- [ ] Arquivo `<Componente>.stories.tsx` criado com título `'UI/Organisms/<Componente>'`
 
 ---
 
