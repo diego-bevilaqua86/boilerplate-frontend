@@ -296,7 +296,7 @@ libs/ui/src/registry/widgetRegistry.ts
 ## 9. Templates disponíveis
 
 | Constante                                       | Chave                 | Status                   |
-| ----------------------------------------------  | --------------------- | ------------------------ |
+| ----------------------------------------------- | --------------------- | ------------------------ |
 | `DEFAULT_DASHBOARD_TEMPLATE`                    | —                     | ✔ Pronto                 |
 | `DEFAULT_WALLET_TEMPLATE`                       | —                     | ✔ Pronto                 |
 | `DEFAULT_GROSS_UP_TEMPLATE`                     | —                     | ✔ Pronto                 |
@@ -391,23 +391,23 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 
 **Widgets restantes:**
 
-| Widget                     | Manager a eliminar                           | Ação                                                  |
-| -------------------------- | -------------------------------------------- | ----------------------------------------------------- |
-| `TableWallets`             | `useTableWalletManager`                      | Deletar manager; mover estado para `TableWalletView`  |
-| `CardWallets`              | `useCardWalletInvestmentsManager`            | Deletar manager; mover estado para View correspondente|
-| `CardWallets`              | `useCardWalletProvisionsManager`             | Deletar manager; mover estado para View correspondente|
-| `CardWallets`              | `useCardWalletBalanceManager`                | Deletar manager; mover estado para View correspondente|
-| `TableTransactions`        | `useTableTransactionsManager`                | Deletar manager; mover estado para `TableTransactionsView` |
-| `TableLiquiditySecurities` | `useTableLiquiditySecuritiesManager`         | Deletar manager; mover estado para View correspondente|
-| `CardLiquiditySecurities`  | `useCardLiquiditySecuritiesManager`          | Deletar manager; mover estado para View correspondente|
-| `CardUpcomingMaturities`   | `useCardUpcomingMaturitiesManager`           | Deletar manager; mover estado para View correspondente|
-| `TableGrossUpBySecurity`   | `useGrossUpBySecurityTable` (hook de tabela) | sem View — já é atômico                               |
-| `CardGrossUpBySecurity`    | `useCardGrossUpBySecurityManager`            | Deletar manager; mover estado para View correspondente|
-| `CardGrossUpRentability`   | `useCardGrossUpRentabilityManager`           | Deletar manager; mover estado para View correspondente|
-| `CardPerformanceAnalysisEarningByClassification` | `useCardPerformanceAnalysisEarningByClassificationManager` | Deletar manager; retorna JSX — mover estado para View |
-| `ChartPerformanceAnalysisEarningByClassification` | `useChartPerformanceAnalysisEarningByClassificationManager` | Deletar manager; mover estado para View |
-| `TablePerformanceAnalysisByClassificationDetails` | `usePerformanceAnalysisByClassificationDetailsTable` | Deletar hook de tabela; JSX de colunas vai para View |
-| `TablePerformanceAnalysisEarningByClassification` | `usePerformanceAnalysisEarningByClassificationTable` | Deletar hook de tabela; JSX de colunas vai para View |
+| Widget                                            | Manager a eliminar                                          | Ação                                                       |
+| ------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------- |
+| `TableWallets`                                    | `useTableWalletManager`                                     | Deletar manager; mover estado para `TableWalletView`       |
+| `CardWallets`                                     | `useCardWalletInvestmentsManager`                           | Deletar manager; mover estado para View correspondente     |
+| `CardWallets`                                     | `useCardWalletProvisionsManager`                            | Deletar manager; mover estado para View correspondente     |
+| `CardWallets`                                     | `useCardWalletBalanceManager`                               | Deletar manager; mover estado para View correspondente     |
+| `TableTransactions`                               | `useTableTransactionsManager`                               | Deletar manager; mover estado para `TableTransactionsView` |
+| `TableLiquiditySecurities`                        | `useTableLiquiditySecuritiesManager`                        | Deletar manager; mover estado para View correspondente     |
+| `CardLiquiditySecurities`                         | `useCardLiquiditySecuritiesManager`                         | Deletar manager; mover estado para View correspondente     |
+| `CardUpcomingMaturities`                          | `useCardUpcomingMaturitiesManager`                          | Deletar manager; mover estado para View correspondente     |
+| `TableGrossUpBySecurity`                          | `useGrossUpBySecurityTable` (hook de tabela)                | sem View — já é atômico                                    |
+| `CardGrossUpBySecurity`                           | `useCardGrossUpBySecurityManager`                           | Deletar manager; mover estado para View correspondente     |
+| `CardGrossUpRentability`                          | `useCardGrossUpRentabilityManager`                          | Deletar manager; mover estado para View correspondente     |
+| `CardPerformanceAnalysisEarningByClassification`  | `useCardPerformanceAnalysisEarningByClassificationManager`  | Deletar manager; retorna JSX — mover estado para View      |
+| `ChartPerformanceAnalysisEarningByClassification` | `useChartPerformanceAnalysisEarningByClassificationManager` | Deletar manager; mover estado para View                    |
+| `TablePerformanceAnalysisByClassificationDetails` | `usePerformanceAnalysisByClassificationDetailsTable`        | Deletar hook de tabela; JSX de colunas vai para View       |
+| `TablePerformanceAnalysisEarningByClassification` | `usePerformanceAnalysisEarningByClassificationTable`        | Deletar hook de tabela; JSX de colunas vai para View       |
 
 ✅ **Concluído:** `CardTransactions` — referência canônica do novo padrão.
 
@@ -428,12 +428,12 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 
 **Arquivos alterados:**
 
-| Arquivo                                               | Alteração                                                          |
-| ----------------------------------------------------- | ------------------------------------------------------------------ |
-| `TemplateNavigationContext.tsx`                       | Renomeado para `TemplateModalContext.tsx`                          |
-| `useTemplateNavigation()`                             | Renomeado para `useTemplateModal()`; API: `handleOpen`/`handleClose` |
-| `withTemplateNavigationProvider.tsx`                  | Renomeado para `withTemplateModalProvider.tsx`; usa `ModalTemplate` real |
-| `libs/utils/src/index.ts`                             | Exporta de `TemplateModalContext`                                  |
+| Arquivo                              | Alteração                                                                |
+| ------------------------------------ | ------------------------------------------------------------------------ |
+| `TemplateNavigationContext.tsx`      | Renomeado para `TemplateModalContext.tsx`                                |
+| `useTemplateNavigation()`            | Renomeado para `useTemplateModal()`; API: `handleOpen`/`handleClose`     |
+| `withTemplateNavigationProvider.tsx` | Renomeado para `withTemplateModalProvider.tsx`; usa `ModalTemplate` real |
+| `libs/utils/src/index.ts`            | Exporta de `TemplateModalContext`                                        |
 
 **Localização:**
 

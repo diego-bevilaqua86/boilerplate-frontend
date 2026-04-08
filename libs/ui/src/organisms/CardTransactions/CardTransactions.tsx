@@ -29,7 +29,6 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
-import { ModalFilters } from '../../molecules/ModalFilters/ModalFilters';
 import { SearchFilterBar } from '../../molecules/SearchFilterBar/SearchFilterBar';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { ModalTransactionDetails } from '../TableTransactions/ModalTransactionDetails';
@@ -80,7 +79,6 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
   const { TRANSACTION_TYPES_MAPPING } = getTransactionMappings();
 
   const [searchInput, setSearchInput] = useDebouncedState('', 50);
-  const [filtersModalOpen, toggleFiltersModal] = useToggle([false, true] as const);
   const [selectedTransactionTypes, setSelectedTransactionTypes] = useState<Array<string>>([]);
   const [detailsModalOpen, toggleDetailsModal] = useToggle([false, true] as const);
   const [selectedTransaction, setSelectedTransaction] = useState<TransactionPopulated | null>(null);
@@ -99,11 +97,6 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
       );
   }, [data, selectedTransactionTypes, searchInput]);
 
-  const handleApplyFilter = (selected: Array<string>) => {
-    setSelectedTransactionTypes(selected);
-    toggleFiltersModal();
-  };
-
   const handleOpenDetailsModal = (transaction: TransactionPopulated) => {
     setSelectedTransaction(transaction);
     toggleDetailsModal();
@@ -116,27 +109,6 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
 
   return (
     <>
-      {/* Modal de filtros */}
-      <ModalFilters
-        opened={filtersModalOpen}
-        onClose={toggleFiltersModal}
-        onSubmit={handleApplyFilter}
-        title={_(msg`Filtros`)}
-        data={data}
-        selectedValues={selectedTransactionTypes}
-        filterOptions={[
-          {
-            title: _(msg`Tipo de operação`),
-            key: 'beehusTransactionType',
-            translate: TRANSACTION_TYPES_MAPPING,
-          },
-          {
-            title: _(msg`Instituição financeira`),
-            key: 'entityId.name' as keyof TransactionPopulated,
-          },
-        ]}
-      />
-
       {/* Modal de detalhes */}
       {selectedTransaction !== null && (
         <ModalTransactionDetails
@@ -152,9 +124,25 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
           placeholder={_(msg`Pesquisar movimentações...`)}
           defaultValue={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          onFilterClick={toggleFiltersModal}
           hasActiveFilters={selectedTransactionTypes.length > 0}
           isFilterDisabled={isEmptyArr(data)}
+          filtersProps={{
+            onSubmit: setSelectedTransactionTypes,
+            title: _(msg`Filtros`),
+            data,
+            selectedValues: selectedTransactionTypes,
+            filterOptions: [
+              {
+                title: _(msg`Tipo de operação`),
+                key: 'beehusTransactionType',
+                translate: TRANSACTION_TYPES_MAPPING,
+              },
+              {
+                title: _(msg`Instituição financeira`),
+                key: 'entityId.name' as keyof TransactionPopulated,
+              },
+            ],
+          }}
         />
 
         {/* Lista de cards ou estado vazio */}
