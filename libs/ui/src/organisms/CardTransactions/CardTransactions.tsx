@@ -22,15 +22,15 @@ import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } fro
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { ActionIcon, Group, ScrollArea, Stack, Text, TextInput, Tooltip } from '@mantine/core';
+import { ScrollArea, Stack, Text } from '@mantine/core';
 import { useDebouncedState, useToggle } from '@mantine/hooks';
-import { FunnelIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { Suspense, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { ModalFilters } from '../../molecules/ModalFilters/ModalFilters';
+import { SearchFilterBar } from '../../molecules/SearchFilterBar/SearchFilterBar';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { ModalTransactionDetails } from '../TableTransactions/ModalTransactionDetails';
 import { TransactionItem } from './TransactionItem';
@@ -95,7 +95,7 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
         selectedTransactionTypes.length === 0 ? true : selectedTransactionTypes.includes(t.beehusTransactionType ?? ''),
       )
       .filter((t) =>
-        searchInput === '' ? true : t.securityId?.beehusName.toLowerCase().includes(searchInput.toLowerCase()),
+        searchInput === '' ? true : (t.securityId?.beehusName ?? '').toLowerCase().includes(searchInput.toLowerCase()),
       );
   }, [data, selectedTransactionTypes, searchInput]);
 
@@ -148,26 +148,14 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
 
       <Stack gap={0}>
         {/* Barra de busca + botão de filtros */}
-        <Group px="md" py="sm" gap="xs">
-          <TextInput
-            placeholder={_(msg`Pesquisar movimentações...`)}
-            leftSection={<MagnifyingGlassIcon size={14} />}
-            defaultValue={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            style={{ flex: 1 }}
-            size="xs"
-          />
-          <Tooltip label={_(msg`Filtrar`)} withArrow>
-            <ActionIcon
-              variant={selectedTransactionTypes.length > 0 ? 'filled' : 'default'}
-              size="md"
-              onClick={() => toggleFiltersModal()}
-              disabled={isEmptyArr(data)}
-            >
-              <FunnelIcon size={14} />
-            </ActionIcon>
-          </Tooltip>
-        </Group>
+        <SearchFilterBar
+          placeholder={_(msg`Pesquisar movimentações...`)}
+          defaultValue={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onFilterClick={toggleFiltersModal}
+          hasActiveFilters={selectedTransactionTypes.length > 0}
+          isFilterDisabled={isEmptyArr(data)}
+        />
 
         {/* Lista de cards ou estado vazio */}
         <ScrollArea>

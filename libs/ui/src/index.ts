@@ -9,6 +9,7 @@ export * from './molecules/EmptyWidget/EmptyWidget';
 export * from './molecules/ErrorCard/ErrorCard';
 export * from './molecules/LineChart/LineChart';
 export * from './molecules/ModalFilters/ModalFilters';
+export * from './molecules/SearchFilterBar/SearchFilterBar';
 export * from './molecules/TablePlaceholder/TablePlaceholder';
 export * from './organisms/CardGrossUpBySecurity/CardGrossUpBySecurity';
 export * from './organisms/CardGrossUpRentability/CardGrossUpRentability';

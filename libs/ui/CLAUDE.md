@@ -146,8 +146,8 @@ libs/ui/src/
 Sempre que mudar algo público em `libs/ui`, verifique impacto:
 
 ```bash
-pnpm nx graph                    # visualiza dependentes
-pnpm nx affected -t typecheck    # roda typecheck só no afetado
+npm nx graph                    # visualiza dependentes
+npm nx affected -t typecheck    # roda typecheck só no afetado
 ```
 
 ---
@@ -155,10 +155,10 @@ pnpm nx affected -t typecheck    # roda typecheck só no afetado
 ## Comandos desta lib
 
 ```bash
-pnpm nx lint ui
-pnpm nx typecheck ui
-pnpm nx test ui
-pnpm nx storybook ui
+npm nx lint ui
+npm nx typecheck ui
+npm nx test ui
+npm nx storybook ui
 ```
 
 ---

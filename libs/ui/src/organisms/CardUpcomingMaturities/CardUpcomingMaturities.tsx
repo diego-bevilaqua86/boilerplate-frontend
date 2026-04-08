@@ -1,16 +1,18 @@
 // CardUpcomingMaturities.tsx
 import { UpcomingMaturities } from '@boilerplate-frontend/types';
 import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { msg } from '@lingui/core/macro';
+import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { ActionIcon, Group, ScrollArea, Stack, Text, TextInput } from '@mantine/core';
+import { ScrollArea, Stack, Text } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
-import { FunnelIcon, MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { ModalFilters } from '../../molecules/ModalFilters/ModalFilters';
+import { SearchFilterBar } from '../../molecules/SearchFilterBar/SearchFilterBar';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { UpcomingMaturitiesCard } from './UpcomingMaturitiesCard';
 import { useManageModalFilter } from './useManageModalFilter';
@@ -95,6 +97,7 @@ const CardUpcomingMaturitiesList = ({
   selectedItems,
   onToggleModal,
 }: CardUpcomingMaturitiesListProps) => {
+  const { _ } = useLingui();
   const [searchInput, setSearchInput] = useDebouncedState('', 50);
 
   const filteredData = useMemo(() => {
@@ -105,24 +108,19 @@ const CardUpcomingMaturitiesList = ({
     return searchInput === ''
       ? byEntity
       : byEntity.filter((t) =>
-          t?.securityName?.toLowerCase().includes(searchInput.toLowerCase()),
+          (t.securityName ?? '').toLowerCase().includes(searchInput.toLowerCase()),
         );
   }, [data, selectedItems, searchInput]);
 
   return (
     <Stack gap={0}>
       {/* Barra de busca e filtro */}
-      <Group px="md" py="sm" gap="sm">
-        <ActionIcon variant="default" onClick={onToggleModal}>
-          <FunnelIcon weight="duotone" />
-        </ActionIcon>
-        <TextInput
-          flex={1}
-          placeholder="Pesquisar vencimentos..."
-          leftSection={<MagnifyingGlassIcon size={14} />}
-          onChange={(e) => setSearchInput((e.currentTarget as HTMLInputElement).value)}
-        />
-      </Group>
+      <SearchFilterBar
+        placeholder={_(msg`Pesquisar vencimentos...`)}
+        onChange={(e) => setSearchInput(e.target.value)}
+        onFilterClick={onToggleModal}
+        hasActiveFilters={selectedItems.length > 0}
+      />
 
       {/* Lista de cards */}
       <ScrollArea>

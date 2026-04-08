@@ -49,19 +49,19 @@ Sempre prefira rodar comandos no escopo da lib/app afetada — é muito mais rá
 
 ```bash
 # Escopo específico (recomendado)
-pnpm nx lint ui
-pnpm nx typecheck ui
-pnpm nx test ui
-pnpm nx storybook ui
+npm nx lint ui
+npm nx typecheck ui
+npm nx test ui
+npm nx storybook ui
 
 # Monorepo inteiro (use só quando necessário)
-pnpm nx run-many -t lint
-pnpm nx run-many -t typecheck
-pnpm nx affected -t test    # roda só no que foi alterado
+npm nx run-many -t lint
+npm nx run-many -t typecheck
+npm nx affected -t test    # roda só no que foi alterado
 ```
 
 > O `package.json` raiz tem `scripts: {}` vazio.
-> Todos os comandos de build/test/lint são executados via `pnpm nx ...` diretamente.
+> Todos os comandos de build/test/lint são executados via `npm nx ...` diretamente.
 
 ---
 
@@ -69,8 +69,8 @@ pnpm nx affected -t test    # roda só no que foi alterado
 
 Mudanças em `libs/` afetam TODOS os apps consumidores. Antes de fazer breaking changes em APIs públicas de qualquer lib:
 
-1. Verifique quem consome com `pnpm nx graph` ou `grep -r` nos apps
-2. Rode `pnpm nx affected -t typecheck` pra ver o impacto
+1. Verifique quem consome com `npm nx graph` ou `grep -r` nos apps
+2. Rode `npm nx affected -t typecheck` pra ver o impacto
 3. Refatorações internas (ex: separar manager/View em widgets) NÃO devem alterar a API pública dos componentes exportados
 
 ---
@@ -89,5 +89,5 @@ Mudanças em `libs/` afetam TODOS os apps consumidores. Antes de fazer breaking 
 - Imports entre libs/apps: sempre via nome do pacote (`@boilerplate-frontend/utils`, não `../../../`)
   — resolvidos por workspace package names, não por path aliases no tsconfig
 - i18n sempre via Lingui — nunca strings hardcoded em UI
-- Antes de commitar (recomendação manual — não há hooks automáticos): `pnpm nx affected -t lint typecheck`
+- Antes de commitar (recomendação manual — não há hooks automáticos): `npm nx affected -t lint typecheck`
 - Utilitários de `libs/utils` usados dentro de componentes React devem ser hooks (`useXxx`) — ex: `useCurrencyFormatter`, `useGenericTableToPortfolioDataAdapter`
