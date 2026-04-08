@@ -2,9 +2,12 @@
 
 Esta lib contém todos os componentes visuais reutilizáveis do monorepo. É consumida por **todos os apps** (`admin`, `authentication`, futuros). Mudanças aqui têm impacto amplo — sempre verifique consumidores antes de refatorar APIs públicas.
 
-**Documentação completa de arquitetura:** `libs/ui/docs/widget-architecture.md`
+**Documentação de arquitetura:**
+- Widgets e fluxo de dados: `libs/ui/docs/widget-architecture.md`
+- Classificação de componentes (atomic design): `libs/ui/docs/component-architecture.md`
 
 @docs/widget-architecture.md
+@docs/component-architecture.md
 
 ---
 
@@ -93,7 +96,7 @@ libs/ui/src/
 
   molecules/
     BarChart, BaseTable, BaseWidget, DoughnutChart,
-    EmptyWidget, ErrorCard, LineChart, ModalFilters, TablePlaceholder
+    EmptyWidget, ErrorCard, LineChart, ModalFilters, SearchFilterBar, TablePlaceholder
 
   organisms/<NomeWidget>/
     <NomeWidget>.tsx              ← composição das 3 camadas
