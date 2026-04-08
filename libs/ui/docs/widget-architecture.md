@@ -23,7 +23,7 @@ O sistema de widgets é uma camada de UI responsiva construída sobre `react-gri
 
 ```
 Host (aplicação)
-  └── TemplateNavigationProvider (futuro: ModalTemplateProvider)
+  └── ModalTemplateProvider
         └── ContentRequestProvider
               └── RequestHooksProvider
                     └── WidgetTemplate (grid)
@@ -181,39 +181,32 @@ libs/utils/src/contexts/ContentRequestContext/
 
 ## 7. Navegação entre templates — ModalTemplateContext
 
-> ⚠️ **Em migração:** atualmente implementado como `TemplateNavigationContext`. A migração para `ModalTemplateContext` está planejada — ver [Tarefa 2](#tarefa-2--migração-templatenavigationcontext--modaltemplatecontext).
-
 ### Problema resolvido
 
 Alguns widgets precisam abrir um template filho completo ao ser clicados (ex: `TableWallet` → `SecurityDetailsTemplate`). O widget não pode conhecer o router ou a estrutura de rotas da aplicação.
 
-### Implementação atual (`TemplateNavigationContext`)
+### Implementação atual
 
-O provider troca os `children` pelo renderer do template filho quando `navigateTo` é chamado. **Problema:** isso desmonta o template pai, perdendo estado dos widgets (filtros, expand de linhas, variante ativa).
-
-### Implementação futura (`ModalTemplateContext`)
-
-O provider **mantém o template pai montado** e abre um `Modal` do Mantine por cima, preservando todo o estado.
+O provider **mantém o template pai montado** e abre um `Modal` do Mantine por cima, preservando todo o estado dos widgets (filtros, expand de linhas, variante ativa).
 
 ```
-Estado atual:                    Estado futuro:
-                                 ┌─────────────────────┐
-navigateTo() →                   │  Modal (Mantine)     │
-  desmonta pai    →               │  ModalTemplate       │
-  monta filho                     │  (template filho)    │
-                                 └─────────────────────┘
-                                 ┌─────────────────────┐
-                                 │  WidgetTemplate pai  │
-                                 │  (preservado)        │
-                                 └─────────────────────┘
+navigateTo() →
+  ┌─────────────────────┐
+  │  Modal (Mantine)     │
+  │  ModalTemplate       │
+  │  (template filho)    │
+  └─────────────────────┘
+  ┌─────────────────────┐
+  │  WidgetTemplate pai  │
+  │  (preservado)        │
+  └─────────────────────┘
 ```
 
-### API (atual e futura — mesma interface para os widgets)
+### API
 
 ```tsx
 // Em qualquer widget
-const { navigateTo, navigateBack, currentParams } = useTemplateNavigation();
-// futuro: useModalTemplate()
+const { navigateTo, navigateBack, currentParams } = useTemplateModal();
 
 navigateTo('security-details', {
   walletId,
@@ -226,15 +219,14 @@ navigateTo('security-details', {
 Os widgets do template filho leem `currentParams` para buscar seus dados:
 
 ```tsx
-const { currentParams } = useTemplateNavigation();
+const { currentParams } = useTemplateModal();
 const walletId = (currentParams?.walletId as string) ?? '';
 ```
 
 ```
-libs/utils/src/contexts/TemplateNavigationContext/   ← atual
-libs/utils/src/contexts/ModalTemplateContext/        ← futuro
+libs/utils/src/contexts/TemplateModalContext/
 libs/ui/src/templates/ModalTemplate/                 ← template filho
-libs/ui/src/storybook/decorators/withTemplateNavigationProvider.tsx
+libs/ui/src/storybook/decorators/withTemplateModalProvider.tsx
 ```
 
 ---
@@ -304,7 +296,7 @@ libs/utils/src/constants/template.tsx
    e adicione ao providerProps em withRequestHooksProvider.tsx
 
 7. Se o widget chama navigateTo(), adicione
-   withTemplateNavigationProvider ao meta do story
+   withTemplateModalProvider ao meta do story
 ```
 
 ---
@@ -315,7 +307,7 @@ libs/utils/src/constants/template.tsx
 
 - [x] Arquitetura de widgets (três camadas, registry, grid)
 - [x] RequestHooksContext, ContentRequestContext
-- [x] TemplateNavigationContext + ModalTemplate
+- [x] TemplateModalContext + ModalTemplate
 - [x] Dashboard, Gross Up, Liquidez, Vencimentos, Movimentações
 - [x] Detalhamento de ativo, Carteira
 - [ ] Análise de Performance _(José)_
@@ -372,6 +364,10 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 | `TableGrossUpBySecurity`   | `useGrossUpBySecurityTable` (hook de tabela) | sem View — já é atômico                               |
 | `CardGrossUpBySecurity`    | `useCardGrossUpBySecurityManager`            | Deletar manager; mover estado para View correspondente|
 | `CardGrossUpRentability`   | `useCardGrossUpRentabilityManager`           | Deletar manager; mover estado para View correspondente|
+| `CardPerformanceAnalysisEarningByClassification` | `useCardPerformanceAnalysisEarningByClassificationManager` | Deletar manager; retorna JSX — mover estado para View |
+| `ChartPerformanceAnalysisEarningByClassification` | `useChartPerformanceAnalysisEarningByClassificationManager` | Deletar manager; mover estado para View |
+| `TablePerformanceAnalysisByClassificationDetails` | `usePerformanceAnalysisByClassificationDetailsTable` | Deletar hook de tabela; JSX de colunas vai para View |
+| `TablePerformanceAnalysisEarningByClassification` | `usePerformanceAnalysisEarningByClassificationTable` | Deletar hook de tabela; JSX de colunas vai para View |
 
 ✅ **Concluído:** `CardTransactions` — referência canônica do novo padrão.
 
@@ -384,79 +380,24 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 
 ---
 
-### Tarefa 2 — Migração TemplateNavigationContext → ModalTemplateContext
+### Tarefa 2 — Migração TemplateNavigationContext → ModalTemplateContext ✅
 
-**Motivação:** a implementação atual substitui o template pai pelo filho, desmontando todos os widgets do pai e perdendo estado (filtros ativos, linhas expandidas, variante selecionada no SegmentedControl).
+**Motivação:** a implementação anterior substituía o template pai pelo filho, desmontando todos os widgets do pai e perdendo estado (filtros ativos, linhas expandidas, variante selecionada no SegmentedControl).
 
-**Solução:** o provider passa a abrir um `Modal` do Mantine por cima do template pai, que permanece montado.
+**Solução implementada:** o provider abre um `Modal` do Mantine por cima do template pai, que permanece montado.
 
-**Alterações necessárias:**
+**Arquivos alterados:**
 
-**`ModalTemplateContext.tsx`** (novo, substituindo `TemplateNavigationContext.tsx`):
+| Arquivo                                               | Alteração                                                          |
+| ----------------------------------------------------- | ------------------------------------------------------------------ |
+| `TemplateNavigationContext.tsx`                       | Renomeado para `TemplateModalContext.tsx`; usa `Modal` do Mantine  |
+| `useTemplateNavigation()`                             | Renomeado para `useTemplateModal()`                                |
+| `withTemplateNavigationProvider.tsx`                  | Renomeado para `withTemplateModalProvider.tsx`                     |
+| `libs/utils/src/index.ts`                             | Exporta de `TemplateModalContext`                                  |
 
-```tsx
-// Diferenças em relação ao atual:
-// - Estado: modalOpened (boolean) + currentTemplateId + currentParams
-// - Renderização: Modal do Mantine wrappa o renderer, não substitui children
-// - API pública idêntica para os widgets: navigateTo / navigateBack / currentParams
+**Localização:**
 
-export const ModalTemplateProvider: FC<ModalTemplateProviderProps> = ({ renderers, children }) => {
-  const [currentTemplateId, setCurrentTemplateId] = useState<string | null>(null);
-  const [currentParams, setCurrentParams] = useState<TemplateNavigationParams | undefined>(undefined);
-
-  const navigateTo = useCallback((templateId, params) => {
-    setCurrentParams(params);
-    setCurrentTemplateId(templateId);
-  }, []);
-
-  const navigateBack = useCallback(() => {
-    setCurrentTemplateId(null);
-    setCurrentParams(undefined);
-  }, []);
-
-  const activeRenderer = currentTemplateId ? renderers[currentTemplateId] : null;
-
-  return (
-    <ModalTemplateContext.Provider value={{ navigateTo, navigateBack, currentParams, currentTemplateId }}>
-      {children} {/* ← pai permanece montado */}
-      <Modal
-        opened={currentTemplateId !== null}
-        onClose={navigateBack}
-        fullScreen
-        withCloseButton={false} // ModalTemplate tem seu próprio header
-      >
-        {activeRenderer?.(currentParams)}
-      </Modal>
-    </ModalTemplateContext.Provider>
-  );
-};
 ```
-
-**Arquivos a alterar:**
-
-| Arquivo                                               | Alteração                                                                                                                                            |
-| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `TemplateNavigationContext.tsx`                       | Renomear para `ModalTemplateContext.tsx`, adicionar `Modal` do Mantine                                                                               |
-| `useTemplateNavigation()`                             | Renomear para `useModalTemplate()`                                                                                                                   |
-| `ModalTemplate.tsx`                                   | Remover lógica de header fixo de voltar — o `Modal` do Mantine provê o comportamento de fechar; o botão de voltar permanece mas chama `closeModal()` |
-| `withTemplateNavigationProvider.tsx`                  | Renomear para `withModalTemplateProvider.tsx`                                                                                                        |
-| `useInvestmentPositionTable.tsx`                      | Atualizar import: `useTemplateNavigation` → `useModalTemplate`                                                                                       |
-| `useCardWalletInvestmentsManager.tsx`                 | Atualizar import                                                                                                                                     |
-| Todos os widgets que chamam `navigateTo`              | Atualizar import do hook                                                                                                                             |
-| Todos os stories com `withTemplateNavigationProvider` | Substituir decorator                                                                                                                                 |
-| `libs/utils/src/index.ts`                             | Exportar `ModalTemplateContext` em vez de `TemplateNavigationContext`                                                                                |
-
-**Widgets que chamam `navigateTo` e precisam atualizar o import:**
-
-- `useInvestmentPositionTable.tsx`
-- `useCardWalletInvestmentsManager.tsx`
-- Qualquer widget futuro de Análise de Performance que abra detalhamento
-
-**Widgets que leem `currentParams` e precisam atualizar o import:**
-
-- `SecurityDetailsSummary.tsx`
-- `SecurityDetailsInfo.tsx`
-- `ChartSecurityPerformance.tsx`
-- `SecurityCouponDividends.tsx`
-- `SecurityTotalEarnings.tsx`
-- `SecurityDetailsTransactions.tsx`
+libs/utils/src/contexts/TemplateModalContext/
+libs/ui/src/storybook/decorators/withTemplateModalProvider.tsx
+```
