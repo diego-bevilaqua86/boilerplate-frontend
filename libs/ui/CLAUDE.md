@@ -185,3 +185,5 @@ Substituir desmonte do template pai por `Modal` do Mantine que preserva o estado
 - ❌ Criar widgets sem registrar no `widgetRegistry`
 - ❌ Hardcodar strings de UI — sempre usar Lingui
 - ❌ Quebrar API pública de componentes sem verificar consumidores
+- ❌ Chamar adapters no View — adapters pertencem à Camada 2 (DataRequest)
+- ❌ Usar utilitários de `libs/utils` como funções puras dentro de componentes — use a versão hook (`useXxx`)

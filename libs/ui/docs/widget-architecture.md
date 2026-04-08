@@ -95,6 +95,27 @@ Todo widget segue obrigatoriamente esta estrutura. Referência canônica: `CardT
 └─────────────────────────────────────────────────┘
 ```
 
+### Adapters na Camada 2
+
+Adapters que transformam dados da API são chamados na Camada 2, antes de passar os dados ao View. O View nunca chama adapters diretamente.
+
+```tsx
+// ✅ correto — adapter na Camada 2
+const CardWalletDataRequest = () => {
+  const { useFetchPortfolioData } = useRequestHooks();
+  const { selectedGrouping } = useContentRequest();
+  const { data } = useFetchPortfolioData(...);
+  const adaptedData = useGenericTableToPortfolioDataAdapter({ grouping: selectedGrouping, tableData: data });
+  return <CardWalletView data={adaptedData} />;
+};
+
+// ❌ errado — adapter no View
+const CardWalletView = ({ rawData }) => {
+  const adaptedData = useGenericTableToPortfolioDataAdapter(...); // não fazer isso
+  ...
+};
+```
+
 ### View como único responsável pelo conteúdo
 
 O `View` contém todo o estado de componente, handlers, `useMemo` e JSX. Não há arquivo manager separado.

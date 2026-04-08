@@ -90,3 +90,4 @@ Mudanças em `libs/` afetam TODOS os apps consumidores. Antes de fazer breaking 
   — resolvidos por workspace package names, não por path aliases no tsconfig
 - i18n sempre via Lingui — nunca strings hardcoded em UI
 - Antes de commitar (recomendação manual — não há hooks automáticos): `pnpm nx affected -t lint typecheck`
+- Utilitários de `libs/utils` usados dentro de componentes React devem ser hooks (`useXxx`) — ex: `useCurrencyFormatter`, `useGenericTableToPortfolioDataAdapter`
