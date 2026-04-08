@@ -200,7 +200,7 @@ libs/utils/src/contexts/ContentRequestContext/
 
 ---
 
-## 7. Navegação entre templates — ModalTemplateContext
+## 7. Navegação entre templates — TemplateModalContext
 
 ### Problema resolvido
 
@@ -208,33 +208,48 @@ Alguns widgets precisam abrir um template filho completo ao ser clicados (ex: `T
 
 ### Implementação atual
 
-O provider **mantém o template pai montado** e abre um `Modal` do Mantine por cima, preservando todo o estado dos widgets (filtros, expand de linhas, variante ativa).
+Quando `handleOpen()` é chamado, o `TemplateModalProvider` **substitui os `children`** pelo renderer registrado para o `templateId`. O renderer retorna um `ModalTemplate`, que exibe o grid filho dentro de um `Modal` fullscreen do Mantine.
 
 ```
-navigateTo() →
-  ┌─────────────────────┐
-  │  Modal (Mantine)     │
-  │  ModalTemplate       │
-  │  (template filho)    │
-  └─────────────────────┘
-  ┌─────────────────────┐
-  │  WidgetTemplate pai  │
-  │  (preservado)        │
-  └─────────────────────┘
+handleOpen('security-details', params) →
+  ┌──────────────────────────────────────┐
+  │  ModalTemplate                        │
+  │  └── Modal (Mantine, fullScreen)      │
+  │       └── WidgetTemplate filho        │
+  └──────────────────────────────────────┘
+  (children / template pai é desmontado)
+```
+
+### Uso no host
+
+```tsx
+<TemplateModalProvider
+  renderers={{
+    'security-details': (params) => (
+      <ModalTemplate title="Detalhes do ativo" layouts={DEFAULT_SECURITY_DETAILS_TEMPLATE} />
+    ),
+  }}
+>
+  <WidgetTemplate layouts={walletLayouts} />
+</TemplateModalProvider>
 ```
 
 ### API
 
 ```tsx
 // Em qualquer widget
-const { navigateTo, navigateBack, currentParams } = useTemplateModal();
+const { handleOpen, handleClose, currentTemplateId, currentParams, opened } = useTemplateModal();
 
-navigateTo('security-details', {
+// Abrir template filho:
+handleOpen('security-details', {
   walletId,
   securityId,
   beehusName,
   klass,
 });
+
+// Voltar (chamado internamente pelo botão do ModalTemplate):
+handleClose();
 ```
 
 Os widgets do template filho leem `currentParams` para buscar seus dados:
@@ -244,9 +259,13 @@ const { currentParams } = useTemplateModal();
 const walletId = (currentParams?.walletId as string) ?? '';
 ```
 
+### Uso no Storybook
+
+`withTemplateModalProvider` registra renderers reais com `ModalTemplate` para as chaves `'security-details'` e `'performance-details'`.
+
 ```
 libs/utils/src/contexts/TemplateModalContext/
-libs/ui/src/templates/ModalTemplate/                 ← template filho
+libs/ui/src/templates/ModalTemplate/                 ← template filho (usa Modal fullScreen do Mantine)
 libs/ui/src/storybook/decorators/withTemplateModalProvider.tsx
 ```
 
@@ -276,17 +295,17 @@ libs/ui/src/registry/widgetRegistry.ts
 
 ## 9. Templates disponíveis
 
-| Constante                               | Chave              | Status                   |
-| --------------------------------------- | ------------------ | ------------------------ |
-| `DEFAULT_DASHBOARD_TEMPLATE`            | —                  | ✔ Pronto                 |
-| `DEFAULT_WALLET_TEMPLATE`               | —                  | ✔ Pronto                 |
-| `DEFAULT_GROSS_UP_TEMPLATE`             | —                  | ✔ Pronto                 |
-| `DEFAULT_SECURITIES_LIQUIDITY_TEMPLATE` | —                  | ✔ Pronto                 |
-| `DEFAULT_UPCOMING_MATURITIES_TEMPLATE`  | —                  | ✔ Pronto                 |
-| `DEFAULT_TRANSACTIONS_TEMPLATE`         | —                  | ✔ Pronto                 |
-| `DEFAULT_SECURITY_DETAILS_TEMPLATE`     | `security-details` | ✔ Pronto                 |
-| `DEFAULT_PERFORMANCE_ANALYSIS_TEMPLATE` | —                  | ◑ Em andamento           |
-| —                                       | —                  | ◷ Detalhamento de classe |
+| Constante                                       | Chave                 | Status                   |
+| ----------------------------------------------  | --------------------- | ------------------------ |
+| `DEFAULT_DASHBOARD_TEMPLATE`                    | —                     | ✔ Pronto                 |
+| `DEFAULT_WALLET_TEMPLATE`                       | —                     | ✔ Pronto                 |
+| `DEFAULT_GROSS_UP_TEMPLATE`                     | —                     | ✔ Pronto                 |
+| `DEFAULT_SECURITIES_LIQUIDITY_TEMPLATE`         | —                     | ✔ Pronto                 |
+| `DEFAULT_UPCOMING_MATURITIES_TEMPLATE`          | —                     | ✔ Pronto                 |
+| `DEFAULT_TRANSACTIONS_TEMPLATE`                 | —                     | ✔ Pronto                 |
+| `DEFAULT_SECURITY_DETAILS_TEMPLATE`             | `security-details`    | ✔ Pronto                 |
+| `DEFAULT_PERFORMANCE_ANALYSIS_DETAILS_TEMPLATE` | `performance-details` | ✔ Pronto                 |
+| —                                               | —                     | ◷ Detalhamento de classe |
 
 ```
 libs/utils/src/constants/template.tsx
@@ -303,7 +322,7 @@ libs/utils/src/constants/template.tsx
      <NomeWidget>View.tsx         ← estado, handlers, useMemo e JSX
      <NomeWidget>.stories.tsx
 
-2. Implemente as três camadas (ver seção 4)
+2. Implemente as três camadas (ver seção 4) //TODO - Hiperlink
 
 3. Registre no widgetRegistry:
    widgetRegistry.set('chave-do-widget', NomeWidget);
@@ -316,7 +335,7 @@ libs/utils/src/constants/template.tsx
 6. Crie o mock em libs/ui/src/mocks/mocks.ts
    e adicione ao providerProps em withRequestHooksProvider.tsx
 
-7. Se o widget chama navigateTo(), adicione
+7. Se o widget chama handleOpen(), adicione
    withTemplateModalProvider ao meta do story
 ```
 
@@ -331,19 +350,19 @@ libs/utils/src/constants/template.tsx
 - [x] TemplateModalContext + ModalTemplate
 - [x] Dashboard, Gross Up, Liquidez, Vencimentos, Movimentações
 - [x] Detalhamento de ativo, Carteira
-- [ ] Análise de Performance _(José)_
-- [ ] Detalhamento de classe
+- [x] Análise de Performance
+- [x] Detalhamento de classe
 
 ### Etapa 2 — Padronização & Estilização
 
 - [ ] 2.1 Revisão arquitetural — camadas, estados, nomenclatura, i18n
 - [ ] 2.2 Revisão de estilização — Mantine theme, light/dark, moléculas
-- [ ] 2.3 Revisão de funcionalidades — filtros, dados, comportamento
+- [ ] 2.3 Revisão de funcionalidades — filtros, dados, comportamento e adição de testes
 
 ### Etapa 3 — Ferramentas de Template & Parametrização
 
 - [ ] Edição de template pelo usuário
-- [ ] Persistência de layout
+- [ ] Persistência de layout e widgets
 - [ ] Parametrização via dropdowns
 
 ---
@@ -401,19 +420,19 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 
 ---
 
-### Tarefa 2 — Migração TemplateNavigationContext → ModalTemplateContext ✅
+### Tarefa 2 — Migração TemplateNavigationContext → TemplateModalContext ✅
 
-**Motivação:** a implementação anterior substituía o template pai pelo filho, desmontando todos os widgets do pai e perdendo estado (filtros ativos, linhas expandidas, variante selecionada no SegmentedControl).
+**Motivação:** `TemplateNavigationContext` usava um contexto mais simples. A migração padronizou a API e introduziu o `ModalTemplate` com `Modal` do Mantine como container visual do template filho.
 
-**Solução implementada:** o provider abre um `Modal` do Mantine por cima do template pai, que permanece montado.
+**Solução implementada:** o `TemplateModalProvider` continua substituindo os `children` pelo renderer do template filho (o template pai é desmontado). O renderer retorna um `ModalTemplate`, que usa `Modal` fullscreen do Mantine para apresentação. A API do hook passou de `navigateTo`/`navigateBack` para `handleOpen`/`handleClose`.
 
 **Arquivos alterados:**
 
 | Arquivo                                               | Alteração                                                          |
 | ----------------------------------------------------- | ------------------------------------------------------------------ |
-| `TemplateNavigationContext.tsx`                       | Renomeado para `TemplateModalContext.tsx`; usa `Modal` do Mantine  |
-| `useTemplateNavigation()`                             | Renomeado para `useTemplateModal()`                                |
-| `withTemplateNavigationProvider.tsx`                  | Renomeado para `withTemplateModalProvider.tsx`                     |
+| `TemplateNavigationContext.tsx`                       | Renomeado para `TemplateModalContext.tsx`                          |
+| `useTemplateNavigation()`                             | Renomeado para `useTemplateModal()`; API: `handleOpen`/`handleClose` |
+| `withTemplateNavigationProvider.tsx`                  | Renomeado para `withTemplateModalProvider.tsx`; usa `ModalTemplate` real |
 | `libs/utils/src/index.ts`                             | Exporta de `TemplateModalContext`                                  |
 
 **Localização:**

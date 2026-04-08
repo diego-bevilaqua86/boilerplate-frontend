@@ -80,7 +80,7 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
 - Contexto do usuário: `useContentRequest()` — expõe:
   `selectedGrouping`, `selectedPeriod`, `palette`, `selectedTemplate`,
   `selectedClient`, `selectedGroupingSummary`, `handleTemplateChange`
-- Navegação entre templates: `useTemplateNavigation()` (em migração para `useModalTemplate()` — Tarefa 2)
+- Navegação entre templates: `useTemplateModal()` — expõe `handleOpen`, `handleClose`, `currentTemplateId`, `currentParams`, `opened`
 
 ---
 
@@ -102,7 +102,7 @@ libs/ui/src/
 
   templates/
     WidgetTemplate/               ← grid responsivo principal
-    ModalTemplate/                ← template filho (navegação via TemplateNavigationContext)
+    ModalTemplate/                ← template filho (usa Modal fullScreen do Mantine via TemplateModalContext)
     DashboardTemplate/            ← wrapper de WidgetTemplate para o dashboard
     WalletTemplate/               ← wrapper de WidgetTemplate para carteira
     TabGroupingDashboardTemplate.tsx
@@ -117,7 +117,7 @@ libs/ui/src/
   storybook/
     decorators/                   ← withMantineProvider, withI18NProvider,
                                      withContentRequestProvider, withRequestHooksProvider,
-                                     withTemplateNavigationProvider
+                                     withTemplateModalProvider
 ```
 
 > Os decorators de Storybook são exportados publicamente por `index.ts`,
@@ -169,9 +169,9 @@ npm nx storybook ui
 
 Eliminar managers que retornam JSX; mover estado, handlers e `useMemo` diretamente para o `View`. Referência canônica concluída: `CardTransactions`. Lista completa de widgets restantes na seção 12 de `docs/widget-architecture.md`.
 
-### Tarefa 2 — Migração `TemplateNavigationContext` → `ModalTemplateContext`
+### Tarefa 2 — Migração `TemplateNavigationContext` → `TemplateModalContext` ✅
 
-Substituir desmonte do template pai por `Modal` do Mantine que preserva o estado. API pública dos widgets permanece idêntica. O contexto vive em `libs/utils/src/contexts/`, mas afeta diretamente esta lib.
+Concluída. API do hook: `handleOpen(templateId, params)` / `handleClose()`. O provider substitui os `children` pelo renderer do template filho; o `ModalTemplate` usa `Modal` fullscreen do Mantine como container visual. O contexto vive em `libs/utils/src/contexts/TemplateModalContext/`.
 
 ---
 
