@@ -65,6 +65,7 @@ export type TemplateModalProviderProps = PropsWithChildren<{
   // Mapa de templateId → função que recebe params e retorna ReactNode
   // O Provider chama o renderer correspondente quando currentTemplateId muda
   renderers: Record<string, TemplateRenderer>;
+  initialParams?: TemplateModalParams;
 }>;
 
 // ─── Context ──────────────────────────────────────────────────────────────────
@@ -73,9 +74,9 @@ const TemplateNavigationContext = createContext<TemplateModalContextValue | null
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
-export const TemplateModalProvider: FC<TemplateModalProviderProps> = ({ renderers, children }) => {
+export const TemplateModalProvider: FC<TemplateModalProviderProps> = ({ renderers, children, initialParams }) => {
   const [currentTemplateId, setCurrentTemplateId] = useState<string | null>(null);
-  const [currentParams, setCurrentParams] = useState<TemplateModalParams | undefined>(undefined);
+  const [currentParams, setCurrentParams] = useState<TemplateModalParams | undefined>(initialParams);
   const [opened, handlers] = useDisclosure(false);
 
   const handleOpen = useCallback(
