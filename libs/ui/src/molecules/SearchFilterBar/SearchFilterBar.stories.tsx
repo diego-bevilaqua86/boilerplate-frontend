@@ -9,6 +9,17 @@ const mockData: Array<MockItem> = [
   { type: 'Compra', institution: 'Banco C' },
 ];
 
+const metaFiltersProps = {
+  onSubmit: () => undefined,
+  title: 'Filtros',
+  data: mockData,
+  selectedValues: [] as Array<string>,
+  filterOptions: [
+    { title: 'Tipo', key: 'type' as keyof MockItem },
+    { title: 'Instituição', key: 'institution' as keyof MockItem },
+  ],
+};
+
 const meta: Meta<typeof SearchFilterBar<MockItem[]>> = {
   component: SearchFilterBar,
   title: 'UI/Molecules/SearchFilterBar',
@@ -16,18 +27,7 @@ const meta: Meta<typeof SearchFilterBar<MockItem[]>> = {
     placeholder: 'Pesquisar...',
     defaultValue: '',
     onChange: () => undefined,
-    hasActiveFilters: false,
-    isFilterDisabled: false,
-    filtersProps: {
-      onSubmit: () => undefined,
-      title: 'Filtros',
-      data: mockData,
-      selectedValues: [],
-      filterOptions: [
-        { title: 'Tipo', key: 'type' },
-        { title: 'Instituição', key: 'institution' },
-      ],
-    },
+    filtersProps: metaFiltersProps,
   },
 };
 
@@ -38,13 +38,13 @@ export const Default: Story = {};
 
 export const WithActiveFilters: Story = {
   args: {
-    hasActiveFilters: true,
+    filtersProps: { ...metaFiltersProps, selectedValues: ['Compra'] },
   },
 };
 
 export const FilterDisabled: Story = {
   args: {
-    isFilterDisabled: true,
+    filtersProps: { ...metaFiltersProps, disabled: true },
   },
 };
 

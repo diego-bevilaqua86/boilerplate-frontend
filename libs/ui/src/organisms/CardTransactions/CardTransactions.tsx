@@ -124,13 +124,12 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
           placeholder={_(msg`Pesquisar movimentações...`)}
           defaultValue={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          hasActiveFilters={selectedTransactionTypes.length > 0}
-          isFilterDisabled={isEmptyArr(data)}
           filtersProps={{
             onSubmit: setSelectedTransactionTypes,
             title: _(msg`Filtros`),
             data,
             selectedValues: selectedTransactionTypes,
+            disabled: isEmptyArr(data),
             filterOptions: [
               {
                 title: _(msg`Tipo de operação`),
