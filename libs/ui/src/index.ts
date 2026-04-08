@@ -1,3 +1,4 @@
+export * from './atoms/FilterButton/FilterButton';
 export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableActionButtons/TableActionButtons';
 export * from './atoms/TableSortingHeader/TableSortingHeader';
@@ -8,6 +9,7 @@ export * from './molecules/DoughnutChart/DoughnutChart';
 export * from './molecules/EmptyWidget/EmptyWidget';
 export * from './molecules/ErrorCard/ErrorCard';
 export * from './molecules/LineChart/LineChart';
+export * from './molecules/FilterModal/FilterModal';
 export * from './molecules/ModalFilters/ModalFilters';
 export * from './molecules/SearchFilterBar/SearchFilterBar';
 export * from './molecules/TablePlaceholder/TablePlaceholder';
