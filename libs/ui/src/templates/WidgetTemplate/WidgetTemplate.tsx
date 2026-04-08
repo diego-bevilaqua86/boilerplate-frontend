@@ -37,8 +37,18 @@ type WidgetTemplateProps = {
   cols?: Breakpoints<BreakpointKey>;
 };
 
-const resolveBreakpoint = (width: number): BreakpointKey =>
-  width >= DEFAULT_BREAKPOINTS.desktop ? 'desktop' : width >= DEFAULT_BREAKPOINTS.tablet ? 'tablet' : 'mobile';
+const resolveBreakpoint = (width: number): BreakpointKey => {
+  // width >= DEFAULT_BREAKPOINTS.desktop ? 'desktop' : width >= DEFAULT_BREAKPOINTS.tablet ? 'tablet' : 'mobile';
+  if (width >= DEFAULT_BREAKPOINTS.desktop) {
+    return 'desktop';
+  }
+
+  if (width >= DEFAULT_BREAKPOINTS.tablet) {
+    return 'tablet';
+  }
+
+  return 'mobile';
+};
 
 export const WidgetTemplate: FC<WidgetTemplateProps> = ({
   layouts,

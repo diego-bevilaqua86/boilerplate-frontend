@@ -10,7 +10,7 @@ import {
   isNullOrUndefined,
   percentFormatter,
   useRequestHooks,
-  useTemplateNavigation,
+  useTemplateModal,
 } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
@@ -41,7 +41,7 @@ export const SecurityDetailsSummary = () => (
 );
 
 const SecurityDetailsSummaryDataRequest = () => {
-  const { currentParams } = useTemplateNavigation();
+  const { currentParams } = useTemplateModal();
   const { useFetchSecuritySummary } = useRequestHooks();
 
   const walletId = (currentParams?.walletId as string) ?? '';

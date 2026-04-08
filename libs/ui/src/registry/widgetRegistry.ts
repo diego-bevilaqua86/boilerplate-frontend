@@ -40,14 +40,18 @@ import { ComponentType } from 'react';
 import { CardGrossUpBySecurity } from '../organisms/CardGrossUpBySecurity/CardGrossUpBySecurity';
 import { CardGrossUpRentability } from '../organisms/CardGrossUpRentability/CardGrossUpRentability';
 import { CardLiquiditySecurities } from '../organisms/CardLiquiditySecurities/CardLiquiditySecurities';
+import { CardPerformanceAnalysisEarningByClassification } from '../organisms/CardPerformanceAnalysisEarningByClassification/CardPerformanceAnalysisEarningByClassification';
 import { CardTransactions } from '../organisms/CardTransactions/CardTransactions';
 import { CardUpcomingMaturities } from '../organisms/CardUpcomingMaturities/CardUpcomingMaturities';
 import { CardWallets } from '../organisms/CardWallets/CardWallets';
 import { ChartGrossUpAllocation } from '../organisms/ChartGrossUpAllocation/ChartGrossUpAllocation';
 import { ChartGroupingPositionByClassification } from '../organisms/ChartGroupingPositionByClassification/ChartGroupingPositionByClassification';
 import { ChartLiquidityByPeriod } from '../organisms/ChartLiquidityByPeriod/ChartLiquidityByPeriod';
+import { ChartPerformanceAnalysisByClassificationLine } from '../organisms/ChartPerformanceAnalysisByClassificationLine/ChartPerformanceAnalysisByClassificationLine';
+import { ChartPerformanceAnalysisEarningByClassification } from '../organisms/ChartPerformanceAnalysisEarningByClassification/ChartPerformanceAnalysisEarningByClassification';
 import { ChartSecurityPerformance } from '../organisms/ChartSecurityPerformance/ChartSecurityPerformance';
 import { NetWorthOverPeriod } from '../organisms/NetWorthOverPeriod/NetWorthOverPeriod';
+import { PerformanceAnalysisSummary } from '../organisms/PerformanceAnalysisSummary/PerformanceAnalysisSummary';
 import { PerformanceOverPeriod } from '../organisms/PerformanceOverPeriod/PerformanceOverPeriod';
 import { SecurityCouponDividends } from '../organisms/SecurityCouponDividends/SecurityCouponDividends';
 import { SecurityDetailsInfo } from '../organisms/SecurityDetailsInfo/SecurityDetailsInfo';
@@ -59,6 +63,8 @@ import { TableGrossUpRentability } from '../organisms/TableGrossUpRentability/Ta
 import { TableGroupingRentability } from '../organisms/TableGroupingRentability/TableGroupingRentability';
 import { TableGroupingStockEarning } from '../organisms/TableGroupingStockEarning/TableGroupingStockEarning';
 import { TableLiquiditySecurities } from '../organisms/TableLiquiditySecurities/TableLiquiditySecurities';
+import { TablePerformanceAnalysisByClassificationDetails } from '../organisms/TablePerformanceAnalysisByClassificationDetails/TablePerformanceAnalysisByClassificationDetails';
+import { TablePerformanceAnalysisEarningByClassification } from '../organisms/TablePerformanceAnalysisEarningByClassification/TablePerformanceAnalysisEarningByClassification';
 import { TableRentabilityHistory } from '../organisms/TableRentabilityHistory/TableRentabilityHistory';
 import { TableTransactions } from '../organisms/TableTransactions/TableTransactions';
 import { TableUpcomingMaturities } from '../organisms/TableUpcomingMaturities/TableUpcomingMaturities';
@@ -111,6 +117,10 @@ widgetRegistry.set('card-liquidity-securities', CardLiquiditySecurities); // mob
 widgetRegistry.set('table-transactions', TableTransactions); // desktop + tablet
 widgetRegistry.set('card-transactions', CardTransactions); // mobile
 
+// ─── Analise de performance ───────────────────────────────────────────────────
+widgetRegistry.set('chart-performance-earning', ChartPerformanceAnalysisEarningByClassification);
+widgetRegistry.set('table-performance-earning', TablePerformanceAnalysisEarningByClassification); // desktop
+widgetRegistry.set('card-performance-earning', CardPerformanceAnalysisEarningByClassification); // mobile
 // ─── Carteira ─────────────────────────────────────────────────────────────────
 widgetRegistry.set('table-wallet', TableWallets); // desktop + tablet
 widgetRegistry.set('card-wallet', CardWallets); // mobile
@@ -122,3 +132,8 @@ widgetRegistry.set('chart-security-performance', ChartSecurityPerformance);
 widgetRegistry.set('security-coupon-dividends', SecurityCouponDividends);
 widgetRegistry.set('security-total-earnings', SecurityTotalEarnings);
 widgetRegistry.set('security-transactions', SecurityDetailsTransactions);
+
+// ─── Detalhe do analise de performance ─────────────────────────────────────────────────────────
+widgetRegistry.set('performance-summary', PerformanceAnalysisSummary);
+widgetRegistry.set('chart-performance-classification', ChartPerformanceAnalysisByClassificationLine);
+widgetRegistry.set('table-performance-classification', TablePerformanceAnalysisByClassificationDetails);

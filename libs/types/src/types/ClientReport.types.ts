@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ClientReportFilterValidators, ClientReportValidators } from '../validators/ClientReport.validators';
+import { AvailableFilter } from './ClientDashboard.types';
 import { DataSet, PeriodType } from './Common.types';
 import { TransactionPopulated } from './Transaction.types';
 
@@ -47,11 +48,19 @@ export type Performance = {
   isBenchmark: boolean;
 };
 
-export type FetchPeformanceFilter = {
+export type FetchPerformanceFilter = {
   groupingId: string;
   period: PeriodType;
-  select: (data: PerformanceOverPeriods) => PerformanceOverPeriods;
+  select?: (data: PerformanceOverPeriods) => PerformanceOverPeriods;
   finalDate?: string;
+};
+
+export type FetchAvailableFilter = {
+  groupingId: string;
+  initialDate?: string;
+  finalDate?: string;
+  period?: PeriodType;
+  select?: (data: Array<AvailableFilter>) => Array<AvailableFilter>;
 };
 
 export type PerformanceOverPeriods = {

@@ -5,7 +5,7 @@
 // Chave no registry: 'chart-security-performance'
 
 import { PeriodType } from '@boilerplate-frontend/types';
-import { isNullOrUndefined, useRequestHooks, useTemplateNavigation } from '@boilerplate-frontend/utils';
+import { isNullOrUndefined, useRequestHooks, useTemplateModal } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
@@ -40,7 +40,7 @@ export const ChartSecurityPerformance = () => (
 // ChartSecurityPerformance.tsx — apenas a parte do conteúdo corrigida
 
 const ChartSecurityPerformanceDataRequest = () => {
-  const { currentParams } = useTemplateNavigation();
+  const { currentParams } = useTemplateModal();
   const { useFetchSecurityPerformance } = useRequestHooks();
   const { _ } = useLingui();
 

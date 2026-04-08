@@ -7,7 +7,7 @@
 //   (ex: TableWallet → SecurityDetailsTemplate) sem conhecer o router,
 //   a estrutura de rotas, ou o template pai. O TemplateNavigationContext
 //   resolve isso invertendo a dependência: o Provider gerencia o estado
-//   de navegação internamente, e os widgets disparam via useTemplateNavigation()
+//   de navegação internamente, e os widgets disparam via useTemplateModal()
 //   sem saber como a navegação é implementada.
 //
 // Funcionamento:
@@ -36,30 +36,32 @@
 //     <WidgetTemplate layouts={walletLayouts} />
 //   </TemplateNavigationProvider>
 //
-// Uso no Storybook (via withTemplateNavigationProvider):
+// Uso no Storybook (via withTemplateModalProvider):
 //   renderers logam no console — sem template real
 //
 // Uso nos widgets:
-//   const { navigateTo, navigateBack, currentTemplateId } = useTemplateNavigation();
-//   navigateTo('security-details', { securityId, walletId, beehusName, klass });
+//   const { handleOpen, navigateBack, currentTemplateId } = useTemplateModal();
+//   handleOpen('security-details', { securityId, walletId, beehusName, klass });
 
+import { useDisclosure } from '@mantine/hooks';
 import { createContext, FC, PropsWithChildren, useCallback, useContext, useMemo, useState } from 'react';
 import { isNullOrUndefined } from '../../functions/isNullOrUndefined.fn';
-
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
-export type TemplateNavigationParams = Record<string, unknown>;
+export type TemplateModalParams = Record<string, unknown>;
 
-export type TemplateRenderer = (params?: TemplateNavigationParams) => React.ReactNode;
+export type TemplateRenderer = (params?: TemplateModalParams) => React.ReactNode;
 
-export type TemplateNavigationContextValue = {
-  navigateTo: (templateId: string, params?: TemplateNavigationParams) => void;
-  navigateBack: () => void;
+export type TemplateModalContextValue = {
+  handleOpen: (templateId: string, params?: TemplateModalParams) => void;
+  handleClose: () => void;
+  handleSetCurrentParams: (params: TemplateModalParams) => void;
   currentTemplateId: string | null;
-  currentParams: TemplateNavigationParams | undefined;
+  currentParams: TemplateModalParams | undefined;
+  opened: boolean;
 };
 
-export type TemplateNavigationProviderProps = PropsWithChildren<{
+export type TemplateModalProviderProps = PropsWithChildren<{
   // Mapa de templateId → função que recebe params e retorna ReactNode
   // O Provider chama o renderer correspondente quando currentTemplateId muda
   renderers: Record<string, TemplateRenderer>;
@@ -67,27 +69,37 @@ export type TemplateNavigationProviderProps = PropsWithChildren<{
 
 // ─── Context ──────────────────────────────────────────────────────────────────
 
-const TemplateNavigationContext = createContext<TemplateNavigationContextValue | null>(null);
+const TemplateNavigationContext = createContext<TemplateModalContextValue | null>(null);
 
 // ─── Provider ─────────────────────────────────────────────────────────────────
 
-export const TemplateNavigationProvider: FC<TemplateNavigationProviderProps> = ({ renderers, children }) => {
+export const TemplateModalProvider: FC<TemplateModalProviderProps> = ({ renderers, children }) => {
   const [currentTemplateId, setCurrentTemplateId] = useState<string | null>(null);
-  const [currentParams, setCurrentParams] = useState<TemplateNavigationParams | undefined>(undefined);
+  const [currentParams, setCurrentParams] = useState<TemplateModalParams | undefined>(undefined);
+  const [opened, handlers] = useDisclosure(false);
 
-  const navigateTo = useCallback((templateId: string, params?: TemplateNavigationParams) => {
-    setCurrentParams(params);
-    setCurrentTemplateId(templateId);
-  }, []);
+  const handleOpen = useCallback(
+    (templateId: string, params?: TemplateModalParams) => {
+      setCurrentParams(params);
+      setCurrentTemplateId(templateId);
+      handlers.open();
+    },
+    [handlers],
+  );
 
-  const navigateBack = useCallback(() => {
+  const handleClose = useCallback(() => {
     setCurrentTemplateId(null);
     setCurrentParams(undefined);
+    handlers.close();
+  }, [handlers]);
+
+  const handleSetCurrentParams = useCallback((params: TemplateModalParams) => {
+    setCurrentParams(params);
   }, []);
 
-  const value = useMemo<TemplateNavigationContextValue>(
-    () => ({ navigateTo, navigateBack, currentTemplateId, currentParams }),
-    [navigateTo, navigateBack, currentTemplateId, currentParams],
+  const value = useMemo<TemplateModalContextValue>(
+    () => ({ handleOpen, handleClose, currentTemplateId, currentParams, opened, handleSetCurrentParams }),
+    [handleOpen, handleClose, currentTemplateId, currentParams, opened, handleSetCurrentParams],
   );
 
   // Quando há template filho ativo, renderiza o renderer correspondente
@@ -103,7 +115,7 @@ export const TemplateNavigationProvider: FC<TemplateNavigationProviderProps> = (
 
 // ─── Hook ─────────────────────────────────────────────────────────────────────
 
-export const useTemplateNavigation = () => {
+export const useTemplateModal = () => {
   const context = useContext(TemplateNavigationContext);
 
   if (isNullOrUndefined(context)) {

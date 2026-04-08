@@ -68,7 +68,7 @@ const TableWalletDataRequest = ({ selectedVariant }: { selectedVariant: WalletVa
 
 // ─── Camada de conteúdo ───────────────────────────────────────────────────────
 // onSelectSecurity removido — navegação via TemplateNavigationContext.
-// useInvestmentPositionTable chama navigateTo() diretamente.
+// useInvestmentPositionTable chama handleOpen() diretamente.
 
 const TableWalletContent = ({
   data,

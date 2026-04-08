@@ -2,13 +2,13 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { withContentRequestProvider } from '../../storybook/decorators/withContentRequestProvider';
 import { withRequestHooksProvider } from '../../storybook/decorators/withRequestHooksProvider';
-import { withTemplateNavigationProvider } from '../../storybook/decorators/withTemplateNavigationProvider';
+import { withTemplateModalProvider } from '../../storybook/decorators/withTemplateModalProvider';
 import { SecurityDetailsTransactions } from './SecurityDetailsTransactions';
 
 const meta: Meta<typeof SecurityDetailsTransactions> = {
   component: SecurityDetailsTransactions,
   title: 'UI/Organisms/SecurityDetailsTransactions',
-  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateNavigationProvider],
+  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateModalProvider],
 };
 
 export default meta;

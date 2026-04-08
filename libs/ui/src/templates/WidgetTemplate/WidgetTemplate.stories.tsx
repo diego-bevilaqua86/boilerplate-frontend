@@ -11,13 +11,13 @@ import {
 } from '../../../../utils/src/constants/template';
 import { withContentRequestProvider } from '../../storybook/decorators/withContentRequestProvider';
 import { withRequestHooksProvider } from '../../storybook/decorators/withRequestHooksProvider';
-import { withTemplateNavigationProvider } from '../../storybook/decorators/withTemplateNavigationProvider';
+import { withTemplateModalProvider } from '../../storybook/decorators/withTemplateModalProvider';
 import { WidgetTemplate } from './WidgetTemplate';
 
 const meta = {
   component: WidgetTemplate,
   title: 'UI/Templates/WidgetTemplate',
-  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateNavigationProvider],
+  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateModalProvider],
 } satisfies Meta<typeof WidgetTemplate>;
 
 export default meta;

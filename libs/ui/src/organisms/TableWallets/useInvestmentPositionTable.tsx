@@ -1,11 +1,6 @@
 // useInvestmentPositionTable.tsx
 import { ClientGroupingSecuritiesTableRow } from '@boilerplate-frontend/types';
-import {
-  currencyFormatter,
-  numberFormatter,
-  percentFormatter,
-  useTemplateNavigation,
-} from '@boilerplate-frontend/utils';
+import { currencyFormatter, numberFormatter, percentFormatter, useTemplateModal } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
@@ -42,7 +37,7 @@ export const useInvestmentPositionTable = ({
   onExpandedChange,
 }: UseInvestmentPositionTableProps) => {
   const { _, i18n } = useLingui();
-  const { navigateTo } = useTemplateNavigation();
+  const { handleOpen } = useTemplateModal();
 
   const [internalExpanded, setInternalExpanded] = useState<ExpandedState>({});
   const expanded = externalExpanded ?? internalExpanded;
@@ -204,7 +199,7 @@ export const useInvestmentPositionTable = ({
 
       // ── Ações — apenas nas folhas ─────────────────────────────────────────
       // Botão de detalhes só aparece em linhas sem filhos (ativos individuais).
-      // Chama navigateTo via TemplateNavigationContext — sem acoplamento com router.
+      // Chama handleOpen via TemplateNavigationContext — sem acoplamento com router.
       columnBuilder.display({
         id: 'actionsColumn',
         cell: ({ row }) => {
@@ -220,13 +215,13 @@ export const useInvestmentPositionTable = ({
                 beehusName: row.original.classificationOrSecurity,
                 klass: parentRow?.classificationOrSecurity ?? '',
               }}
-              onOpenModalRow={(req) => navigateTo('security-details', req)}
+              onOpenModalRow={(req) => handleOpen('security-details', req)}
             />
           );
         },
       }),
     ],
-    [_, palette, currency, i18n.locale, navigateTo],
+    [_, palette, currency, i18n.locale, handleOpen],
   );
 
   const table = useReactTable<ClientGroupingSecuritiesTableRow>({
