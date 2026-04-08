@@ -22,7 +22,7 @@ Esta lib contém todos os componentes visuais reutilizáveis do monorepo. É con
 
 ## Regra fundamental — Padrão de 3 camadas
 
-**Todo widget segue obrigatoriamente esta estrutura.** Referência canônica: `TableTransactions`.
+**Todo widget segue obrigatoriamente esta estrutura.** Referência canônica: `CardTransactions`.
 
 ### Camada 1 — Apresentação
 
@@ -43,30 +43,26 @@ Esta lib contém todos os componentes visuais reutilizáveis do monorepo. É con
 
 ### Camada 3 — Conteúdo
 
-`use<Widget>Manager()` (estado e lógica) + `<Widget>View` (JSX puro).
+`<Widget>View` — contém estado de componente, handlers, `useMemo` e JSX. Não há arquivo manager separado.
 
 ```tsx
 // ✅ padrão correto
-const CardTransactionsContent = ({ data, ...props }) => {
-  const managerState = useCardTransactionsManager({ data, ...props });
-  return <CardTransactionsView {...managerState} />;
+const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) => {
+  const [searchInput, setSearchInput] = useDebouncedState('', 50);
+  const [filtersModalOpen, toggleFiltersModal] = useToggle([false, true] as const);
+  // handlers, useMemo, JSX — tudo no View
+  return <Stack>...</Stack>;
 };
 ```
 
 ---
 
-## Regras do Manager
-
-- **NUNCA retorna JSX.** Sem `renderTable()`, `renderList()`, nada disso.
-- Retorna apenas estado e handlers.
-- Exporta um tipo `<NomeWidget>ManagerState` para tipar o View.
-- `useMemo` apenas em dados (arrays, objetos) — **nunca** em funções que retornam JSX.
-
 ## Regras do View
 
-- JSX puro, sem lógica própria.
-- Recebe tudo via props (`<XxxView {...managerState} />`).
-- Sem chamadas de hooks de dados, sem estado próprio (exceto refs visuais triviais).
+- Contém todo o estado de componente (`useState`, `useDebouncedState`, `useToggle`).
+- `useMemo` inline para dados derivados (arrays filtrados/ordenados).
+- Handlers declarados inline.
+- Sem chamadas de hooks de dados — dados chegam via props da Camada 2.
 
 ## Estados obrigatórios em todo widget
 
@@ -101,8 +97,7 @@ libs/ui/src/
 
   organisms/<NomeWidget>/
     <NomeWidget>.tsx              ← composição das 3 camadas
-    use<NomeWidget>Manager.ts     ← estado e lógica (sem JSX)
-    <NomeWidget>View.tsx          ← JSX puro
+    <NomeWidget>View.tsx          ← estado, handlers, useMemo e JSX
     <NomeWidget>.stories.tsx
 
   templates/
@@ -170,9 +165,9 @@ pnpm nx storybook ui
 
 ## Tarefas em andamento
 
-### Tarefa 1 — Refatoração manager → manager + View
+### Tarefa 1 — Refatoração: eliminar managers e mover estado para o View
 
-Separar managers que retornam JSX em manager (estado puro) + View (JSX puro). Lista completa de widgets afetados na seção 12 de `docs/widget-architecture.md`.
+Eliminar managers que retornam JSX; mover estado, handlers e `useMemo` diretamente para o `View`. Referência canônica concluída: `CardTransactions`. Lista completa de widgets restantes na seção 12 de `docs/widget-architecture.md`.
 
 ### Tarefa 2 — Migração `TemplateNavigationContext` → `ModalTemplateContext`
 
@@ -183,9 +178,9 @@ Substituir desmonte do template pai por `Modal` do Mantine que preserva o estado
 ## O que NÃO fazer
 
 - ❌ Importar hooks de dados direto (sempre via `useRequestHooks()`)
-- ❌ Retornar JSX de hooks `useXxxManager`
+- ❌ Criar arquivo `useXxxManager` separado — estado vai inline no View
+- ❌ Retornar JSX de hooks (`renderTable()`, `renderList()`, etc.)
 - ❌ Usar `useMemo` em funções que retornam JSX
-- ❌ Misturar lógica de negócio em componentes View
 - ❌ Esquecer de tratar os 3 estados (loading, erro, vazio)
 - ❌ Criar widgets sem registrar no `widgetRegistry`
 - ❌ Hardcodar strings de UI — sempre usar Lingui

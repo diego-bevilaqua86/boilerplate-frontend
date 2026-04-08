@@ -72,7 +72,7 @@ libs/ui/src/registry/widgetRegistry.ts ← mapa chave → componente (sem JSX, e
 
 ## 4. Padrão de widget — três camadas
 
-Todo widget segue obrigatoriamente esta estrutura. Referência: `TableTransactions`.
+Todo widget segue obrigatoriamente esta estrutura. Referência canônica: `CardTransactions`.
 
 ```
 ┌─────────────────────────────────────────────────┐
@@ -90,21 +90,28 @@ Todo widget segue obrigatoriamente esta estrutura. Referência: `TableTransactio
                    │
 ┌──────────────────▼──────────────────────────────┐
 │  Camada 3 — Conteúdo                            │
-│  useXxxManager() + XxxView                      │
-│  Hook: estado, filtros, lógica de negócio.      │
-│  View: JSX puro, sem lógica própria.            │
+│  <Widget>View                                   │
+│  Estado, handlers, useMemo e JSX — tudo inline. │
 └─────────────────────────────────────────────────┘
 ```
 
-### Hook manager + View
+### View como único responsável pelo conteúdo
 
-O manager **não retorna JSX**. Retorna estado e handlers. O componente `View` recebe tudo via props e renderiza.
+O `View` contém todo o estado de componente, handlers, `useMemo` e JSX. Não há arquivo manager separado.
 
 ```tsx
-// ✅ padrão correto
-const TableWalletContent = ({ data, selectedVariant, palette }) => {
-  const managerState = useTableWalletManager({ data, selectedVariant, palette });
-  return <TableWalletView {...managerState} />;
+// ✅ padrão correto — Camada 3
+const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) => {
+  const [searchInput, setSearchInput] = useDebouncedState('', 50);
+  const [filtersModalOpen, toggleFiltersModal] = useToggle([false, true] as const);
+  // handlers e useMemo inline
+  return <Stack>...</Stack>;
+};
+
+// Camada 2 delega diretamente ao View
+const CardTransactionsDataRequest = () => {
+  // ...fetch...
+  return <CardTransactionsView data={data} />;
 };
 ```
 
@@ -279,9 +286,8 @@ libs/utils/src/constants/template.tsx
 ```
 1. Crie a pasta:
    libs/ui/src/organisms/<NomeWidget>/
-     <NomeWidget>.tsx
-     use<NomeWidget>Manager.ts    ← estado e lógica (sem JSX)
-     <NomeWidget>View.tsx         ← JSX puro
+     <NomeWidget>.tsx             ← composição das 3 camadas
+     <NomeWidget>View.tsx         ← estado, handlers, useMemo e JSX
      <NomeWidget>.stories.tsx
 
 2. Implemente as três camadas (ver seção 4)
@@ -333,44 +339,48 @@ libs/utils/src/constants/template.tsx
 
 ---
 
-### Tarefa 1 — Refatoração manager → manager + View
+### Tarefa 1 — Refatoração: eliminar managers e mover estado para o View
 
-**Motivação:** hooks que retornam JSX (`renderTable()`, `renderList()`) misturam lógica e apresentação, dificultam testes e exigem `useMemo` manual em JSX para evitar re-renders.
+**Motivação:** hooks que retornam JSX (`renderTable()`, `renderList()`) misturam lógica e apresentação, dificultam testes e exigem `useMemo` manual em JSX para evitar re-renders. O padrão evoluiu: em vez de extrair um manager separado, o estado e a lógica são incorporados diretamente no `View`.
 
-**Padrão alvo:**
+**Padrão alvo (referência: `CardTransactions`):**
 
 ```tsx
-// Antes
+// Antes (a eliminar)
 const { renderTable } = useTableWalletManager({ data, selectedVariant, palette });
 return renderTable();
 
-// Depois
-const managerState = useTableWalletManager({ data, selectedVariant, palette });
-return <TableWalletView {...managerState} />;
+// Depois (novo padrão)
+const TableWalletView = ({ data, selectedVariant, palette }) => {
+  // estado + handlers + useMemo inline
+  return <Table>...</Table>;
+};
 ```
 
-**Widgets afetados:**
+**Widgets restantes:**
 
-| Widget                     | Manager atual                                | View a criar                   |
-| -------------------------- | -------------------------------------------- | ------------------------------ |
-| `TableWallets`             | `useTableWalletManager`                      | `TableWalletView`              |
-| `CardWallets`              | `useCardWalletInvestmentsManager`            | `CardWalletInvestmentsView`    |
-| `CardWallets`              | `useCardWalletProvisionsManager`             | `CardWalletProvisionsView`     |
-| `CardWallets`              | `useCardWalletBalanceManager`                | `CardWalletBalanceView`        |
-| `TableTransactions`        | `useTableTransactionsManager`                | `TableTransactionsView`        |
-| `CardTransactions`         | `useCardTransactionsManager`                 | `CardTransactionsView`         |
-| `TableLiquiditySecurities` | `useTableLiquiditySecuritiesManager`         | `TableLiquiditySecuritiesView` |
-| `CardLiquiditySecurities`  | `useCardLiquiditySecuritiesManager`          | `CardLiquiditySecuritiesView`  |
-| `CardUpcomingMaturities`   | `useCardUpcomingMaturitiesManager`           | `CardUpcomingMaturitiesView`   |
-| `TableGrossUpBySecurity`   | `useGrossUpBySecurityTable` (hook de tabela) | sem View — já é atômico        |
-| `CardGrossUpBySecurity`    | `useCardGrossUpBySecurityManager`            | `CardGrossUpBySecurityView`    |
-| `CardGrossUpRentability`   | `useCardGrossUpRentabilityManager`           | `CardGrossUpRentabilityView`   |
+| Widget                     | Manager a eliminar                           | Ação                                                  |
+| -------------------------- | -------------------------------------------- | ----------------------------------------------------- |
+| `TableWallets`             | `useTableWalletManager`                      | Deletar manager; mover estado para `TableWalletView`  |
+| `CardWallets`              | `useCardWalletInvestmentsManager`            | Deletar manager; mover estado para View correspondente|
+| `CardWallets`              | `useCardWalletProvisionsManager`             | Deletar manager; mover estado para View correspondente|
+| `CardWallets`              | `useCardWalletBalanceManager`                | Deletar manager; mover estado para View correspondente|
+| `TableTransactions`        | `useTableTransactionsManager`                | Deletar manager; mover estado para `TableTransactionsView` |
+| `TableLiquiditySecurities` | `useTableLiquiditySecuritiesManager`         | Deletar manager; mover estado para View correspondente|
+| `CardLiquiditySecurities`  | `useCardLiquiditySecuritiesManager`          | Deletar manager; mover estado para View correspondente|
+| `CardUpcomingMaturities`   | `useCardUpcomingMaturitiesManager`           | Deletar manager; mover estado para View correspondente|
+| `TableGrossUpBySecurity`   | `useGrossUpBySecurityTable` (hook de tabela) | sem View — já é atômico                               |
+| `CardGrossUpBySecurity`    | `useCardGrossUpBySecurityManager`            | Deletar manager; mover estado para View correspondente|
+| `CardGrossUpRentability`   | `useCardGrossUpRentabilityManager`           | Deletar manager; mover estado para View correspondente|
 
-**Regras para o manager após refatoração:**
+✅ **Concluído:** `CardTransactions` — referência canônica do novo padrão.
 
-- Retorna apenas estado e handlers — sem nenhum elemento JSX
-- `useMemo` apenas em dados (arrays, objetos) — nunca em funções que retornam JSX
-- Exporta um tipo `<NomeWidget>ManagerState` para tipar o View
+**Regras para o `View` após refatoração:**
+
+- Contém todo o estado de componente (`useState`, `useDebouncedState`, `useToggle`)
+- `useMemo` inline para dados derivados (arrays, objetos filtrados/ordenados)
+- Handlers declarados inline (sem arquivo externo)
+- Sem tipo `ManagerState` exportado — não há mais separação manager/View
 
 ---
 
