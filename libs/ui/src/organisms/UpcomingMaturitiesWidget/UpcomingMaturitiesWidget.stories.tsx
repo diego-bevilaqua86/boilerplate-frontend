@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import UpcomingMaturitiesWidget from './UpcomingMaturitiesWidget';
+import { UpcomingMaturitiesWidget } from './UpcomingMaturitiesWidget';
 
 const meta: Meta<typeof UpcomingMaturitiesWidget> = {
   component: UpcomingMaturitiesWidget,

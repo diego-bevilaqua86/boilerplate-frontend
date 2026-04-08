@@ -8,13 +8,13 @@ import {
   providerProps,
   withRequestHooksProvider,
 } from '../../storybook/decorators/withRequestHooksProvider';
-import { withTemplateNavigationProvider } from '../../storybook/decorators/withTemplateNavigationProvider';
+import { withTemplateModalProvider } from '../../storybook/decorators/withTemplateModalProvider';
 import { TableWallets } from './TableWallets';
 
 const meta: Meta<typeof TableWallets> = {
   component: TableWallets,
   title: 'UI/Organisms/TableWallets',
-  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateNavigationProvider],
+  decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateModalProvider],
 };
 
 export default meta;

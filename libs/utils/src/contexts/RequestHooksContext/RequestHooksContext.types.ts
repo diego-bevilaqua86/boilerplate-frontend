@@ -20,18 +20,22 @@
 //     {groupingId, select, finalDate} comum a vários hooks
 
 import {
+  AvailableFilter,
   CouponDividends,
+  FetchAvailableFilter,
+  FetchGenericTableDataFilter,
   FetchGrossUpAllocationFilter,
   FetchGrossUpRentabilityFilter,
   FetchLiquidityValuesFilter,
   FetchNetWorthOverPeriodFilter,
-  FetchPeformanceFilter,
+  FetchPerformanceFilter,
   FetchPerformanceHistoryFilter,
   FetchRentabilityFilter,
   FetchSecurityPositionByClassFilter,
   FetchStockEarningsFilter,
   FetchTransactionsFilter,
   FetchUpcomingMaturitiesFilter,
+  GenericTableData,
   GrossUpAllocation,
   GrossUpBySecurity,
   GrossUpRentability,
@@ -55,6 +59,14 @@ import {
 import { UseSuspenseQueryResult } from '@tanstack/react-query';
 
 export type RequestHooksContextValue = {
+  useFetchAvailableFilters: (filter: FetchAvailableFilter) => UseSuspenseQueryResult<Array<AvailableFilter>, Error>;
+
+  useFetchGenericTableData: (filter: FetchGenericTableDataFilter) => UseSuspenseQueryResult<GenericTableData, Error>;
+
+  useFetchPerformanceByClassification: (
+    filter: FetchPerformanceFilter,
+  ) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
+
   useFetchNetWorthOverPeriods: (
     filter: FetchNetWorthOverPeriodFilter,
   ) => UseSuspenseQueryResult<NetWorthOverPeriods, Error>;
@@ -63,7 +75,7 @@ export type RequestHooksContextValue = {
     filter: FetchNetWorthOverPeriodFilter,
   ) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
 
-  useFetchPerformance: (filter: FetchPeformanceFilter) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
+  useFetchPerformance: (filter: FetchPerformanceFilter) => UseSuspenseQueryResult<PerformanceOverPeriods, Error>;
 
   useFetchPerformanceHistory: (
     filter: FetchPerformanceHistoryFilter,

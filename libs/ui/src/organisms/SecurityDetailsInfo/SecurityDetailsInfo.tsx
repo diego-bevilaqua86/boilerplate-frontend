@@ -4,7 +4,7 @@
 // Chave no registry: 'security-info'
 
 import { TGetReportSecuritySummaryResponse } from '@boilerplate-frontend/types';
-import { dateFormatter, isNullOrUndefined, useRequestHooks, useTemplateNavigation } from '@boilerplate-frontend/utils';
+import { dateFormatter, isNullOrUndefined, useRequestHooks, useTemplateModal } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Paper, SimpleGrid, Stack, Text } from '@mantine/core';
@@ -35,7 +35,7 @@ export const SecurityDetailsInfo = () => (
 );
 
 const SecurityDetailsInfoDataRequest = () => {
-  const { currentParams } = useTemplateNavigation();
+  const { currentParams } = useTemplateModal();
   const { useFetchSecuritySummary } = useRequestHooks();
 
   const walletId = (currentParams?.walletId as string) ?? '';

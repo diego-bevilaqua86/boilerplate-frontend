@@ -10,13 +10,20 @@ export {
   type RequestHooksProviderProps,
 } from './contexts/RequestHooksContext/RequestHooksContext';
 export { type RequestHooksContextValue } from './contexts/RequestHooksContext/RequestHooksContext.types';
-export * from './contexts/TemplateNavigationContext/TemplateNavigationContext';
+export * from './contexts/TemplateModalContext/TemplateModalContext';
 
 export { DEFAULT_BREAKPOINTS, DEFAULT_COLS } from './constants/template';
 
 export { dateFormatter, monthYearFormatter } from './formatters/date.formatter';
 export { numberFormatter } from './formatters/number.formatter';
 
+export {
+  filterZeroBalanceCashAccountGains,
+  getAmounts,
+  getContributionTableData,
+  getPercents,
+  getUniqueClassifications,
+} from './functions/contribution';
 export {
   currencyFormatter,
   currencyFormatterToParts,
@@ -31,4 +38,5 @@ export { isNullOrUndefined } from './functions/isNullOrUndefined.fn';
 export { APIErrorAdapter } from './adapters/APIError.adapter';
 
 export { useCurrencyFormatters } from './hooks/useCurrencyFormatter';
+export { useGenericTableToPortfolioDataAdapter } from './hooks/useGenericTableToPortfolioDataAdapter';
 export { useNumberFormatters } from './hooks/useNumberFormatter';

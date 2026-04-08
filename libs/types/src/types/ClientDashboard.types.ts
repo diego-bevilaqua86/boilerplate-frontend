@@ -1,3 +1,10 @@
+import { HierarchicalVariable } from './ClientWallet.types';
+import { PeriodType } from './Common.types';
+import { FinancialInstitution } from './FinancialInstitutions.types';
+import { Security } from './Security.types';
+import { Wallet } from './Wallet.types';
+import { WalletsGrouping } from './WalletsGrouping.types';
+
 export type TGetReportSecuritySummaryResponse = {
   groupingNavPercentual: number | null;
   walletNavPercentual: number | null;
@@ -345,3 +352,45 @@ export const PERFORMANCE_ITEM_TYPES = [
 ] as const;
 
 export type PerformanceItemTypes = (typeof PERFORMANCE_ITEM_TYPES)[number];
+
+type CompanyVariable = {
+  type: 'string' | 'number' | 'boolean' | 'date' | 'list';
+  name: string;
+  isSecurityVariable: boolean;
+  isWalletVariable: boolean;
+  isGroupingVariable: boolean;
+  _id?: string | undefined;
+  arrayOptions?: string[] | undefined;
+};
+
+export type AvailableFilter = {
+  security: Pick<Security, '_id' | 'beehusName' | 'securityType' | 'currency' | 'mainId'>;
+  entity: FinancialInstitution | null;
+  hierarchicalVariable: HierarchicalVariable | null;
+  companyVariables: Array<CompanyVariable>;
+  wallet: Pick<
+    Wallet,
+    '_id' | 'name' | 'companyId' | 'currency' | 'startDateConsolidation' | 'startDateReturn' | 'entityId'
+  >;
+  grouping: Pick<
+    WalletsGrouping,
+    '_id' | 'name' | 'companyId' | 'currencyId' | 'initialDateConsolidation' | 'initialDateRentability' | 'wallets'
+  >;
+};
+
+export type PerformanceRequestFilter = {
+  groupingId: string;
+  walletId: string;
+  securityId: string;
+};
+
+export type ParameterizedTableFiltersDTO = {
+  clientId?: string;
+  targetCurrency: string; //(moeda do agrupamento selecionado)
+  period?: PeriodType;
+  initialDate?: string; //(padrão ISO)
+  finalDate?: string; //(padrão ISO)
+  filters?: Array<PerformanceRequestFilter>;
+  fullWallets?: boolean;
+  fullGroupings?: boolean;
+};
