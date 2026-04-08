@@ -52,7 +52,9 @@ Esta lib contém todos os componentes visuais reutilizáveis do monorepo. É con
 // ✅ padrão correto
 const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) => {
   const [searchInput, setSearchInput] = useDebouncedState('', 50);
-  const [filtersModalOpen, toggleFiltersModal] = useToggle([false, true] as const);
+  const [selectedTransactionTypes, setSelectedTransactionTypes] = useState<Array<string>>([]);
+  const [detailsModalOpen, toggleDetailsModal] = useToggle([false, true] as const);
+  const [selectedTransaction, setSelectedTransaction] = useState<TransactionPopulated | null>(null);
   // handlers, useMemo, JSX — tudo no View
   return <Stack>...</Stack>;
 };
@@ -92,11 +94,11 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
 ```
 libs/ui/src/
   atoms/
-    SensitiveText, TableActionButtons, TableSortingHeader
+    FilterButton, SensitiveText, TableActionButtons, TableSortingHeader
 
   molecules/
     BarChart, BaseTable, BaseWidget, DoughnutChart,
-    EmptyWidget, ErrorCard, LineChart, ModalFilters, SearchFilterBar, TablePlaceholder
+    EmptyWidget, ErrorCard, FilterModal, LineChart, ModalFilters, SearchFilterBar, TablePlaceholder
 
   organisms/<NomeWidget>/
     <NomeWidget>.tsx              ← composição das 3 camadas

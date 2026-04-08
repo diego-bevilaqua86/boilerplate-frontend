@@ -35,6 +35,7 @@ Elemento visual mínimo. Não tem estado próprio. Não usa contextos de dados. 
 
 | Componente           | O que faz                                                              |
 | -------------------- | ---------------------------------------------------------------------- |
+| `FilterButton`       | Botão de ação para abrir filtros com indicador de filtros ativos       |
 | `SensitiveText`      | Oculta o conteúdo filho substituindo-o por pontos (`•`) quando `isHidden=true` |
 | `TableActionButtons` | Renderiza botões de ação (ex: detalhar, expandir) em células de tabela |
 | `TableSortingHeader` | Renderiza cabeçalho de coluna com ícone e handler de ordenação         |
@@ -50,11 +51,11 @@ Elemento visual mínimo. Não tem estado próprio. Não usa contextos de dados. 
 
 ### Checklist de um átomo
 
-- [ ] Sem `useState`, `useReducer`, `useContext`
+- [ ] Sem `useState`, `useReducer`, `useContext` de domínio (dados, roteamento, etc.) — `useLingui` é permitido
 - [ ] Sem chamadas de hooks de dados (`useRequestHooks`, `useContentRequest`)
 - [ ] Sem chamadas diretas de contextos do domínio (`useTemplateModal`, `useContentRequest`)
 - [ ] Comportamento determinado 100% pelas props recebidas
-- [ ] Testável com render simples, sem providers
+- [ ] Testável com render simples — apenas provider de i18n necessário
 - [ ] Arquivo `<Componente>.stories.tsx` criado com título `'UI/Atoms/<Componente>'`
 
 ---
@@ -78,6 +79,7 @@ Composição de um ou mais átomos com uma responsabilidade única bem definida.
 | `BarChart`       | Wrapper de `BarChart` do Mantine Charts com configurações padrão        |
 | `DoughnutChart`  | Wrapper de `DonutChart` do Mantine Charts com configurações padrão      |
 | `LineChart`      | Wrapper de `LineChart` do Mantine Charts com configurações padrão       |
+| `FilterModal`    | Botão + modal de filtros encapsulados; gerencia estado de abertura internamente |
 | `SearchFilterBar`| Barra de busca com botão de filtros; emite eventos via callbacks        |
 
 ### Exemplo de código
@@ -92,7 +94,12 @@ Composição de um ou mais átomos com uma responsabilidade única bem definida.
     {children}
   </BaseWidget.Content>
   <BaseWidget.Footer>
-    <SearchFilterBar onSearch={handleSearch} onFilter={toggleFilters} />
+    <SearchFilterBar
+      placeholder={t`Pesquisar...`}
+      defaultValue={searchInput}
+      onChange={(e) => setSearchInput(e.target.value)}
+      filtersProps={{ title: t`Filtros`, data, filterOptions, onSubmit: setSelected }}
+    />
   </BaseWidget.Footer>
 </BaseWidget>
 ```
@@ -120,7 +127,7 @@ Widget completo e autossuficiente que implementa o padrão de três camadas. É 
 organisms/CardTransactions/
   CardTransactions.tsx       ← Camada 1 (BaseWidget + ErrorBoundary + Suspense)
                              + Camada 2 (DataRequest — busca dados, chama adapters)
-  CardTransactionsView.tsx   ← Camada 3 (estado, handlers, useMemo, JSX)
+                             + Camada 3 (View — estado, handlers, useMemo, JSX)
   CardTransactions.stories.tsx
 ```
 
@@ -150,7 +157,9 @@ const CardTransactionsDataRequest = () => {
 // Camada 3 — Conteúdo
 const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) => {
   const [searchInput, setSearchInput] = useDebouncedState('', 50);
-  const [filtersModalOpen, toggleFiltersModal] = useToggle([false, true] as const);
+  const [selectedTransactionTypes, setSelectedTransactionTypes] = useState<Array<string>>([]);
+  const [detailsModalOpen, toggleDetailsModal] = useToggle([false, true] as const);
+  const [selectedTransaction, setSelectedTransaction] = useState<TransactionPopulated | null>(null);
   // handlers e useMemo inline
   return <Stack>...</Stack>;
 };

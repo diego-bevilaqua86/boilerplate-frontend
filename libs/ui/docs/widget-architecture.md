@@ -124,7 +124,9 @@ O `View` contém todo o estado de componente, handlers, `useMemo` e JSX. Não h�
 // ✅ padrão correto — Camada 3
 const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) => {
   const [searchInput, setSearchInput] = useDebouncedState('', 50);
-  const [filtersModalOpen, toggleFiltersModal] = useToggle([false, true] as const);
+  const [selectedTransactionTypes, setSelectedTransactionTypes] = useState<Array<string>>([]);
+  const [detailsModalOpen, toggleDetailsModal] = useToggle([false, true] as const);
+  const [selectedTransaction, setSelectedTransaction] = useState<TransactionPopulated | null>(null);
   // handlers e useMemo inline
   return <Stack>...</Stack>;
 };
