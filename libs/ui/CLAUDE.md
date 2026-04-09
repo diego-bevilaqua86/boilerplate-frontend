@@ -94,11 +94,11 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
 ```
 libs/ui/src/
   atoms/
-    FilterButton, SensitiveText, TableActionButtons, TableSortingHeader
+    ActiveFilterBadge, FilterButton, SensitiveText, TableActionButtons, TableSortingHeader
 
   molecules/
     BarChart, BaseTable, BaseWidget, DoughnutChart,
-    EmptyWidget, ErrorCard, FilterModal, LineChart, ModalFilters, SearchFilterBar, TablePlaceholder
+    EmptyWidget, ErrorCard, FilterModal, LineChart, ModalFilters, SearchFilterBar, TableFilterHeader, TablePlaceholder
 
   organisms/<NomeWidget>/
     <NomeWidget>.tsx              ← composição das 3 camadas

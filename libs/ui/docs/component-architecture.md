@@ -35,6 +35,7 @@ Elemento visual mínimo. Não tem estado próprio. Não usa contextos de dados. 
 
 | Componente           | O que faz                                                              |
 | -------------------- | ---------------------------------------------------------------------- |
+| `ActiveFilterBadge`  | Badge dismissível para filtros ativos; chama `onRemove` ao clicar no `×` |
 | `FilterButton`       | Botão de ação para abrir filtros com indicador de filtros ativos       |
 | `SensitiveText`      | Oculta o conteúdo filho substituindo-o por pontos (`•`) quando `isHidden=true` |
 | `TableActionButtons` | Renderiza botões de ação (ex: detalhar, expandir) em células de tabela |
@@ -81,6 +82,7 @@ Composição de um ou mais átomos com uma responsabilidade única bem definida.
 | `LineChart`      | Wrapper de `LineChart` do Mantine Charts com configurações padrão       |
 | `FilterModal`    | Botão + modal de filtros encapsulados; gerencia estado de abertura internamente |
 | `SearchFilterBar`| Barra de busca com botão de filtros; emite eventos via callbacks        |
+| `TableFilterHeader` | Header de tabela com contagem de linhas, badges de filtros ativos e `FilterModal` |
 
 ### Exemplo de código
 
