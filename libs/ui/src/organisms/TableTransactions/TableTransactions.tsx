@@ -22,7 +22,7 @@ import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } fro
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Badge, Box, Group, ScrollArea, Stack, Text } from '@mantine/core';
+import { Box, ScrollArea, Stack, Text } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
 import { Suspense, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -30,7 +30,7 @@ import { BaseTable } from '../../molecules/BaseTable/BaseTable';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
-import { FilterModal } from '../../molecules/FilterModal/FilterModal';
+import { TableFilterHeader } from '../../molecules/TableFilterHeader/TableFilterHeader';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { ModalTransactionDetails } from './ModalTransactionDetails';
 import { useTransactionsTable } from './useTransactionsTable';
@@ -100,6 +100,16 @@ const TableTransactionsView = ({ data, currency }: { data: Array<TransactionPopu
     setSelectedTransaction(null);
   };
 
+  const activeBadges = useMemo(
+    () =>
+      selectedTransactionTypes.map((item) => ({
+        label: TRANSACTION_TYPES_MAPPING.find((m) => m.apiLabel === item)?.screenLabel ?? item,
+        onRemove: () => handleRemoveFilter(item),
+      })),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedTransactionTypes, TRANSACTION_TYPES_MAPPING],
+  );
+
   // ── Filtragem ───────────────────────────────────────────────────────────────
   const filteredData = useMemo(() => {
     if (selectedTransactionTypes.length === 0) return data;
@@ -128,50 +138,30 @@ const TableTransactionsView = ({ data, currency }: { data: Array<TransactionPopu
       )}
 
       <Stack gap={0}>
-        {/* Header — botão de filtro + badges de filtros ativos */}
-        <Group px="md" py="sm" justify="space-between">
-          <Text size="sm" c="dimmed">
-            {filteredData.length} <Trans>movimentações</Trans>
-          </Text>
-          <Group gap={6}>
-            {/* Badges dos filtros ativos */}
-            {selectedTransactionTypes.map((item) => (
-              <Badge
-                key={item}
-                variant="light"
-                size="sm"
-                style={{ cursor: 'pointer' }}
-                rightSection={
-                  <Text size="xs" onClick={() => handleRemoveFilter(item)}>
-                    ×
-                  </Text>
-                }
-              >
-                {TRANSACTION_TYPES_MAPPING.find((m) => m.apiLabel === item)?.screenLabel ?? item}
-              </Badge>
-            ))}
-
-            {/* Botão de filtros */}
-            <FilterModal
-              data={data}
-              filterOptions={[
-                {
-                  title: _(msg`Tipo de operação`),
-                  key: 'beehusTransactionType',
-                  translate: TRANSACTION_TYPES_MAPPING,
-                },
-                {
-                  title: _(msg`Instituição financeira`),
-                  key: 'entityId.name' as keyof TransactionPopulated,
-                },
-              ]}
-              title={_(msg`Filtros`)}
-              selectedValues={selectedTransactionTypes}
-              onSubmit={setSelectedTransactionTypes}
-              disabled={isEmptyArr(data)}
-            />
-          </Group>
-        </Group>
+        {/* Header — contagem + badges de filtros ativos + botão de filtro */}
+        <TableFilterHeader
+          rowCount={filteredData.length}
+          rowLabel={_(msg`movimentações`)}
+          activeBadges={activeBadges}
+          filterProps={{
+            data,
+            filterOptions: [
+              {
+                title: _(msg`Tipo de operação`),
+                key: 'beehusTransactionType',
+                translate: TRANSACTION_TYPES_MAPPING,
+              },
+              {
+                title: _(msg`Instituição financeira`),
+                key: 'entityId.name' as keyof TransactionPopulated,
+              },
+            ],
+            title: _(msg`Filtros`),
+            selectedValues: selectedTransactionTypes,
+            onSubmit: setSelectedTransactionTypes,
+            disabled: isEmptyArr(data),
+          }}
+        />
 
         {/* Tabela ou estado vazio */}
         {isEmptyArr(filteredData) ? (
