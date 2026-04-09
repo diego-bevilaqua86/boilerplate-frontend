@@ -1,20 +1,48 @@
-// TableWallet.tsx
+// TableWallets.tsx
+//
+// Widget de carteira com variantes: posição, provisões e saldo.
+//
+// Arquitetura em três camadas:
+//   1. Camada de apresentação (TableWallets)
+//      — BaseWidget com título, SegmentedControl, ErrorBoundary e Suspense.
+//
+//   2. Camada de dados (TableWalletDataRequest)
+//      — Busca posição processada via useRequestHooks.
+//      — Delega ao View diretamente após dados disponíveis.
+//
+//   3. Camada de conteúdo (TableWalletView)
+//      — Estado de componente (filtros, expand, entidades).
+//      — Hooks de tabela instanciados inline.
+//      — variantMap useMemo inline.
+//      — JSX completo.
+
 import { GroupingProcessedPosition } from '@boilerplate-frontend/types';
-import { isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { SegmentedControl, Text } from '@mantine/core';
-import { Suspense, useState } from 'react';
+import { Box, ScrollArea, SegmentedControl, Text } from '@mantine/core';
+import { ExpandedState, OnChangeFn, Table } from '@tanstack/react-table';
+import { Suspense, useCallback, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { BaseTable } from '../../molecules/BaseTable/BaseTable';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { TableWalletView } from './TableWalletView';
-import { useTableWalletManager } from './useTableWalletManager';
+import { TableRecordBar } from '../../molecules/TableRecordBar/TableRecordBar';
+import { useBalanceTable } from './useBalanceTable';
+import { useInvestmentPositionTable } from './useInvestmentPositionTable';
+import { useManageWalletTableData } from './useManageWalletTableData';
+import { useProvisionsTable } from './useProvisionsTable';
 
 export type WalletVariant = 'position' | 'provisions' | 'balance';
+
+type WalletVariantState = {
+  table: Table<unknown>;
+  emptyMessage: string;
+  isEmptyData: boolean;
+};
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 
@@ -63,14 +91,12 @@ const TableWalletDataRequest = ({ selectedVariant }: { selectedVariant: WalletVa
 
   if (isNullOrUndefined(data)) return <EmptyWidget />;
 
-  return <TableWalletContent data={data} selectedVariant={selectedVariant} palette={palette ?? []} />;
+  return <TableWalletView data={data} selectedVariant={selectedVariant} palette={palette ?? []} />;
 };
 
-// ─── Camada de conteúdo ───────────────────────────────────────────────────────
-// onSelectSecurity removido — navegação via TemplateNavigationContext.
-// useInvestmentPositionTable chama handleOpen() diretamente.
+// ─── Camada de view ───────────────────────────────────────────────────────────
 
-const TableWalletContent = ({
+const TableWalletView = ({
   data,
   selectedVariant,
   palette,
@@ -79,6 +105,95 @@ const TableWalletContent = ({
   selectedVariant: WalletVariant;
   palette: Array<string>;
 }) => {
-  const managerState = useTableWalletManager({ data, selectedVariant, palette });
-  return <TableWalletView {...managerState} />;
+  const { _ } = useLingui();
+
+  // ── Filtro de entidades ───────────────────────────────────────────────────
+  const [selectedEntities, setSelectedEntities] = useState<Array<string>>([]);
+
+  // ── Estado de expand ──────────────────────────────────────────────────────
+  const [expanded, setExpanded] = useState<ExpandedState>({});
+
+  const handleExpandedChange: OnChangeFn<ExpandedState> = useCallback((updaterOrValue) => {
+    setExpanded((prev) => (typeof updaterOrValue === 'function' ? updaterOrValue(prev) : updaterOrValue));
+  }, []);
+
+  // ── Adaptação e filtragem ─────────────────────────────────────────────────
+  const {
+    investments: { mainClassificationsRows },
+    filteredProvisions,
+    filteredBalance,
+    allEntities,
+  } = useManageWalletTableData({
+    groupingSecuritiesData: data,
+    filter: selectedEntities.length > 0 ? selectedEntities : null,
+  });
+
+  // ── Hooks de tabela — todos instanciados incondicionalmente ───────────────
+  const { table: positionTable } = useInvestmentPositionTable({
+    rowData: mainClassificationsRows,
+    currency: data.groupingCurrency,
+    palette,
+    expanded,
+    onExpandedChange: handleExpandedChange,
+  });
+
+  const { table: provisionsTable } = useProvisionsTable({
+    tableData: filteredProvisions,
+  });
+
+  const { table: balanceTable } = useBalanceTable({
+    tableData: filteredBalance,
+    currency: data.groupingCurrency,
+  });
+
+  // ── Mapa de variante ──────────────────────────────────────────────────────
+  const variantMap = useMemo(
+    () =>
+      ({
+        position: {
+          table: positionTable as Table<unknown>,
+          emptyMessage: _(msg`Você não possui investimentos para o período solicitado.`),
+          isEmptyData: isEmptyArr(mainClassificationsRows),
+        },
+        provisions: {
+          table: provisionsTable as Table<unknown>,
+          emptyMessage: _(msg`Você não possui provisões para o período solicitado.`),
+          isEmptyData: isEmptyArr(filteredProvisions),
+        },
+        balance: {
+          table: balanceTable as Table<unknown>,
+          emptyMessage: _(msg`Você não possui saldo em conta corrente.`),
+          isEmptyData: isEmptyArr(filteredBalance),
+        },
+      }) satisfies Record<WalletVariant, WalletVariantState>,
+    [_, positionTable, mainClassificationsRows, provisionsTable, filteredProvisions, balanceTable, filteredBalance],
+  );
+
+  const active = variantMap[selectedVariant];
+
+  return (
+    <>
+      <TableRecordBar
+        rowCount={active.table.getRowModel().rows.length}
+        filterProps={{
+          data: allEntities.map((e) => ({ entity: e })),
+          filterOptions: [{ title: _(msg`Instituição financeira`), key: 'entity' }],
+          title: _(msg`Filtros`),
+          selectedValues: selectedEntities,
+          onSubmit: setSelectedEntities,
+          disabled: isEmptyArr(allEntities),
+        }}
+      />
+
+      {active.isEmptyData ? (
+        <EmptyWidget message={active.emptyMessage} />
+      ) : (
+        <ScrollArea>
+          <Box px="md" pb="md">
+            <BaseTable table={active.table} />
+          </Box>
+        </ScrollArea>
+      )}
+    </>
+  );
 };

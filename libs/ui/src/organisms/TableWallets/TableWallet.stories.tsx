@@ -22,12 +22,25 @@ type Story = StoryObj<typeof TableWallets>;
 
 export const Default: Story = {};
 
-export const Empty: Story = {
+export const WithMockData: Story = {
   decorators: [
     (Story) => (
       <RequestHooksProvider
         {...providerProps}
         useFetchGroupingProcessedPosition={createMockHook(mockGroupingProcessedPosition)}
+      >
+        <Story />
+      </RequestHooksProvider>
+    ),
+  ],
+};
+
+export const Empty: Story = {
+  decorators: [
+    (Story) => (
+      <RequestHooksProvider
+        {...providerProps}
+        useFetchGroupingProcessedPosition={createMockHook(null)}
       >
         <Story />
       </RequestHooksProvider>

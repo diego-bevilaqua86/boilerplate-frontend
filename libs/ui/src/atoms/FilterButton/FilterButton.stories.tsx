@@ -27,3 +27,9 @@ export const Disabled: Story = {
     disabled: true,
   },
 };
+
+export const WithCustomLabel: Story = {
+  args: {
+    label: 'Filtrar por instituição',
+  },
+};
