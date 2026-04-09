@@ -78,6 +78,7 @@ export function createMockHook<T>(data: T) {
     isRefetchError: false as const,
     isPending: false as const,
     isSuccess: true as const,
+    isEnabled: true as const,
     isStale: false as const,
     status: 'success' as const,
     failureCount: 0,

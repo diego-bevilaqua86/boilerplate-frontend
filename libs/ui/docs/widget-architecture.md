@@ -399,7 +399,7 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 | `CardWallets`                                     | `useCardWalletInvestmentsManager`                           | Deletar manager; mover estado para View correspondente     |
 | `CardWallets`                                     | `useCardWalletProvisionsManager`                            | Deletar manager; mover estado para View correspondente     |
 | `CardWallets`                                     | `useCardWalletBalanceManager`                               | Deletar manager; mover estado para View correspondente     |
-| `TableTransactions`                               | `useTableTransactionsManager`                               | Deletar manager; mover estado para `TableTransactionsView` |
+| ~~`TableTransactions`~~                           | ~~`useTableTransactionsManager`~~                           | ✅ Concluído                                               |
 | `TableLiquiditySecurities`                        | `useTableLiquiditySecuritiesManager`                        | Deletar manager; mover estado para View correspondente     |
 | `CardLiquiditySecurities`                         | `useCardLiquiditySecuritiesManager`                         | Deletar manager; mover estado para View correspondente     |
 | `CardUpcomingMaturities`                          | `useCardUpcomingMaturitiesManager`                          | Deletar manager; mover estado para View correspondente     |

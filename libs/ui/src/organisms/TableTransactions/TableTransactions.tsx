@@ -19,17 +19,18 @@
 
 import { getTransactionMappings, TransactionPopulated } from '@boilerplate-frontend/types';
 import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { msg } from '@lingui/core/macro';
+import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { ActionIcon, Badge, Box, Group, ScrollArea, Stack, Text, Tooltip } from '@mantine/core';
+import { Badge, Box, Group, ScrollArea, Stack, Text } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
-import { FunnelIcon } from '@phosphor-icons/react';
 import { Suspense, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseTable } from '../../molecules/BaseTable/BaseTable';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
-import { ModalFilters } from '../../molecules/ModalFilters/ModalFilters';
+import { FilterModal } from '../../molecules/FilterModal/FilterModal';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { ModalTransactionDetails } from './ModalTransactionDetails';
 import { useTransactionsTable } from './useTransactionsTable';
@@ -58,7 +59,7 @@ export const TableTransactions = () => (
 // ─── Camada de dados ──────────────────────────────────────────────────────────
 
 const TableTransactionsDataRequest = () => {
-  const { selectedGrouping, selectedPeriod } = useContentRequest();
+  const { selectedGrouping, selectedPeriod, selectedGroupingSummary } = useContentRequest();
   const { useFetchTransactions } = useRequestHooks();
 
   const { data } = useFetchTransactions({
@@ -69,22 +70,17 @@ const TableTransactionsDataRequest = () => {
 
   if (isNullOrUndefined(data)) return <EmptyWidget />;
 
-  return <TableTransactionsView data={data} />;
+  return <TableTransactionsView data={data} currency={selectedGroupingSummary?.currency} />;
 };
 
 // ─── Camada de view ───────────────────────────────────────────────────────────
 
-const TableTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) => {
+const TableTransactionsView = ({ data, currency }: { data: Array<TransactionPopulated>; currency?: string }) => {
+  const { _ } = useLingui();
   const { TRANSACTION_TYPES_MAPPING } = getTransactionMappings();
 
-  // ── Modal de filtros ────────────────────────────────────────────────────────
-  const [filtersModalOpen, toggleFiltersModal] = useToggle([false, true] as const);
+  // ── Filtros ─────────────────────────────────────────────────────────────────
   const [selectedTransactionTypes, setSelectedTransactionTypes] = useState<Array<string>>([]);
-
-  const handleApplyFilter = (selected: Array<string>) => {
-    setSelectedTransactionTypes(selected);
-    toggleFiltersModal();
-  };
 
   const handleRemoveFilter = (item: string) => {
     setSelectedTransactionTypes((prev) => prev.filter((t) => t !== item));
@@ -117,31 +113,11 @@ const TableTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) 
   const { table } = useTransactionsTable({
     data: filteredData,
     onOpenDetailsModal: handleOpenDetailsModal,
+    currency,
   });
 
   return (
     <>
-      {/* Modal de filtros */}
-      <ModalFilters
-        opened={filtersModalOpen}
-        onClose={toggleFiltersModal}
-        onSubmit={handleApplyFilter}
-        title={'Filtros'}
-        data={data}
-        selectedValues={selectedTransactionTypes}
-        filterOptions={[
-          {
-            title: 'Tipo de operação',
-            key: 'beehusTransactionType',
-            translate: TRANSACTION_TYPES_MAPPING,
-          },
-          {
-            title: 'Instituição financeira',
-            key: 'entityId.name' as keyof TransactionPopulated,
-          },
-        ]}
-      />
-
       {/* Modal de detalhes da transação */}
       {!isNullOrUndefined(selectedTransaction) && (
         <ModalTransactionDetails
@@ -175,23 +151,31 @@ const TableTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) 
               </Badge>
             ))}
 
-            {/* Botão de abrir filtros */}
-            <Tooltip label={'Filtrar movimentações'} withArrow>
-              <ActionIcon
-                variant={selectedTransactionTypes.length > 0 ? 'filled' : 'default'}
-                size="sm"
-                onClick={() => toggleFiltersModal()}
-                disabled={isNullOrUndefined(data) || isEmptyArr(data)}
-              >
-                <FunnelIcon size={14} />
-              </ActionIcon>
-            </Tooltip>
+            {/* Botão de filtros */}
+            <FilterModal
+              data={data}
+              filterOptions={[
+                {
+                  title: _(msg`Tipo de operação`),
+                  key: 'beehusTransactionType',
+                  translate: TRANSACTION_TYPES_MAPPING,
+                },
+                {
+                  title: _(msg`Instituição financeira`),
+                  key: 'entityId.name' as keyof TransactionPopulated,
+                },
+              ]}
+              title={_(msg`Filtros`)}
+              selectedValues={selectedTransactionTypes}
+              onSubmit={setSelectedTransactionTypes}
+              disabled={isEmptyArr(data)}
+            />
           </Group>
         </Group>
 
         {/* Tabela ou estado vazio */}
         {isEmptyArr(filteredData) ? (
-          <EmptyWidget message={'Você não possui informações para o período solicitado.'} />
+          <EmptyWidget message={_(msg`Você não possui informações para o período solicitado.`)} />
         ) : (
           <ScrollArea>
             <Box px="md" pb="md">
