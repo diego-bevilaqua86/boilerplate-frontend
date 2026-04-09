@@ -395,7 +395,7 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 
 | Widget                                            | Manager a eliminar                                          | Ação                                                       |
 | ------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------- |
-| `TableWallets`                                    | `useTableWalletManager`                                     | Deletar manager; mover estado para `TableWalletView`       |
+| ~~`TableWallets`~~                                | ~~`useTableWalletManager`~~                                 | ✅ Concluído                                               |
 | `CardWallets`                                     | `useCardWalletInvestmentsManager`                           | Deletar manager; mover estado para View correspondente     |
 | `CardWallets`                                     | `useCardWalletProvisionsManager`                            | Deletar manager; mover estado para View correspondente     |
 | `CardWallets`                                     | `useCardWalletBalanceManager`                               | Deletar manager; mover estado para View correspondente     |
@@ -412,6 +412,7 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 | `TablePerformanceAnalysisEarningByClassification` | `usePerformanceAnalysisEarningByClassificationTable`        | Deletar hook de tabela; JSX de colunas vai para View       |
 
 ✅ **Concluído:** `CardTransactions` — referência canônica do novo padrão.
+✅ **Concluído:** `TableWallets` — manager eliminado; View inline.
 
 **Regras para o `View` após refatoração:**
 
