@@ -1,6 +1,6 @@
 // useLiquiditySecuritiesTable.ts
 import { Liquidity } from '@boilerplate-frontend/types';
-import { currencyFormatter, numberFormatter, percentFormatter } from '@boilerplate-frontend/utils';
+import { useCurrencyFormatters, useNumberFormatters } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
@@ -21,6 +21,8 @@ const columnBuilder = createColumnHelper<LiquidityValuesTableRows>();
 
 export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
   const { _, i18n } = useLingui();
+  const { currencyFormatter } = useCurrencyFormatters({ locale: i18n.locale, currency: data.currency });
+  const { numberFormatter, percentFormatter } = useNumberFormatters({ locale: i18n.locale });
   const [sorting, setSorting] = useState<SortingState>([{ id: 'balance', desc: true }]);
 
   const columns = useMemo(() => [
@@ -45,14 +47,14 @@ export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
       ),
       cell: ({ getValue }) => (
         <SensitiveText dotCount={4} dotSize={24} isHidden={false}>
-          <span>{currencyFormatter(getValue(), 2, i18n.locale, data.currency)}</span>
+          <span>{currencyFormatter(getValue(), 2)}</span>
         </SensitiveText>
       ),
       footer: ({ table: { getPrePaginationRowModel } }) => {
         const total = getPrePaginationRowModel().rows.reduce((sum, row) => sum + row.original.balance, 0);
         return (
           <SensitiveText dotCount={4} dotSize={24} isHidden={false}>
-            <span>{currencyFormatter(total, 2, i18n.locale, data.currency)}</span>
+            <span>{currencyFormatter(total, 2)}</span>
           </SensitiveText>
         );
       },
@@ -65,10 +67,10 @@ export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
           onToggleSorting={column.getToggleSortingHandler()}
         />
       ),
-      cell: ({ getValue }) => <span>{percentFormatter(getValue() * 100, 2, i18n.locale)}</span>,
+      cell: ({ getValue }) => <span>{percentFormatter(getValue() * 100, 2)}</span>,
       footer: ({ table: { getPrePaginationRowModel } }) => {
         const total = getPrePaginationRowModel().rows.reduce((sum, row) => sum + row.original.netWorth, 0);
-        return <span>{percentFormatter(total * 100, 2, i18n.locale)}</span>;
+        return <span>{percentFormatter(total * 100, 2)}</span>;
       },
     }),
     columnBuilder.accessor('redemptionSettlementDays', {
@@ -79,7 +81,7 @@ export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
           onToggleSorting={column.getToggleSortingHandler()}
         />
       ),
-      cell: ({ getValue }) => <span>{numberFormatter(getValue(), 0, i18n.locale)}</span>,
+      cell: ({ getValue }) => <span>{numberFormatter(getValue(), 0)}</span>,
     }),
     columnBuilder.accessor('entityName', {
       header: ({ column }) => (
@@ -91,7 +93,7 @@ export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
       ),
       cell: ({ getValue }) => <span>{getValue()}</span>,
     }),
-  ], [_, i18n.locale, data.currency]);
+  ], [_, currencyFormatter, numberFormatter, percentFormatter]);
 
   const table = useReactTable<LiquidityValuesTableRows>({
     data: data.liquiditySecurities,
