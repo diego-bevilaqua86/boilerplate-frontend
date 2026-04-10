@@ -2,14 +2,15 @@
 //
 // Widget mobile para exibição dos ativos com liquidez.
 //
-// Arquitetura em duas camadas:
+// Arquitetura em três camadas:
 //   1. Camada de apresentação (CardLiquiditySecurities)
 //      — Estrutura visual estática: título, boundary de erro e loading.
 //
 //   2. Camada de dados (CardLiquiditySecuritiesDataRequest)
 //      — Busca os dados via useRequestHooks (injetável via contexto).
-//      — Instancia useLiquidityProvider após dados disponíveis.
-//      — Delega renderização ao useCardLiquiditySecuritiesManager.
+//
+//   3. Camada de conteúdo (CardLiquiditySecuritiesView)
+//      — Estado, useMemo e JSX inline. Sem arquivo manager separado.
 //
 // Responsividade:
 //   Destinado a viewports compactas (mobile).
@@ -17,26 +18,25 @@
 //   Chave no registry: 'card-liquidity-securities'
 
 import { Liquidity } from '@boilerplate-frontend/types';
-import { isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { isEmptyArr, isNullOrUndefined, useContentRequest, useCurrencyFormatters, useNumberFormatters, useRequestHooks } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Text } from '@mantine/core';
-import { Suspense } from 'react';
+import { Group, ScrollArea, Stack, Text } from '@mantine/core';
+import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
+import { PeriodButtonGroup } from '../../molecules/PeriodButtonGroup/PeriodButtonGroup';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { useLiquidityProvider } from '../ChartLiquidityByPeriod/useLiquidityProvider';
-import { useCardLiquiditySecuritiesManager } from './useCardLiquiditySecuritiesManager';
+import { SecurityLiquidityItem } from './SecurityLiquidityItem';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 // Estrutura visual estática: título, boundary de erro e skeleton de loading.
 // Não conhece dados, não faz requisições.
 
 export const CardLiquiditySecurities = () => {
-  const { _ } = useLingui();
-
   return (
     <BaseWidget>
       <BaseWidget.Header>
@@ -77,19 +77,78 @@ const CardLiquiditySecuritiesDataRequest = () => {
   // Estado vazio: delega ao EmptyWidget o padrão visual de ausência de dados
   if (isNullOrUndefined(data)) return <EmptyWidget />;
 
-  return <CardLiquiditySecuritiesContent data={data} />;
+  return <CardLiquiditySecuritiesView data={data} />;
 };
 
 // ─── Camada de conteúdo ───────────────────────────────────────────────────────
+// Estado, useMemo e JSX inline — sem arquivo manager separado.
 // Separada de DataRequest para instanciar useLiquidityProvider somente
 // após os dados estarem disponíveis — hooks não podem ser condicionais.
 
-const CardLiquiditySecuritiesContent = ({ data }: { data: Liquidity }) => {
-  // useLiquidityProvider gerencia selectedPeriod, includeProvisions e labelData
-  const liquidity = useLiquidityProvider({ liquidityValues: data });
+const CardLiquiditySecuritiesView = ({ data }: { data: Liquidity }) => {
+  const { i18n } = useLingui();
+  const { currencyFormatter } = useCurrencyFormatters({ locale: i18n.locale, currency: data.currency });
+  const { percentFormatter } = useNumberFormatters({ locale: i18n.locale });
 
-  // Manager: encapsula filtragem, totais e renderização dos cards
-  const { renderList } = useCardLiquiditySecuritiesManager({ data, liquidity });
+  const { labelData, selectedPeriod, setSelectedPeriod, includeProvisions } = useLiquidityProvider({ liquidityValues: data });
 
-  return renderList();
+  // Filtra ativos pelo período selecionado e pelo toggle de provisões
+  const filteredData = useMemo(() => {
+    const selectedDaysRange = selectedPeriod.match(/\d+/g);
+    if (!selectedDaysRange) return { ...data, liquiditySecurities: [] };
+
+    return {
+      ...data,
+      liquiditySecurities: data.liquiditySecurities.filter((s) => {
+        if (!includeProvisions && s.type === 'provision') return false;
+        return s.lowestLiquidityDay === Number(selectedDaysRange[0]);
+      }),
+    };
+  }, [data, includeProvisions, selectedPeriod]);
+
+  // Totais calculados para o período selecionado
+  const totalBalance = filteredData.liquiditySecurities.reduce((acc, s) => acc + s.balance, 0);
+  const totalPercent = filteredData.liquiditySecurities.reduce((acc, s) => acc + s.netWorth, 0);
+
+  return (
+    <Stack gap={0}>
+      {/* Seletor de período */}
+      <PeriodButtonGroup
+        periods={labelData ?? []}
+        selectedPeriod={selectedPeriod}
+        onSelect={setSelectedPeriod}
+      />
+
+      {/* Totais do período */}
+      <Group px="md" pb="sm" justify="space-between">
+        <Group gap={4}>
+          <Text size="xs" c="dimmed">{filteredData.liquiditySecurities.length}</Text>
+          <Text size="xs" c="dimmed"><Trans>Ativos</Trans></Text>
+        </Group>
+        <Text size="xs" c="dimmed">
+          {currencyFormatter(totalBalance, 2)}
+        </Text>
+        <Text size="xs" c="dimmed">
+          {percentFormatter(totalPercent * 100, 2)}
+        </Text>
+      </Group>
+
+      {/* Lista de cards ou estado vazio */}
+      <ScrollArea>
+        <Stack gap="sm" px="md" pb="md">
+          {isEmptyArr(filteredData.liquiditySecurities) ? (
+            <EmptyWidget message="Você não possui ativos com liquidez no período selecionado." />
+          ) : (
+            filteredData.liquiditySecurities.map((security, index) => (
+              <SecurityLiquidityItem
+                key={security.securityName + index}
+                liquiditySecurity={security}
+                currency={data.currency}
+              />
+            ))
+          )}
+        </Stack>
+      </ScrollArea>
+    </Stack>
+  );
 };
