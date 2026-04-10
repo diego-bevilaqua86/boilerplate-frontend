@@ -1,4 +1,5 @@
 // CardWallet.stories.tsx
+import { GroupingProcessedPosition } from '@boilerplate-frontend/types';
 import { RequestHooksProvider } from '@boilerplate-frontend/utils';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { ReactRenderer } from '@storybook/react';
@@ -12,19 +13,22 @@ import {
 import { withTemplateModalProvider } from '../../storybook/decorators/withTemplateModalProvider';
 import { CardWallets } from './CardWallets';
 
-const meta: Meta<typeof CardWallets> = {
+const meta = {
   component: CardWallets,
   title: 'UI/Organisms/CardWallets',
   decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateModalProvider],
-};
+} satisfies Meta<typeof CardWallets>;
 
 export default meta;
-type Story = StoryObj<typeof CardWallets>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
 const withEmptyWalletData: DecoratorFunction<ReactRenderer> = (Story) => (
-  <RequestHooksProvider {...providerProps} useFetchGroupingProcessedPosition={createMockHook(null)}>
+  <RequestHooksProvider
+    {...providerProps}
+    useFetchGroupingProcessedPosition={createMockHook(null as unknown as GroupingProcessedPosition)}
+  >
     <Story />
   </RequestHooksProvider>
 );

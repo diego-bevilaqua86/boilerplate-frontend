@@ -5,14 +5,14 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { createMockHook, providerProps } from '../../storybook/decorators/withRequestHooksProvider';
 import { CardLiquiditySecurities } from './CardLiquiditySecurities';
 
-const meta: Meta<typeof CardLiquiditySecurities> = {
+const meta = {
   component: CardLiquiditySecurities,
   title: 'UI/Organisms/CardLiquiditySecurities',
   decorators: [],
-};
+} satisfies Meta<typeof CardLiquiditySecurities>;
 
 export default meta;
-type Story = StoryObj<typeof CardLiquiditySecurities>;
+type Story = StoryObj<typeof meta>;
 
 // Renderiza com os dados mockados injetados globalmente pelo withRequestHooksProvider
 export const Default: Story = {};

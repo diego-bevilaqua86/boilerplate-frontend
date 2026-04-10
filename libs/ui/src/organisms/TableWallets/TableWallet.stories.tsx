@@ -1,4 +1,5 @@
 // TableWallet.stories.tsx
+import { GroupingProcessedPosition } from '@boilerplate-frontend/types';
 import { RequestHooksProvider } from '@boilerplate-frontend/utils';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { mockGroupingProcessedPosition } from '../../mocks/mocks';
@@ -11,14 +12,14 @@ import {
 import { withTemplateModalProvider } from '../../storybook/decorators/withTemplateModalProvider';
 import { TableWallets } from './TableWallets';
 
-const meta: Meta<typeof TableWallets> = {
+const meta = {
   component: TableWallets,
   title: 'UI/Organisms/TableWallets',
   decorators: [withRequestHooksProvider, withContentRequestProvider, withTemplateModalProvider],
-};
+} satisfies Meta<typeof TableWallets>;
 
 export default meta;
-type Story = StoryObj<typeof TableWallets>;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
@@ -40,7 +41,7 @@ export const Empty: Story = {
     (Story) => (
       <RequestHooksProvider
         {...providerProps}
-        useFetchGroupingProcessedPosition={createMockHook(null)}
+        useFetchGroupingProcessedPosition={createMockHook(null as unknown as GroupingProcessedPosition)}
       >
         <Story />
       </RequestHooksProvider>
