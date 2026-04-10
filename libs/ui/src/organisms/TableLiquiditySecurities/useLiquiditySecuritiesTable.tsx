@@ -1,6 +1,7 @@
 // useLiquiditySecuritiesTable.ts
 import { Liquidity } from '@boilerplate-frontend/types';
 import { currencyFormatter, numberFormatter, percentFormatter } from '@boilerplate-frontend/utils';
+import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import {
@@ -26,7 +27,7 @@ export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
     columnBuilder.accessor('securityName', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={'Ativos'}
+          headerText={_(msg`Ativos`)}
           sortDirection={column.getIsSorted()}
           onToggleSorting={column.getToggleSortingHandler()}
         />
@@ -37,7 +38,7 @@ export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
     columnBuilder.accessor('balance', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={'Saldo'}
+          headerText={_(msg`Saldo`)}
           sortDirection={column.getIsSorted()}
           onToggleSorting={column.getToggleSortingHandler()}
         />
@@ -59,7 +60,7 @@ export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
     columnBuilder.accessor('netWorth', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={'% Patrimônio'}
+          headerText={_(msg`% Patrimônio`)}
           sortDirection={column.getIsSorted()}
           onToggleSorting={column.getToggleSortingHandler()}
         />
@@ -73,7 +74,7 @@ export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
     columnBuilder.accessor('redemptionSettlementDays', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={'Prazo de liquidação'}
+          headerText={_(msg`Prazo de liquidação`)}
           sortDirection={column.getIsSorted()}
           onToggleSorting={column.getToggleSortingHandler()}
         />
@@ -83,7 +84,7 @@ export const useLiquiditySecuritiesTable = ({ data }: { data: Liquidity }) => {
     columnBuilder.accessor('entityName', {
       header: ({ column }) => (
         <TableSortingHeader
-          headerText={'Instituição financeira'}
+          headerText={_(msg`Instituição financeira`)}
           sortDirection={column.getIsSorted()}
           onToggleSorting={column.getToggleSortingHandler()}
         />

@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import TableLiquiditySecurities from './TableLiquiditySecurities';
+import { TableLiquiditySecurities } from './TableLiquiditySecurities';
 
 describe('TableLiquiditySecurities', () => {
   it('should render successfully', () => {
