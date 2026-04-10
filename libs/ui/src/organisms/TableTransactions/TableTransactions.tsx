@@ -22,7 +22,7 @@ import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } fro
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Box, ScrollArea, Stack, Text } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
 import { Suspense, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -30,6 +30,7 @@ import { BaseTable } from '../../molecules/BaseTable/BaseTable';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
+import { TableScrollList } from '../../molecules/TableScrollList/TableScrollList';
 import { TableFilterHeader } from '../../molecules/TableFilterHeader/TableFilterHeader';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { ModalTransactionDetails } from './ModalTransactionDetails';
@@ -164,15 +165,12 @@ const TableTransactionsView = ({ data, currency }: { data: Array<TransactionPopu
         />
 
         {/* Tabela ou estado vazio */}
-        {isEmptyArr(filteredData) ? (
-          <EmptyWidget message={_(msg`Você não possui informações para o período solicitado.`)} />
-        ) : (
-          <ScrollArea>
-            <Box px="md" pb="md">
-              <BaseTable table={table} />
-            </Box>
-          </ScrollArea>
-        )}
+        <TableScrollList
+          isEmpty={isEmptyArr(filteredData)}
+          emptyMessage={_(msg`Você não possui informações para o período solicitado.`)}
+        >
+          <BaseTable table={table} />
+        </TableScrollList>
       </Stack>
     </>
   );
