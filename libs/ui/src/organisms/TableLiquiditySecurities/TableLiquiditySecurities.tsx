@@ -21,7 +21,7 @@ import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } fro
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Box, Button, Group, Text } from '@mantine/core';
+import { Box, Text } from '@mantine/core';
 import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseTable } from '../../molecules/BaseTable/BaseTable';
@@ -29,6 +29,7 @@ import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
+import { PeriodButtonGroup } from '../../molecules/PeriodButtonGroup/PeriodButtonGroup';
 import { TableScrollList } from '../../molecules/TableScrollList/TableScrollList';
 import { useLiquidityProvider } from '../ChartLiquidityByPeriod/useLiquidityProvider';
 import { useLiquiditySecuritiesTable } from './useLiquiditySecuritiesTable';
@@ -108,19 +109,11 @@ const TableLiquiditySecuritiesView = ({ data }: { data: Liquidity }) => {
     <>
       <Box px="md">
         {/* Seletor de período — sincronizado com o gráfico via useLiquidityProvider */}
-        <Group gap={4} py="sm" wrap="wrap">
-          {labelData?.map((period) => (
-            <Button
-              key={period.label}
-              size="xs"
-              variant={period.label === selectedPeriod ? 'filled' : 'default'}
-              disabled={period.disabled}
-              onClick={() => setSelectedPeriod(period.label)}
-            >
-              {period.label}
-            </Button>
-          ))}
-        </Group>
+        <PeriodButtonGroup
+          periods={labelData ?? []}
+          selectedPeriod={selectedPeriod}
+          onSelect={setSelectedPeriod}
+        />
       </Box>
 
       <TableScrollList
