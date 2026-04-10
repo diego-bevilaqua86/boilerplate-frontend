@@ -20,7 +20,7 @@
 import { Liquidity } from '@boilerplate-frontend/types';
 import { isNullOrUndefined, useContentRequest, useCurrencyFormatters, useNumberFormatters, useRequestHooks } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
-import { Trans } from '@lingui/react/macro';
+import { t, Trans } from '@lingui/react/macro';
 import { Stack, Text } from '@mantine/core';
 import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -48,7 +48,7 @@ export const CardLiquiditySecurities = () => {
         {/* ErrorBoundary captura erros lançados pela camada de dados */}
         <ErrorBoundary
           fallbackRender={({ error }) => (
-            <ErrorCard title="Erro ao carregar liquidez dos ativos..." error={error} />
+            <ErrorCard title={t`Erro ao carregar liquidez dos ativos...`} error={error} />
           )}
         >
           {/* Suspense exibe o skeleton enquanto a requisição está pendente */}
@@ -132,7 +132,7 @@ const CardLiquiditySecuritiesView = ({ data }: { data: Liquidity }) => {
       {/* Lista de cards ou estado vazio */}
       <CardScrollList
         isEmpty={filteredData.liquiditySecurities.length === 0}
-        emptyMessage="Você não possui ativos com liquidez no período selecionado."
+        emptyMessage={t`Você não possui ativos com liquidez no período selecionado.`}
       >
         {filteredData.liquiditySecurities.map((security, index) => (
           <SecurityLiquidityItem

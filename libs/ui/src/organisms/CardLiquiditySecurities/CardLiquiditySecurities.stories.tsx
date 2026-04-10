@@ -33,6 +33,22 @@ export const Loading: Story = {
   ],
 };
 
+// Exibe o ErrorCard via ErrorBoundary quando a requisição lança um erro
+export const WithError: Story = {
+  decorators: [
+    (Story) => (
+      <RequestHooksProvider
+        {...providerProps}
+        useFetchLiquidityValues={() => {
+          throw new Error('Erro simulado');
+        }}
+      >
+        <Story />
+      </RequestHooksProvider>
+    ),
+  ],
+};
+
 // Exibe o EmptyWidget quando data é nulo
 export const Empty: Story = {
   decorators: [
