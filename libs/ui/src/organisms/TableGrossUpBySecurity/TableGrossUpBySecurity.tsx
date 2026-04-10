@@ -22,7 +22,7 @@ import { isEmptyArr, isNullOrUndefined, percentFormatter, useContentRequest, use
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { ActionIcon, Badge, Group, ScrollArea, Text, Tooltip } from '@mantine/core';
+import { Badge, Group, ScrollArea, Tooltip } from '@mantine/core';
 import { ChartLineUp, Info } from '@phosphor-icons/react';
 import {
   createColumnHelper,
@@ -39,20 +39,17 @@ import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
+import { WidgetIconHeader } from '../../molecules/WidgetIconHeader/WidgetIconHeader';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 
 export const TableGrossUpBySecurity = () => (
   <BaseWidget>
     <BaseWidget.Header>
-      <Group justify="space-between" align="center" w="100%">
-        <Text>
-          <Trans>Gross up por ativo</Trans>
-        </Text>
-        <ActionIcon variant="default">
-          <ChartLineUp weight="duotone" />
-        </ActionIcon>
-      </Group>
+      <WidgetIconHeader
+        title={<Trans>Gross up por ativo</Trans>}
+        icon={<ChartLineUp weight="duotone" />}
+      />
     </BaseWidget.Header>
     <BaseWidget.Content>
       <ErrorBoundary

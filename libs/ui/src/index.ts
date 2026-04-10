@@ -19,6 +19,7 @@ export * from './molecules/PeriodSummaryRow/PeriodSummaryRow';
 export * from './molecules/SearchFilterBar/SearchFilterBar';
 export * from './molecules/TablePlaceholder/TablePlaceholder';
 export * from './molecules/TableRecordBar/TableRecordBar';
+export * from './molecules/WidgetIconHeader/WidgetIconHeader';
 export * from './organisms/CardGrossUpBySecurity/CardGrossUpBySecurity';
 export * from './organisms/CardGrossUpRentability/CardGrossUpRentability';
 export * from './organisms/CardLiquiditySecurities/CardLiquiditySecurities';
