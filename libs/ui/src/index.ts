@@ -3,6 +3,7 @@ export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableActionButtons/TableActionButtons';
 export * from './atoms/TableSortingHeader/TableSortingHeader';
 export * from './molecules/BarChart/BarChart';
+export * from './molecules/CardScrollList/CardScrollList';
 export * from './molecules/BaseTable/BaseTable';
 export * from './molecules/BaseWidget/BaseWidget';
 export * from './molecules/DoughnutChart/DoughnutChart';

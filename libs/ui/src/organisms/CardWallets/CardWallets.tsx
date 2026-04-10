@@ -46,7 +46,6 @@ import {
   Group,
   Paper,
   RingProgress,
-  ScrollArea,
   SegmentedControl,
   Stack,
   Text,
@@ -57,6 +56,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { DetailRow } from '../../atoms/DetailRow/DetailRow';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
+import { CardScrollList } from '../../molecules/CardScrollList/CardScrollList';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { FilterModal } from '../../molecules/FilterModal/FilterModal';
@@ -147,13 +147,12 @@ const CardWalletInvestmentsView = ({ data, palette }: { data: GroupingProcessedP
         />
       </Group>
 
-      {isEmptyArr(mainClassificationsRows) ? (
-        <EmptyWidget message={_(msg`Você não possui investimentos para o período solicitado.`)} />
-      ) : (
-        <ScrollArea>
-          <Stack gap="sm" px="md" pb="md">
-            <Accordion multiple chevron={null}>
-              {mainClassificationsRows.map((investment, index) => (
+      <CardScrollList
+        isEmpty={isEmptyArr(mainClassificationsRows)}
+        emptyMessage={_(msg`Você não possui investimentos para o período solicitado.`)}
+      >
+        <Accordion multiple chevron={null}>
+          {mainClassificationsRows.map((investment, index) => (
                 <Accordion.Item key={`${investment.classificationOrSecurity}-${index}`} value={`${index}`}>
                   {/* ── Classificação nível 1 ─────────────────────────── */}
                   <Accordion.Control>
@@ -249,9 +248,7 @@ const CardWalletInvestmentsView = ({ data, palette }: { data: GroupingProcessedP
                 </Accordion.Item>
               ))}
             </Accordion>
-          </Stack>
-        </ScrollArea>
-      )}
+        </CardScrollList>
     </>
   );
 };
@@ -266,23 +263,20 @@ const CardWalletProvisionsView = ({ data }: { data: GroupingProcessedPosition })
     filter: null,
   });
 
-  if (isEmptyArr(filteredProvisions)) {
-    return <EmptyWidget message={_(msg`Você não possui provisões para o período solicitado.`)} />;
-  }
-
   return (
-    <ScrollArea>
-      <Stack gap="sm" px="md" pb="md">
-        {filteredProvisions.map((provision, idx) => (
-          <ProvisionItem
-            key={`${provision.description}-${idx}`}
-            provision={provision}
-            currency={data.groupingCurrency}
-            locale={i18n.locale}
-          />
-        ))}
-      </Stack>
-    </ScrollArea>
+    <CardScrollList
+      isEmpty={isEmptyArr(filteredProvisions)}
+      emptyMessage={_(msg`Você não possui provisões para o período solicitado.`)}
+    >
+      {filteredProvisions.map((provision, idx) => (
+        <ProvisionItem
+          key={`${provision.description}-${idx}`}
+          provision={provision}
+          currency={data.groupingCurrency}
+          locale={i18n.locale}
+        />
+      ))}
+    </CardScrollList>
   );
 };
 
@@ -296,23 +290,20 @@ const CardWalletBalanceView = ({ data }: { data: GroupingProcessedPosition }) =>
     filter: null,
   });
 
-  if (isEmptyArr(filteredBalance)) {
-    return <EmptyWidget message={_(msg`Você não possui saldo em conta corrente.`)} />;
-  }
-
   return (
-    <ScrollArea>
-      <Stack gap="sm" px="md" pb="md">
-        {filteredBalance.map((account, idx) => (
-          <BalanceItem
-            key={`${account.walletName}-${idx}`}
-            account={account}
-            currency={data.groupingCurrency}
-            locale={i18n.locale}
-          />
-        ))}
-      </Stack>
-    </ScrollArea>
+    <CardScrollList
+      isEmpty={isEmptyArr(filteredBalance)}
+      emptyMessage={_(msg`Você não possui saldo em conta corrente.`)}
+    >
+      {filteredBalance.map((account, idx) => (
+        <BalanceItem
+          key={`${account.walletName}-${idx}`}
+          account={account}
+          currency={data.groupingCurrency}
+          locale={i18n.locale}
+        />
+      ))}
+    </CardScrollList>
   );
 };
 

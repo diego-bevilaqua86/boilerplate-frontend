@@ -22,11 +22,12 @@ import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } fro
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { ScrollArea, Stack, Text } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import { useDebouncedState, useToggle } from '@mantine/hooks';
 import { Suspense, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
+import { CardScrollList } from '../../molecules/CardScrollList/CardScrollList';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { SearchFilterBar } from '../../molecules/SearchFilterBar/SearchFilterBar';
@@ -147,21 +148,15 @@ const CardTransactionsView = ({ data }: { data: Array<TransactionPopulated> }) =
         />
 
         {/* Lista de cards ou estado vazio */}
-        <ScrollArea>
-          <Stack gap="sm" px="md" pb="md">
-            {isEmptyArr(filteredData) ? (
-              <EmptyWidget message={_(msg`Sem informações para esta pesquisa...`)} />
-            ) : (
-              filteredData.map((transaction, idx) => (
-                <TransactionItem
-                  key={`${transaction._id}-${idx}`}
-                  transaction={transaction}
-                  onOpenModalTransactionDetails={() => handleOpenDetailsModal(transaction)}
-                />
-              ))
-            )}
-          </Stack>
-        </ScrollArea>
+        <CardScrollList isEmpty={isEmptyArr(filteredData)} emptyMessage={_(msg`Sem informações para esta pesquisa...`)}>
+          {filteredData.map((transaction, idx) => (
+            <TransactionItem
+              key={`${transaction._id}-${idx}`}
+              transaction={transaction}
+              onOpenModalTransactionDetails={() => handleOpenDetailsModal(transaction)}
+            />
+          ))}
+        </CardScrollList>
       </Stack>
     </>
   );
