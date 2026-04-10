@@ -16,20 +16,21 @@
 //      — JSX completo.
 
 import { UpcomingMaturities } from '@boilerplate-frontend/types';
-import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { isEmptyArr, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { ScrollArea, Stack, Text } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { Suspense, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
+import { CardScrollList } from '../../molecules/CardScrollList/CardScrollList';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { SearchFilterBar } from '../../molecules/SearchFilterBar/SearchFilterBar';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { UpcomingMaturitiesCard } from '../../molecules/UpcomingMaturitiesCard/UpcomingMaturitiesCard';
+import { UpcomingMaturitiesCard } from './UpcomingMaturitiesCard';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 
@@ -102,17 +103,11 @@ const CardUpcomingMaturitiesView = ({ data, currency }: { data: Array<UpcomingMa
         }}
       />
 
-      <ScrollArea>
-        <Stack gap="sm" px="md" pb="md">
-          {isNullOrUndefined(filteredData) || isEmptyArr(filteredData) ? (
-            <EmptyWidget message="Sem informações para esta pesquisa..." />
-          ) : (
-            filteredData.map((item, idx) => (
-              <UpcomingMaturitiesCard key={`${item.securityName}-${idx}`} data={item} currency={currency} />
-            ))
-          )}
-        </Stack>
-      </ScrollArea>
+      <CardScrollList isEmpty={isEmptyArr(filteredData)} emptyMessage={_(msg`Sem informações para esta pesquisa...`)}>
+        {filteredData.map((item, idx) => (
+          <UpcomingMaturitiesCard key={`${item.securityName}-${idx}`} data={item} currency={currency} />
+        ))}
+      </CardScrollList>
     </Stack>
   );
 };
