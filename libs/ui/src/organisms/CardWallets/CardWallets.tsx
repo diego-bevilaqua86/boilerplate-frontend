@@ -41,7 +41,6 @@ import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import {
   Accordion,
-  ActionIcon,
   Box,
   Divider,
   Group,
@@ -51,17 +50,16 @@ import {
   SegmentedControl,
   Stack,
   Text,
-  Tooltip,
 } from '@mantine/core';
-import { useToggle } from '@mantine/hooks';
-import { CaretRightIcon, FunnelIcon } from '@phosphor-icons/react';
+import { CaretRightIcon } from '@phosphor-icons/react';
 import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { DetailRow } from '../../atoms/DetailRow/DetailRow';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
-import { ModalFilters } from '../../molecules/ModalFilters/ModalFilters';
+import { FilterModal } from '../../molecules/FilterModal/FilterModal';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { WalletVariant } from '../TableWallets/TableWallets';
 import { useManageWalletTableData } from '../TableWallets/useManageWalletTableData';
@@ -124,13 +122,7 @@ const CardWalletInvestmentsView = ({ data, palette }: { data: GroupingProcessedP
   const { i18n, _ } = useLingui();
   const { handleOpen } = useTemplateModal();
 
-  const [filtersModalOpen, toggleFiltersModal] = useToggle([false, true] as const);
   const [selectedEntities, setSelectedEntities] = useState<Array<string>>([]);
-
-  const handleApplyFilter = (selected: Array<string>) => {
-    setSelectedEntities(selected);
-    toggleFiltersModal();
-  };
 
   const {
     investments: { mainClassificationsRows },
@@ -142,27 +134,17 @@ const CardWalletInvestmentsView = ({ data, palette }: { data: GroupingProcessedP
 
   return (
     <>
-      <ModalFilters
-        opened={filtersModalOpen}
-        onClose={toggleFiltersModal}
-        onSubmit={handleApplyFilter}
-        title={_(msg`Filtros`)}
-        data={allEntities.map((e) => ({ entity: e }))}
-        selectedValues={selectedEntities}
-        filterOptions={[{ title: _(msg`Instituição financeira`), key: 'entity' }]}
-      />
-
       <Group px="md" py="sm" justify="flex-end">
-        <Tooltip label={_(msg`Filtrar por instituição`)} withArrow>
-          <ActionIcon
-            variant={selectedEntities.length > 0 ? 'filled' : 'default'}
-            size="sm"
-            onClick={() => toggleFiltersModal()}
-            disabled={isEmptyArr(allEntities)}
-          >
-            <FunnelIcon size={14} />
-          </ActionIcon>
-        </Tooltip>
+        <FilterModal
+          data={allEntities.map((e) => ({ entity: e }))}
+          filterOptions={[{ title: _(msg`Instituição financeira`), key: 'entity' }]}
+          title={_(msg`Filtros`)}
+          selectedValues={selectedEntities}
+          onSubmit={setSelectedEntities}
+          disabled={isEmptyArr(allEntities)}
+          label={_(msg`Filtrar por instituição`)}
+          size="sm"
+        />
       </Group>
 
       {isEmptyArr(mainClassificationsRows) ? (
@@ -378,32 +360,20 @@ const ProvisionItem = ({ provision, currency, locale }: { provision: Provision; 
     </Box>
     <Divider />
     <Stack gap="xs" px="md" py="sm">
-      <Group justify="space-between">
-        <Text size="sm" c="dimmed">
-          <Trans>Data inicial</Trans>
-        </Text>
+      <DetailRow label={<Trans>Data inicial</Trans>}>
         <Text size="sm">{dateFormatter(provision.initialDate, locale)}</Text>
-      </Group>
-      <Group justify="space-between">
-        <Text size="sm" c="dimmed">
-          <Trans>Data de liquidação</Trans>
-        </Text>
+      </DetailRow>
+      <DetailRow label={<Trans>Data de liquidação</Trans>}>
         <Text size="sm">{dateFormatter(provision.liquidationDate, locale)}</Text>
-      </Group>
-      <Group justify="space-between">
-        <Text size="sm" c="dimmed">
-          <Trans>Saldo</Trans>
-        </Text>
+      </DetailRow>
+      <DetailRow label={<Trans>Saldo</Trans>}>
         <SensitiveText dotCount={4} dotSize={18} isHidden={false}>
           <Text size="sm">{currencyFormatter(provision.balance, 2, locale, currency)}</Text>
         </SensitiveText>
-      </Group>
-      <Group justify="space-between">
-        <Text size="sm" c="dimmed">
-          <Trans>Instituição financeira</Trans>
-        </Text>
+      </DetailRow>
+      <DetailRow label={<Trans>Instituição financeira</Trans>}>
         <Text size="sm">{provision.entity}</Text>
-      </Group>
+      </DetailRow>
     </Stack>
   </Paper>
 );
@@ -428,12 +398,11 @@ const BalanceItem = ({ account, currency, locale }: { account: CashAccount; curr
         </SensitiveText>
       </Group>
       <Divider />
-      <Group px="md" py="sm" justify="space-between">
-        <Text size="sm" c="dimmed">
-          <Trans>Instituição Financeira</Trans>
-        </Text>
-        <Text size="sm">{account.entityName ?? '-'}</Text>
-      </Group>
+      <Box px="md" py="sm">
+        <DetailRow label={<Trans>Instituição Financeira</Trans>}>
+          <Text size="sm">{account.entityName ?? '-'}</Text>
+        </DetailRow>
+      </Box>
     </Paper>
   );
 };

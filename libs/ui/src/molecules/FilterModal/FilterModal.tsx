@@ -9,6 +9,8 @@ export type FilterModalProps<T extends Array<unknown>> = {
   selectedValues?: Array<string>;
   onSubmit: (selected: Array<string>) => void;
   disabled?: boolean;
+  label?: string;
+  size?: string;
 };
 
 export const FilterModal = <T extends Array<unknown>>({
@@ -18,11 +20,13 @@ export const FilterModal = <T extends Array<unknown>>({
   selectedValues,
   onSubmit,
   disabled = false,
+  label,
+  size,
 }: FilterModalProps<T>) => {
   const [opened, { toggle }] = useDisclosure(false);
   return (
     <>
-      <FilterButton onClick={toggle} hasActiveFilters={(selectedValues?.length ?? 0) > 0} disabled={disabled} />
+      <FilterButton onClick={toggle} hasActiveFilters={(selectedValues?.length ?? 0) > 0} disabled={disabled} label={label} size={size} />
       <ModalFilters
         opened={opened}
         onClose={toggle}
