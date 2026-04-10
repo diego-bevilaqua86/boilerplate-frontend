@@ -15,6 +15,7 @@ import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Badge, Box, Divider, Group, Paper, Stack, Text, Tooltip } from '@mantine/core';
 import { ChatTextIcon } from '@phosphor-icons/react';
+import { DetailRow } from '../../atoms/DetailRow/DetailRow';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 import { transactionTypesMappingStyles } from '../TableTransactions/transactionStyleMapping';
 
@@ -55,35 +56,23 @@ export const TransactionItem = ({ transaction, onOpenModalTransactionDetails }: 
 
       {/* Body — dados da transação */}
       <Stack gap="xs" px="md" py="sm">
-        <Group justify="space-between">
-          <Text size="sm" c="dimmed">
-            <Trans>Data de liquidação</Trans>
-          </Text>
+        <DetailRow label={<Trans>Data de liquidação</Trans>}>
           <Text size="sm">{dateFormatter(transaction.liquidationDate, i18n.locale)}</Text>
-        </Group>
+        </DetailRow>
 
-        <Group justify="space-between">
-          <Text size="sm" c="dimmed">
-            <Trans>Carteira</Trans>
-          </Text>
+        <DetailRow label={<Trans>Carteira</Trans>}>
           <Text size="sm">{transaction?.walletId?.name ?? '-'}</Text>
-        </Group>
+        </DetailRow>
 
-        <Group justify="space-between">
-          <Text size="sm" c="dimmed">
-            <Trans>Saldo</Trans>
-          </Text>
+        <DetailRow label={<Trans>Saldo</Trans>}>
           <SensitiveText dotCount={4} dotSize={20} isHidden={false}>
             <Text size="sm">{currencyFormatter(transaction.balance, 2, i18n.locale, transaction.currencyId)}</Text>
           </SensitiveText>
-        </Group>
+        </DetailRow>
 
-        <Group justify="space-between">
-          <Text size="sm" c="dimmed">
-            <Trans>Instituição Financeira</Trans>
-          </Text>
+        <DetailRow label={<Trans>Instituição Financeira</Trans>}>
           <Text size="sm">{transaction.entityId?.name ?? '-'}</Text>
-        </Group>
+        </DetailRow>
       </Stack>
     </Paper>
   );

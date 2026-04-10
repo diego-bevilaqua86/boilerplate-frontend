@@ -3,24 +3,13 @@ import { currencyFormatter, currencyFormatterToParts, dateFormatter, percentForm
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Badge, Divider, Group, Paper, Stack, Text } from '@mantine/core';
+import { DetailRow } from '../../atoms/DetailRow/DetailRow';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 
 export type UpcomingMaturitiesCardProps = {
   data: UpcomingMaturities;
   currency?: string;
 };
-
-type CardRowProps = {
-  label: React.ReactNode;
-  value: React.ReactNode;
-};
-
-const CardRow = ({ label, value }: CardRowProps) => (
-  <Group justify="space-between" wrap="nowrap">
-    <Text size="sm" c="dimmed" fw={400}>{label}</Text>
-    <Text size="sm">{value}</Text>
-  </Group>
-);
 
 export const UpcomingMaturitiesCard = ({ data, currency }: UpcomingMaturitiesCardProps) => {
   const { i18n } = useLingui();
@@ -38,31 +27,27 @@ export const UpcomingMaturitiesCard = ({ data, currency }: UpcomingMaturitiesCar
         <Divider />
 
         {/* Body */}
-        <CardRow
-          label={<Trans>Data de vencimento</Trans>}
-          value={dateFormatter(data.maturityDate, i18n.locale)}
-        />
-        <CardRow
+        <DetailRow label={<Trans>Data de vencimento</Trans>}>
+          <Text size="sm">{dateFormatter(data.maturityDate, i18n.locale)}</Text>
+        </DetailRow>
+        <DetailRow
           label={
             <>
               <Trans>Saldo</Trans>
               {` (${currencyFormatterToParts(0, 0, i18n.locale, currency)[0]})`}
             </>
           }
-          value={
-            <SensitiveText dotCount={4} dotSize={14} dotColor="var(--mantine-color-dimmed)" isHidden={false}>
-              {currencyFormatter(data.balance, 2, i18n.locale, currency)}
-            </SensitiveText>
-          }
-        />
-        <CardRow
-          label={<Trans>% Patrimônio</Trans>}
-          value={percentFormatter(data.percentual, 2)}
-        />
-        <CardRow
-          label={<Trans>Instituição Financeira</Trans>}
-          value={data.entity}
-        />
+        >
+          <SensitiveText dotCount={4} dotSize={14} dotColor="var(--mantine-color-dimmed)" isHidden={false}>
+            <Text size="sm">{currencyFormatter(data.balance, 2, i18n.locale, currency)}</Text>
+          </SensitiveText>
+        </DetailRow>
+        <DetailRow label={<Trans>% Patrimônio</Trans>}>
+          <Text size="sm">{percentFormatter(data.percentual, 2)}</Text>
+        </DetailRow>
+        <DetailRow label={<Trans>Instituição Financeira</Trans>}>
+          <Text size="sm">{data.entity}</Text>
+        </DetailRow>
 
       </Stack>
     </Paper>

@@ -1,3 +1,4 @@
+export * from './atoms/DetailRow/DetailRow';
 export * from './atoms/FilterButton/FilterButton';
 export * from './atoms/SensitiveText/SensitiveText';
 export * from './atoms/TableActionButtons/TableActionButtons';
