@@ -18,16 +18,18 @@
 //   Chave no registry: 'card-liquidity-securities'
 
 import { Liquidity } from '@boilerplate-frontend/types';
-import { isEmptyArr, isNullOrUndefined, useContentRequest, useCurrencyFormatters, useNumberFormatters, useRequestHooks } from '@boilerplate-frontend/utils';
+import { isNullOrUndefined, useContentRequest, useCurrencyFormatters, useNumberFormatters, useRequestHooks } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Group, ScrollArea, Stack, Text } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
+import { CardScrollList } from '../../molecules/CardScrollList/CardScrollList';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { PeriodButtonGroup } from '../../molecules/PeriodButtonGroup/PeriodButtonGroup';
+import { PeriodSummaryRow } from '../../molecules/PeriodSummaryRow/PeriodSummaryRow';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { useLiquidityProvider } from '../ChartLiquidityByPeriod/useLiquidityProvider';
 import { SecurityLiquidityItem } from './SecurityLiquidityItem';
@@ -120,35 +122,26 @@ const CardLiquiditySecuritiesView = ({ data }: { data: Liquidity }) => {
       />
 
       {/* Totais do período */}
-      <Group px="md" pb="sm" justify="space-between">
-        <Group gap={4}>
-          <Text size="xs" c="dimmed">{filteredData.liquiditySecurities.length}</Text>
-          <Text size="xs" c="dimmed"><Trans>Ativos</Trans></Text>
-        </Group>
-        <Text size="xs" c="dimmed">
-          {currencyFormatter(totalBalance, 2)}
-        </Text>
-        <Text size="xs" c="dimmed">
-          {percentFormatter(totalPercent * 100, 2)}
-        </Text>
-      </Group>
+      <PeriodSummaryRow
+        count={filteredData.liquiditySecurities.length}
+        countLabel={<Trans>Ativos</Trans>}
+        currencyTotal={currencyFormatter(totalBalance, 2)}
+        percentTotal={percentFormatter(totalPercent * 100, 2)}
+      />
 
       {/* Lista de cards ou estado vazio */}
-      <ScrollArea>
-        <Stack gap="sm" px="md" pb="md">
-          {isEmptyArr(filteredData.liquiditySecurities) ? (
-            <EmptyWidget message="Você não possui ativos com liquidez no período selecionado." />
-          ) : (
-            filteredData.liquiditySecurities.map((security, index) => (
-              <SecurityLiquidityItem
-                key={security.securityName + index}
-                liquiditySecurity={security}
-                currency={data.currency}
-              />
-            ))
-          )}
-        </Stack>
-      </ScrollArea>
+      <CardScrollList
+        isEmpty={filteredData.liquiditySecurities.length === 0}
+        emptyMessage="Você não possui ativos com liquidez no período selecionado."
+      >
+        {filteredData.liquiditySecurities.map((security, index) => (
+          <SecurityLiquidityItem
+            key={security.securityName + index}
+            liquiditySecurity={security}
+            currency={data.currency}
+          />
+        ))}
+      </CardScrollList>
     </Stack>
   );
 };

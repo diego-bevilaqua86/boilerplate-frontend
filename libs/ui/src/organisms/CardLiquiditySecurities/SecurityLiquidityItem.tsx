@@ -7,7 +7,8 @@ import { LiquiditySecurity } from '@boilerplate-frontend/types';
 import { useCurrencyFormatters, useNumberFormatters } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Badge, Box, Divider, Group, Paper, Stack, Text } from '@mantine/core';
+import { Badge, Box, Divider, Paper, Stack, Text } from '@mantine/core';
+import { DetailRow } from '../../atoms/DetailRow/DetailRow';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 
 type SecurityLiquidityItemProps = {
@@ -33,27 +34,19 @@ export const SecurityLiquidityItem = ({ liquiditySecurity, currency }: SecurityL
 
       {/* Body — dados do ativo */}
       <Stack gap="xs" px="md" py="sm">
-        <Group justify="space-between">
-          <Text size="sm" c="dimmed"><Trans>% Patrimônio</Trans></Text>
+        <DetailRow label={<Trans>% Patrimônio</Trans>}>
           <Text size="sm">{percentFormatter(liquiditySecurity.netWorth, 2)}</Text>
-        </Group>
+        </DetailRow>
 
-        <Group justify="space-between">
-          <Text size="sm" c="dimmed">
-            <Trans>Dados de liquidez</Trans>
-            {` (${currencySymbol})`}
-          </Text>
+        <DetailRow label={<><Trans>Dados de liquidez</Trans>{` (${currencySymbol})`}</>}>
           <SensitiveText dotCount={4} dotSize={20} isHidden={false}>
-            <Text size="sm">
-              {currencyFormatter(liquiditySecurity.balance, 2)}
-            </Text>
+            <Text size="sm">{currencyFormatter(liquiditySecurity.balance, 2)}</Text>
           </SensitiveText>
-        </Group>
+        </DetailRow>
 
-        <Group justify="space-between">
-          <Text size="sm" c="dimmed"><Trans>Instituição Financeira</Trans></Text>
+        <DetailRow label={<Trans>Instituição Financeira</Trans>}>
           <Text size="sm">{liquiditySecurity.entityName}</Text>
-        </Group>
+        </DetailRow>
 
         {/* Badge de tipo — provision, security ou cashAccount */}
         {liquiditySecurity.type === 'provision' && (
