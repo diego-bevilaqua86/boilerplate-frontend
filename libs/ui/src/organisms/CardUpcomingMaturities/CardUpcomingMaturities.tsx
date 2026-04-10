@@ -29,7 +29,7 @@ import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { SearchFilterBar } from '../../molecules/SearchFilterBar/SearchFilterBar';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { UpcomingMaturitiesCard } from './UpcomingMaturitiesCard';
+import { UpcomingMaturitiesCard } from '../../molecules/UpcomingMaturitiesCard/UpcomingMaturitiesCard';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 
@@ -57,7 +57,7 @@ export const CardUpcomingMaturities = () => (
 // ─── Camada de dados ──────────────────────────────────────────────────────────
 
 const CardUpcomingMaturitiesDataRequest = () => {
-  const { selectedGrouping } = useContentRequest();
+  const { selectedGrouping, selectedGroupingSummary } = useContentRequest();
   const { useFetchUpcomingMaturities } = useRequestHooks();
 
   const { data } = useFetchUpcomingMaturities({ groupingId: selectedGrouping, select: (data) => data });
@@ -66,12 +66,12 @@ const CardUpcomingMaturitiesDataRequest = () => {
     return <EmptyWidget message="Não há vencimentos futuros." />;
   }
 
-  return <CardUpcomingMaturitiesView data={data} />;
+  return <CardUpcomingMaturitiesView data={data} currency={selectedGroupingSummary?.currency} />;
 };
 
 // ─── Camada de view ───────────────────────────────────────────────────────────
 
-const CardUpcomingMaturitiesView = ({ data }: { data: Array<UpcomingMaturities> }) => {
+const CardUpcomingMaturitiesView = ({ data, currency }: { data: Array<UpcomingMaturities>; currency: string | undefined }) => {
   const { _ } = useLingui();
   const [searchInput, setSearchInput] = useDebouncedState('', 50);
   const [selectedItems, setSelectedItems] = useState<Array<string>>([]);
@@ -108,7 +108,7 @@ const CardUpcomingMaturitiesView = ({ data }: { data: Array<UpcomingMaturities> 
             <EmptyWidget message="Sem informações para esta pesquisa..." />
           ) : (
             filteredData.map((item, idx) => (
-              <UpcomingMaturitiesCard key={`${item.securityName}-${idx}`} data={item} />
+              <UpcomingMaturitiesCard key={`${item.securityName}-${idx}`} data={item} currency={currency} />
             ))
           )}
         </Stack>

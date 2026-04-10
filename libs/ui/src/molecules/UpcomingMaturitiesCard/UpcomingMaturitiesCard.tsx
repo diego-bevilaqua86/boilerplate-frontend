@@ -1,12 +1,5 @@
-// UpcomingMaturitiesCard.tsx
 import { UpcomingMaturities } from '@boilerplate-frontend/types';
-import {
-    currencyFormatter,
-    currencyFormatterToParts,
-    dateFormatter,
-    percentFormatter,
-    useContentRequest,
-} from '@boilerplate-frontend/utils';
+import { currencyFormatter, currencyFormatterToParts, dateFormatter, percentFormatter } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Badge, Divider, Group, Paper, Stack, Text } from '@mantine/core';
@@ -14,6 +7,7 @@ import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 
 export type UpcomingMaturitiesCardProps = {
   data: UpcomingMaturities;
+  currency?: string;
 };
 
 type CardRowProps = {
@@ -28,9 +22,8 @@ const CardRow = ({ label, value }: CardRowProps) => (
   </Group>
 );
 
-export const UpcomingMaturitiesCard = ({ data }: UpcomingMaturitiesCardProps) => {
+export const UpcomingMaturitiesCard = ({ data, currency }: UpcomingMaturitiesCardProps) => {
   const { i18n } = useLingui();
-  const { selectedGroupingSummary } = useContentRequest();
 
   return (
     <Paper withBorder p="md" radius="md">
@@ -53,12 +46,12 @@ export const UpcomingMaturitiesCard = ({ data }: UpcomingMaturitiesCardProps) =>
           label={
             <>
               <Trans>Saldo</Trans>
-              {` (${currencyFormatterToParts(0, 0, i18n.locale, selectedGroupingSummary?.currency)[0]})`}
+              {` (${currencyFormatterToParts(0, 0, i18n.locale, currency)[0]})`}
             </>
           }
           value={
             <SensitiveText dotCount={4} dotSize={14} dotColor="var(--mantine-color-dimmed)" isHidden={false}>
-              {currencyFormatter(data.balance, 2, i18n.locale, selectedGroupingSummary?.currency)}
+              {currencyFormatter(data.balance, 2, i18n.locale, currency)}
             </SensitiveText>
           }
         />
