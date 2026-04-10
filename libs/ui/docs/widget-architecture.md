@@ -396,9 +396,9 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 | Widget                                            | Manager a eliminar                                          | Ação                                                       |
 | ------------------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------------------- |
 | ~~`TableWallets`~~                                | ~~`useTableWalletManager`~~                                 | ✅ Concluído                                               |
-| `CardWallets`                                     | `useCardWalletInvestmentsManager`                           | Deletar manager; mover estado para View correspondente     |
-| `CardWallets`                                     | `useCardWalletProvisionsManager`                            | Deletar manager; mover estado para View correspondente     |
-| `CardWallets`                                     | `useCardWalletBalanceManager`                               | Deletar manager; mover estado para View correspondente     |
+| ~~`CardWallets`~~                                 | ~~`useCardWalletInvestmentsManager`~~                       | ✅ Concluído                                               |
+| ~~`CardWallets`~~                                 | ~~`useCardWalletProvisionsManager`~~                        | ✅ Concluído                                               |
+| ~~`CardWallets`~~                                 | ~~`useCardWalletBalanceManager`~~                           | ✅ Concluído                                               |
 | ~~`TableTransactions`~~                           | ~~`useTableTransactionsManager`~~                           | ✅ Concluído                                               |
 | `TableLiquiditySecurities`                        | `useTableLiquiditySecuritiesManager`                        | Deletar manager; mover estado para View correspondente     |
 | `CardLiquiditySecurities`                         | `useCardLiquiditySecuritiesManager`                         | Deletar manager; mover estado para View correspondente     |

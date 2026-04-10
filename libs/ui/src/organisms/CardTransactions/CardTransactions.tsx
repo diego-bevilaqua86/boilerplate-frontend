@@ -10,7 +10,7 @@
 //      — Busca transações via useRequestHooks.
 //      — Delega ao View diretamente após dados disponíveis.
 //
-//   3. Camada de conteúdo (CardTransactionsView)
+//   3. Camada de view (CardTransactionsView)
 //      — Estado de componente (modais, debounce, toggles).
 //      — useMemo inline para sort + filter.
 //      — JSX completo.
@@ -45,7 +45,9 @@ export const CardTransactions = () => (
     </BaseWidget.Header>
     <BaseWidget.Content>
       <ErrorBoundary
-        fallbackRender={({ error }: {error: any}) => <ErrorCard title="Erro ao carregar movimentações..." error={error} />}
+        fallbackRender={({ error }: { error: any }) => (
+          <ErrorCard title="Erro ao carregar movimentações..." error={error} />
+        )}
       >
         <Suspense fallback={<TablePlaceholder size="sm" />}>
           <CardTransactionsDataRequest />
