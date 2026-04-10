@@ -1,5 +1,5 @@
 import { UpcomingMaturities } from '@boilerplate-frontend/types';
-import { currencyFormatter, currencyFormatterToParts, dateFormatter, percentFormatter } from '@boilerplate-frontend/utils';
+import { dateFormatter, percentFormatter, useCurrencyFormatters } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Badge, Divider, Group, Paper, Stack, Text } from '@mantine/core';
@@ -13,6 +13,7 @@ export type UpcomingMaturitiesCardProps = {
 
 export const UpcomingMaturitiesCard = ({ data, currency }: UpcomingMaturitiesCardProps) => {
   const { i18n } = useLingui();
+  const { currencyFormatter, currencyPartsFormatter } = useCurrencyFormatters({ locale: i18n.locale, currency });
 
   return (
     <Paper withBorder p="md" radius="md">
@@ -34,12 +35,12 @@ export const UpcomingMaturitiesCard = ({ data, currency }: UpcomingMaturitiesCar
           label={
             <>
               <Trans>Saldo</Trans>
-              {` (${currencyFormatterToParts(0, 0, i18n.locale, currency)[0]})`}
+              {` (${currencyPartsFormatter(0, 0)[0]})`}
             </>
           }
         >
           <SensitiveText dotCount={4} dotSize={14} dotColor="var(--mantine-color-dimmed)" isHidden={false}>
-            <Text size="sm">{currencyFormatter(data.balance, 2, i18n.locale, currency)}</Text>
+            <Text size="sm">{currencyFormatter(data.balance, 2)}</Text>
           </SensitiveText>
         </DetailRow>
         <DetailRow label={<Trans>% Patrimônio</Trans>}>

@@ -60,11 +60,12 @@ export const CardUpcomingMaturities = () => (
 const CardUpcomingMaturitiesDataRequest = () => {
   const { selectedGrouping, selectedGroupingSummary } = useContentRequest();
   const { useFetchUpcomingMaturities } = useRequestHooks();
+  const { _ } = useLingui();
 
   const { data } = useFetchUpcomingMaturities({ groupingId: selectedGrouping, select: (data) => data });
 
   if (isEmptyArr(data)) {
-    return <EmptyWidget message="Não há vencimentos futuros." />;
+    return <EmptyWidget message={_(msg`Não há vencimentos futuros.`)} />;
   }
 
   return <CardUpcomingMaturitiesView data={data} currency={selectedGroupingSummary?.currency} />;
