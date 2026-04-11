@@ -22,7 +22,7 @@ import { isEmptyArr, isNullOrUndefined, percentFormatter, useContentRequest, use
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Badge, Group, ScrollArea, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, Group, ScrollArea, Tooltip } from '@mantine/core';
 import { ChartLineUp, Info } from '@phosphor-icons/react';
 import {
   createColumnHelper,
