@@ -19,30 +19,26 @@ export const Default: Story = {};
 
 // Exibe o skeleton de carregamento (Suspense ativo)
 export const Loading: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchLiquidityValues={() => {
-          throw new Promise<never>(() => undefined);
-        }}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchLiquidityValues={() => {
+        throw new Promise<never>(() => undefined);
+      }}
+    >
+      <TableLiquiditySecurities />
+    </RequestHooksProvider>
+  ),
 };
 
 // Exibe o EmptyWidget quando data é nulo
 export const Empty: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchLiquidityValues={createMockHook(null as unknown as Liquidity)}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchLiquidityValues={createMockHook(null as unknown as Liquidity)}
+    >
+      <TableLiquiditySecurities />
+    </RequestHooksProvider>
+  ),
 };

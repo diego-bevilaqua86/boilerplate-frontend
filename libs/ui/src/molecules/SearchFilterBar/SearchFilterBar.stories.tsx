@@ -20,7 +20,7 @@ const metaFiltersProps = {
   ],
 };
 
-const meta: Meta<typeof SearchFilterBar<MockItem[]>> = {
+const meta: Meta<typeof SearchFilterBar> = {
   component: SearchFilterBar,
   title: 'UI/Molecules/SearchFilterBar',
   args: {
@@ -32,7 +32,7 @@ const meta: Meta<typeof SearchFilterBar<MockItem[]>> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof SearchFilterBar<MockItem[]>>;
+type Story = StoryObj<typeof SearchFilterBar>;
 
 export const Default: Story = {};
 

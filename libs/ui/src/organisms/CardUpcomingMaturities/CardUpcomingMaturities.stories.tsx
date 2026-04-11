@@ -22,57 +22,49 @@ type Story = StoryObj<typeof CardUpcomingMaturities>;
 export const Default: Story = {};
 
 export const Loading: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchUpcomingMaturities={() => {
-          throw new Promise(() => {});
-        }}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchUpcomingMaturities={() => {
+        throw new Promise(() => {});
+      }}
+    >
+      <CardUpcomingMaturities />
+    </RequestHooksProvider>
+  ),
 };
 
 export const Error: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchUpcomingMaturities={() => {
-          throw new globalThis.Error('Falha ao carregar vencimentos futuros.');
-        }}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchUpcomingMaturities={() => {
+        throw new globalThis.Error('Falha ao carregar vencimentos futuros.');
+      }}
+    >
+      <CardUpcomingMaturities />
+    </RequestHooksProvider>
+  ),
 };
 
 export const Empty: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchUpcomingMaturities={createMockHook([] as Array<UpcomingMaturities>)}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchUpcomingMaturities={createMockHook([] as Array<UpcomingMaturities>)}
+    >
+      <CardUpcomingMaturities />
+    </RequestHooksProvider>
+  ),
 };
 
 export const WithMockData: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchUpcomingMaturities={createMockHook(mockUpcomingMaturities)}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchUpcomingMaturities={createMockHook(mockUpcomingMaturities)}
+    >
+      <CardUpcomingMaturities />
+    </RequestHooksProvider>
+  ),
 };

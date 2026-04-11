@@ -24,27 +24,23 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 export const WithMockData: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchGroupingProcessedPosition={createMockHook(mockGroupingProcessedPosition)}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchGroupingProcessedPosition={createMockHook(mockGroupingProcessedPosition)}
+    >
+      <TableWallets />
+    </RequestHooksProvider>
+  ),
 };
 
 export const Empty: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchGroupingProcessedPosition={createMockHook(null as unknown as GroupingProcessedPosition)}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchGroupingProcessedPosition={createMockHook(null as unknown as GroupingProcessedPosition)}
+    >
+      <TableWallets />
+    </RequestHooksProvider>
+  ),
 };

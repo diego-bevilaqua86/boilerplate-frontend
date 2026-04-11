@@ -14,8 +14,10 @@ export default meta;
 type Story = StoryObj<typeof WidgetIconHeader>;
 
 export const Default: Story = {
-  args: {
-    title: 'Gross up por ativo',
-    icon: <ChartLineUp weight="duotone" />,
-  },
+  render: () => (
+    <WidgetIconHeader
+      title="Gross up por ativo"
+      icon={<ChartLineUp weight="duotone" />}
+    />
+  ),
 };

@@ -17,7 +17,7 @@ const mockFilterProps = {
   onSubmit: () => undefined,
 };
 
-const meta: Meta<typeof TableRecordBar<MockItem[]>> = {
+const meta: Meta<typeof TableRecordBar> = {
   component: TableRecordBar,
   title: 'UI/Molecules/TableRecordBar',
   args: {
@@ -27,7 +27,7 @@ const meta: Meta<typeof TableRecordBar<MockItem[]>> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof TableRecordBar<MockItem[]>>;
+type Story = StoryObj<typeof TableRecordBar>;
 
 export const Default: Story = {};
 

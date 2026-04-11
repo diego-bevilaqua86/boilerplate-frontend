@@ -5,10 +5,14 @@ import { TableScrollList } from './TableScrollList';
 const meta: Meta<typeof TableScrollList> = {
   component: TableScrollList,
   title: 'UI/Molecules/TableScrollList',
-  args: {
-    isEmpty: false,
-    emptyMessage: undefined,
-    children: (
+};
+
+export default meta;
+type Story = StoryObj<typeof TableScrollList>;
+
+export const Default: Story = {
+  render: () => (
+    <TableScrollList isEmpty={false}>
       <Table>
         <Table.Thead>
           <Table.Tr>
@@ -27,14 +31,9 @@ const meta: Meta<typeof TableScrollList> = {
           </Table.Tr>
         </Table.Tbody>
       </Table>
-    ),
-  },
+    </TableScrollList>
+  ),
 };
-
-export default meta;
-type Story = StoryObj<typeof TableScrollList>;
-
-export const Default: Story = {};
 
 export const Empty: Story = {
   args: { isEmpty: true },

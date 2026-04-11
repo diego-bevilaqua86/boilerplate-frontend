@@ -25,54 +25,46 @@ type Story = StoryObj<typeof TableGrossUpBySecurity>;
 export const Default: Story = {};
 
 export const Loading: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchGrossUpBySecurity={() => {
-          throw new Promise(() => undefined);
-        }}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchGrossUpBySecurity={() => {
+        throw new Promise(() => undefined);
+      }}
+    >
+      <TableGrossUpBySecurity />
+    </RequestHooksProvider>
+  ),
 };
 
 export const Error: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchGrossUpBySecurity={() => {
-          throw new globalThis.Error('Falha ao carregar gross up por ativo.');
-        }}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchGrossUpBySecurity={() => {
+        throw new globalThis.Error('Falha ao carregar gross up por ativo.');
+      }}
+    >
+      <TableGrossUpBySecurity />
+    </RequestHooksProvider>
+  ),
 };
 
 export const Empty: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchGrossUpBySecurity={createMockHook([] as Array<GrossUpBySecurity>)}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchGrossUpBySecurity={createMockHook([] as Array<GrossUpBySecurity>)}
+    >
+      <TableGrossUpBySecurity />
+    </RequestHooksProvider>
+  ),
 };
 
 export const WithMockData: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider {...providerProps} useFetchGrossUpBySecurity={createMockHook(mockGrossUpBySecurity)}>
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider {...providerProps} useFetchGrossUpBySecurity={createMockHook(mockGrossUpBySecurity)}>
+      <TableGrossUpBySecurity />
+    </RequestHooksProvider>
+  ),
 };

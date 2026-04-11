@@ -19,46 +19,40 @@ export const Default: Story = {};
 
 // Exibe o skeleton de carregamento (Suspense ativo)
 export const Loading: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchLiquidityValues={() => {
-          throw new Promise<never>(() => undefined);
-        }}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchLiquidityValues={() => {
+        throw new Promise<never>(() => undefined);
+      }}
+    >
+      <CardLiquiditySecurities />
+    </RequestHooksProvider>
+  ),
 };
 
 // Exibe o ErrorCard via ErrorBoundary quando a requisição lança um erro
 export const WithError: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchLiquidityValues={() => {
-          throw new Error('Erro simulado');
-        }}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchLiquidityValues={() => {
+        throw new Error('Erro simulado');
+      }}
+    >
+      <CardLiquiditySecurities />
+    </RequestHooksProvider>
+  ),
 };
 
 // Exibe o EmptyWidget quando data é nulo
 export const Empty: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider
-        {...providerProps}
-        useFetchLiquidityValues={createMockHook(null as unknown as Liquidity)}
-      >
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider
+      {...providerProps}
+      useFetchLiquidityValues={createMockHook(null as unknown as Liquidity)}
+    >
+      <CardLiquiditySecurities />
+    </RequestHooksProvider>
+  ),
 };

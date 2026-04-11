@@ -23,21 +23,17 @@ type Story = StoryObj<typeof TableTransactions>;
 export const Default: Story = {};
 
 export const WithMockData: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider {...providerProps} useFetchTransactions={createMockHook(mockTransactionsPopulated)}>
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider {...providerProps} useFetchTransactions={createMockHook(mockTransactionsPopulated)}>
+      <TableTransactions />
+    </RequestHooksProvider>
+  ),
 };
 
 export const Empty: Story = {
-  decorators: [
-    (Story) => (
-      <RequestHooksProvider {...providerProps} useFetchTransactions={createMockHook([] as Array<TransactionPopulated>)}>
-        <Story />
-      </RequestHooksProvider>
-    ),
-  ],
+  render: () => (
+    <RequestHooksProvider {...providerProps} useFetchTransactions={createMockHook([] as Array<TransactionPopulated>)}>
+      <TableTransactions />
+    </RequestHooksProvider>
+  ),
 };
