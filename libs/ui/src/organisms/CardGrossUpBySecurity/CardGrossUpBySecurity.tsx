@@ -2,82 +2,184 @@
 //
 // Widget mobile para exibição do Gross Up por ativo.
 //
-// Arquitetura em duas camadas:
+// Arquitetura em três camadas:
 //   1. Camada de apresentação (CardGrossUpBySecurity)
-//      — Estrutura visual estática: título, tratamento de erro e loading.
+//      — BaseWidget com título, ErrorBoundary e Suspense.
 //
 //   2. Camada de dados (CardGrossUpBySecurityDataRequest)
-//      — Realiza a requisição via useRequestHooks (injetável via contexto).
-//      — Delega a renderização ao useCardGrossUpBySecurityManager.
+//      — Busca dados via useRequestHooks.
+//      — Delega ao View diretamente após dados disponíveis.
+//
+//   3. Camada de view (CardGrossUpBySecurityView)
+//      — Estado de componente (filtros, busca).
+//      — useMemo inline para filtro + busca.
+//      — JSX completo.
 //
 // Responsividade:
 //   Destinado a viewports compactas (mobile).
 //   A versão desktop equivalente é o TableGrossUpBySecurity.
 
-import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { GrossUpBySecurity } from '@boilerplate-frontend/types';
+import { isEmptyArr, isNullOrUndefined, percentFormatter, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { msg } from '@lingui/core/macro';
+import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Text } from '@mantine/core';
-import { Suspense } from 'react';
+import { ActionIcon, Badge, Box, Divider, Group, Paper, ScrollArea, Stack, Text, Tooltip } from '@mantine/core';
+import { useDebouncedState } from '@mantine/hooks';
+import { InfoIcon } from '@phosphor-icons/react';
+import { Suspense, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
+import { SearchFilterBar } from '../../molecules/SearchFilterBar/SearchFilterBar';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { useCardGrossUpBySecurityManager } from './useCardGrossUpBySecurityManager';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
-// Estrutura visual estática: título, boundary de erro e skeleton de loading.
-// Não conhece dados, não faz requisições.
 
-export const CardGrossUpBySecurity = () => {
-  return (
-    <BaseWidget>
-      <BaseWidget.Header>
-        <Text>
-          <Trans>Gross up por ativo</Trans>
-        </Text>
-      </BaseWidget.Header>
-      <BaseWidget.Content>
-        {/* ErrorBoundary captura erros lançados pela camada de dados */}
-        <ErrorBoundary
-          fallbackRender={({ error }) => <ErrorCard title="Erro na busca de gross up por ativo..." error={error} />}
-        >
-          {/* Suspense exibe o skeleton enquanto a requisição está pendente */}
-          <Suspense fallback={<TablePlaceholder size="sm" />}>
-            <CardGrossUpBySecurityDataRequest />
-          </Suspense>
-        </ErrorBoundary>
-      </BaseWidget.Content>
-    </BaseWidget>
-  );
-};
+export const CardGrossUpBySecurity = () => (
+  <BaseWidget>
+    <BaseWidget.Header>
+      <Text>
+        <Trans>Gross up por ativo</Trans>
+      </Text>
+    </BaseWidget.Header>
+    <BaseWidget.Content>
+      <ErrorBoundary
+        fallbackRender={({ error }) => <ErrorCard title="Erro na busca de gross up por ativo..." error={error} />}
+      >
+        <Suspense fallback={<TablePlaceholder size="sm" />}>
+          <CardGrossUpBySecurityDataRequest />
+        </Suspense>
+      </ErrorBoundary>
+    </BaseWidget.Content>
+  </BaseWidget>
+);
 
 // ─── Camada de dados ──────────────────────────────────────────────────────────
-// Busca os dados via contexto injetável e delega toda a renderização ao manager.
-// Fica separada da camada de apresentação para que o Suspense funcione
-// corretamente — o componente suspende aqui, não no BaseWidget.
 
 const CardGrossUpBySecurityDataRequest = () => {
   const { selectedGrouping } = useContentRequest();
   const { useFetchGrossUpBySecurity } = useRequestHooks();
 
-  // A requisição suspende o componente até os dados estarem disponíveis
   const { data } = useFetchGrossUpBySecurity({
     groupingId: selectedGrouping,
     period: 'sinceInception',
     select: (data) => data,
   });
 
-  // Manager: encapsula toda a lógica de filtro, busca e renderização dos cards
-  const { renderList } = useCardGrossUpBySecurityManager({ data });
-
-  // Estado vazio: delega ao EmptyWidget o padrão visual de ausência de dados
   if (isNullOrUndefined(data) || isEmptyArr(data)) {
     return <EmptyWidget />;
   }
 
-  return renderList();
+  return <CardGrossUpBySecurityView data={data} />;
 };
 
-// ─── Camada de apresentação da lista ─────────────────────────────────────────
-// Toda a complexidade está encapsulada em useCardGrossUpBySecurityManager.
+// ─── Camada de view ───────────────────────────────────────────────────────────
+
+const CardGrossUpBySecurityView = ({ data }: { data: Array<GrossUpBySecurity> }) => {
+  const { _ } = useLingui();
+
+  const [searchInput, setSearchInput] = useDebouncedState('', 50);
+  const [selectedItems, setSelectedItems] = useState<Array<string>>([]);
+
+  const filteredData = useMemo(() => {
+    const byEntity = isEmptyArr(selectedItems)
+      ? data
+      : data.filter((s) => selectedItems.includes(s.entity) || selectedItems.includes(s.classification));
+
+    return searchInput === ''
+      ? byEntity
+      : byEntity.filter((s) => s?.name?.toLowerCase().includes(searchInput.toLowerCase()));
+  }, [data, selectedItems, searchInput]);
+
+  return (
+    <Stack gap={0}>
+      <SearchFilterBar
+        placeholder={_(msg`Pesquisar ativo`)}
+        defaultValue={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+        filtersProps={{
+          onSubmit: setSelectedItems,
+          title: _(msg`Filtros`),
+          data,
+          selectedValues: selectedItems,
+          disabled: isEmptyArr(data),
+          filterOptions: [
+            {
+              title: _(msg`Instituição financeira`),
+              key: 'entity',
+            },
+          ],
+        }}
+      />
+      <Group px="md" pb="xs" gap={4}>
+        <Text size="xs" c="dimmed">{filteredData.length}</Text>
+        <Text size="xs" c="dimmed">
+          <Trans>Ativos</Trans>
+        </Text>
+      </Group>
+      <ScrollArea>
+        <Stack gap="sm" px="md" pb="md">
+          {isEmptyArr(filteredData) ? (
+            <EmptyWidget message={_(msg`Sem informações para esta pesquisa...`)} />
+          ) : (
+            filteredData.map((item, index) => (
+              <CardGrossUpBySecurityItem key={item.name + index} item={item} />
+            ))
+          )}
+        </Stack>
+      </ScrollArea>
+    </Stack>
+  );
+};
+
+// ─── Card individual ──────────────────────────────────────────────────────────
+
+const CardGrossUpBySecurityItem = ({ item }: { item: GrossUpBySecurity }) => {
+  const { _ } = useLingui();
+
+  return (
+    <Paper withBorder radius="md">
+      <Stack gap={2} px="md" pt="sm" pb="xs">
+        <Text size="xs" c="dimmed">{item.classification}</Text>
+        <Group justify="space-between">
+          <Text size="sm" fw={600} style={{ flex: 1 }}>{item.name}</Text>
+          <Text size="sm">{percentFormatter(item.percentage, 2)}</Text>
+        </Group>
+      </Stack>
+      <Divider />
+      <Stack gap="xs" px="md" py="sm">
+        <Group justify="space-between">
+          <Text size="sm" c="dimmed"><Trans>Rentabilidade</Trans></Text>
+          <Text size="sm">{percentFormatter(item.rentability, 2)}</Text>
+        </Group>
+        <Box bg="gray.0" py="xs" style={{ borderRadius: 6 }}>
+          <Group justify="space-between">
+            <Text size="sm" c="dimmed"><Trans>Rentabilidade c/ Gross up</Trans></Text>
+            <Text size="sm" fw={600}>{percentFormatter(item.grossUpReturn, 2)}</Text>
+          </Group>
+        </Box>
+        <Group justify="space-between">
+          <Text size="sm" c="dimmed"><Trans>Equivalente</Trans></Text>
+          <Badge variant="light">{item.equivalent}</Badge>
+        </Group>
+        <Group justify="space-between">
+          <Text size="sm" c="dimmed"><Trans>% IR</Trans></Text>
+          <Group gap={4}>
+            <Text size="sm">{percentFormatter(item.incomeTax, 1)}</Text>
+            <Tooltip label={_(msg`Alíquota utilizada para o prazo de 180 até 3260 dias.`)} position="top">
+              <ActionIcon variant="transparent" size="xs">
+                <InfoIcon size={14} />
+              </ActionIcon>
+            </Tooltip>
+          </Group>
+        </Group>
+        <Group justify="space-between">
+          <Text size="sm" c="dimmed"><Trans>Instituição financeira</Trans></Text>
+          <Text size="sm">{item.entity}</Text>
+        </Group>
+      </Stack>
+    </Paper>
+  );
+};

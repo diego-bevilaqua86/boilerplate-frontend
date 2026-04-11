@@ -404,7 +404,7 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 | ~~`CardLiquiditySecurities`~~                     | ~~`useCardLiquiditySecuritiesManager`~~                     | ✅ Concluído                                               |
 | ~~`CardUpcomingMaturities`~~                      | ~~`useCardUpcomingMaturitiesManager`~~                      | ✅ Concluído                                               |
 | ~~`TableGrossUpBySecurity`~~                      | ~~`useGrossUpBySecurityTable`~~                             | ✅ Concluído                                               |
-| `CardGrossUpBySecurity`                           | `useCardGrossUpBySecurityManager`                           | Deletar manager; mover estado para View correspondente     |
+| ~~`CardGrossUpBySecurity`~~                       | ~~`useCardGrossUpBySecurityManager`~~                       | ✅ Concluído                                               |
 | `CardGrossUpRentability`                          | `useCardGrossUpRentabilityManager`                          | Deletar manager; mover estado para View correspondente     |
 | `CardPerformanceAnalysisEarningByClassification`  | `useCardPerformanceAnalysisEarningByClassificationManager`  | Deletar manager; retorna JSX — mover estado para View      |
 | `ChartPerformanceAnalysisEarningByClassification` | `useChartPerformanceAnalysisEarningByClassificationManager` | Deletar manager; mover estado para View                    |
