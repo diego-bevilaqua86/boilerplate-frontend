@@ -5,7 +5,6 @@ import { CardGrossUpBySecurity } from './CardGrossUpBySecurity';
 const meta: Meta<typeof CardGrossUpBySecurity> = {
   component: CardGrossUpBySecurity,
   title: 'UI/Organisms/CardGrossUpBySecurity',
-  decorators: [],
 };
 
 export default meta;
