@@ -409,7 +409,7 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 | ~~`CardPerformanceAnalysisEarningByClassification`~~  | ~~`useCardPerformanceAnalysisEarningByClassificationManager`~~  | ✅ Concluído                                               |
 | ~~`ChartPerformanceAnalysisEarningByClassification`~~ | ~~`useChartPerformanceAnalysisEarningByClassificationManager`~~ | ✅ Concluído                                               |
 | ~~`TablePerformanceAnalysisByClassificationDetails`~~ | ~~`usePerformanceAnalysisByClassificationDetailsTable`~~ | ✅ Concluído |
-| `TablePerformanceAnalysisEarningByClassification` | `usePerformanceAnalysisEarningByClassificationTable`        | Deletar hook de tabela; JSX de colunas vai para View       |
+| ~~`TablePerformanceAnalysisEarningByClassification`~~ | ~~`usePerformanceAnalysisEarningByClassificationTable`~~ | ✅ Concluído |
 
 ✅ **Concluído:** `CardTransactions` — referência canônica do novo padrão.
 ✅ **Concluído:** `TableWallets` — manager eliminado; View inline.
