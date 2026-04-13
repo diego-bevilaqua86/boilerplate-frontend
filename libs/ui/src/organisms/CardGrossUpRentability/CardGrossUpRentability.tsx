@@ -28,12 +28,13 @@
 //   equivalente é o TableGrossUpRentability.
 
 import { getGrossUpMappings, GrossUpRentability } from '@boilerplate-frontend/types';
-import { isEmptyArr, isNullOrUndefined, percentFormatter, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { Trans } from '@lingui/react/macro';
-import { Box, Divider, Group, Paper, Stack, Text } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
+import { CardGrossUpRentabilityItem } from '../../molecules/CardGrossUpRentabilityItem/CardGrossUpRentabilityItem';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
@@ -104,45 +105,15 @@ const CardGrossUpRentabilityView = ({ data }: { data: Array<GrossUpRentability> 
     <Stack gap="sm" mt="sm">
       {data.map((item, index) => {
         const screenLabel = GROSS_UP_LABEL_MAPPING.find((m) => m.apiLabel === item.label)?.screenLabel || '-';
-
         return (
-          <Paper key={item.label + index} withBorder radius="md">
-            <Group justify="space-between" px="md" py="sm">
-              <Text fw={600} size="sm">
-                {screenLabel}
-              </Text>
-              <Text size="sm">{percentFormatter(item.percentage, 2)}</Text>
-            </Group>
-            <Divider />
-            <Stack gap="xs" px="md" py="sm">
-              <Group justify="space-between">
-                <Text size="sm" c="dimmed">
-                  <Trans>% Rent. Nominal</Trans>
-                </Text>
-                <Text size="sm">{percentFormatter(item.nominalReturn, 2)}</Text>
-              </Group>
-              <Box bg="gray.0" p="xs" style={{ borderRadius: 6 }}>
-                <Stack gap={4}>
-                  <Group justify="space-between">
-                    <Text size="sm" c="dimmed">
-                      <Trans>% Rent. c/ Gross Up</Trans>
-                    </Text>
-                    <Text size="sm" fw={600}>
-                      {percentFormatter(item.grossUpReturn, 2)}
-                    </Text>
-                  </Group>
-                  <Group justify="space-between">
-                    <Text size="sm" c="dimmed">
-                      <Trans>Impacto</Trans>
-                    </Text>
-                    <Text size="sm" fw={600}>
-                      {percentFormatter(item.grossUpImpact, 2)}
-                    </Text>
-                  </Group>
-                </Stack>
-              </Box>
-            </Stack>
-          </Paper>
+          <CardGrossUpRentabilityItem
+            key={item.label + index}
+            screenLabel={screenLabel}
+            percentage={item.percentage}
+            nominalReturn={item.nominalReturn}
+            grossUpReturn={item.grossUpReturn}
+            grossUpImpact={item.grossUpImpact}
+          />
         );
       })}
     </Stack>
