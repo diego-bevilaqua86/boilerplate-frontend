@@ -2,17 +2,21 @@
 //
 // Widget mobile para exibição da rentabilidade com Gross Up.
 //
-// Arquitetura em duas camadas:
+// Arquitetura em três camadas:
 //   1. Camada de apresentação (CardGrossUpRentability)
 //      — Estrutura visual estática: título, tratamento de erro e loading.
 //      — Não conhece dados, não faz requisições.
 //
 //   2. Camada de dados (CardGrossUpRentabilityDataRequest)
 //      — Realiza a requisição via useRequestHooks (injetável via contexto).
-//      — Delega a renderização dos cards ao useCardGrossUpRentabilityManager.
+//      — Trata estado vazio e delega a renderização ao View.
 //      — Separada da camada de apresentação para permitir o Suspense funcionar
 //        corretamente: o fallback só é exibido enquanto esta camada está
 //        suspensa, sem afetar o BaseWidget ao redor.
+//
+//   3. Camada de conteúdo (CardGrossUpRentabilityView)
+//      — Recebe os dados via props e renderiza os cards formatados.
+//      — Sem estado local (widget é puramente de leitura).
 //
 // Injeção de dependências:
 //   Os hooks de requisição são fornecidos via RequestHooksContext, o que
@@ -23,15 +27,16 @@
 //   Este widget é destinado a viewports compactas (mobile). A versão desktop
 //   equivalente é o TableGrossUpRentability.
 
-import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
-import { Text } from '@mantine/core';
+import { getGrossUpMappings, GrossUpRentability } from '@boilerplate-frontend/types';
+import { isEmptyArr, isNullOrUndefined, percentFormatter, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { Trans } from '@lingui/react/macro';
+import { Box, Divider, Group, Paper, Stack, Text } from '@mantine/core';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { useCardGrossUpRentabilityManager } from './useCardGrossUpRentabilityManager';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 // Responsável pela estrutura visual do widget: título, boundary de erro e
@@ -40,7 +45,9 @@ import { useCardGrossUpRentabilityManager } from './useCardGrossUpRentabilityMan
 export const CardGrossUpRentability = () => (
   <BaseWidget>
     <BaseWidget.Header>
-      <Text>Rentabilidade com Gross up</Text>
+      <Text>
+        <Trans>Rentabilidade com Gross up</Trans>
+      </Text>
     </BaseWidget.Header>
     <BaseWidget.Content>
       {/* ErrorBoundary captura erros lançados pela camada de dados */}
@@ -59,7 +66,7 @@ export const CardGrossUpRentability = () => (
 );
 
 // ─── Camada de dados ──────────────────────────────────────────────────────────
-// Responsável por buscar os dados e delegar a renderização ao manager.
+// Responsável por buscar os dados e delegar a renderização ao View.
 // Fica separada da camada de apresentação para que o Suspense funcione
 // corretamente — o componente suspende aqui, não no BaseWidget.
 
@@ -74,11 +81,8 @@ const CardGrossUpRentabilityDataRequest = () => {
   const { data } = useFetchGrossUpRentability({
     groupingId: selectedGrouping,
     period: 'sinceInception',
-    select: (data) => data,
+    select: (d) => d,
   });
-
-  // Manager: transforma os dados brutos em JSX de cards formatados
-  const { renderList } = useCardGrossUpRentabilityManager({ data: data ?? [] });
 
   // Estado vazio: exibido quando a API retorna dados vazios ou nulos
   if (isNullOrUndefined(data) || isEmptyArr(data)) {
@@ -87,6 +91,60 @@ const CardGrossUpRentabilityDataRequest = () => {
     );
   }
 
-  // Delega a renderização dos cards ao manager
-  return renderList();
+  return <CardGrossUpRentabilityView data={data} />;
+};
+
+// ─── Camada de conteúdo ───────────────────────────────────────────────────────
+// Recebe os dados via props e renderiza os cards formatados.
+
+const CardGrossUpRentabilityView = ({ data }: { data: Array<GrossUpRentability> }) => {
+  const { GROSS_UP_LABEL_MAPPING } = getGrossUpMappings();
+
+  return (
+    <Stack gap="sm" mt="sm">
+      {data.map((item, index) => {
+        const screenLabel = GROSS_UP_LABEL_MAPPING.find((m) => m.apiLabel === item.label)?.screenLabel || '-';
+
+        return (
+          <Paper key={item.label + index} withBorder radius="md">
+            <Group justify="space-between" px="md" py="sm">
+              <Text fw={600} size="sm">
+                {screenLabel}
+              </Text>
+              <Text size="sm">{percentFormatter(item.percentage, 2)}</Text>
+            </Group>
+            <Divider />
+            <Stack gap="xs" px="md" py="sm">
+              <Group justify="space-between">
+                <Text size="sm" c="dimmed">
+                  <Trans>% Rent. Nominal</Trans>
+                </Text>
+                <Text size="sm">{percentFormatter(item.nominalReturn, 2)}</Text>
+              </Group>
+              <Box bg="gray.0" p="xs" style={{ borderRadius: 6 }}>
+                <Stack gap={4}>
+                  <Group justify="space-between">
+                    <Text size="sm" c="dimmed">
+                      <Trans>% Rent. c/ Gross Up</Trans>
+                    </Text>
+                    <Text size="sm" fw={600}>
+                      {percentFormatter(item.grossUpReturn, 2)}
+                    </Text>
+                  </Group>
+                  <Group justify="space-between">
+                    <Text size="sm" c="dimmed">
+                      <Trans>Impacto</Trans>
+                    </Text>
+                    <Text size="sm" fw={600}>
+                      {percentFormatter(item.grossUpImpact, 2)}
+                    </Text>
+                  </Group>
+                </Stack>
+              </Box>
+            </Stack>
+          </Paper>
+        );
+      })}
+    </Stack>
+  );
 };
