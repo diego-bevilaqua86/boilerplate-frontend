@@ -405,7 +405,7 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 | ~~`CardUpcomingMaturities`~~                      | ~~`useCardUpcomingMaturitiesManager`~~                      | ✅ Concluído                                               |
 | ~~`TableGrossUpBySecurity`~~                      | ~~`useGrossUpBySecurityTable`~~                             | ✅ Concluído                                               |
 | ~~`CardGrossUpBySecurity`~~                       | ~~`useCardGrossUpBySecurityManager`~~                       | ✅ Concluído                                               |
-| `CardGrossUpRentability`                          | `useCardGrossUpRentabilityManager`                          | Deletar manager; mover estado para View correspondente     |
+| ~~`CardGrossUpRentability`~~                       | ~~`useCardGrossUpRentabilityManager`~~                       | ✅ Concluído                                               |
 | `CardPerformanceAnalysisEarningByClassification`  | `useCardPerformanceAnalysisEarningByClassificationManager`  | Deletar manager; retorna JSX — mover estado para View      |
 | `ChartPerformanceAnalysisEarningByClassification` | `useChartPerformanceAnalysisEarningByClassificationManager` | Deletar manager; mover estado para View                    |
 | `TablePerformanceAnalysisByClassificationDetails` | `usePerformanceAnalysisByClassificationDetailsTable`        | Deletar hook de tabela; JSX de colunas vai para View       |
