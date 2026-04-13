@@ -25,3 +25,9 @@ export const Negative: Story = {
     plPercent: -0.15,
   },
 };
+
+export const NullPlPercent: Story = {
+  args: {
+    plPercent: null,
+  },
+};
