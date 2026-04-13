@@ -1,21 +1,30 @@
-import { Suspense } from 'react';
-
 import { useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { Trans } from '@lingui/react/macro';
 import { Box, Text } from '@mantine/core';
+import { Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { DoughnutChart } from '../../molecules/DoughnutChart/DoughnutChart';
+import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
+import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 import { useChartGroupingPositionByClassificationManager } from './useChartGroupingPositionByClassificationManager';
 
 export const ChartGroupingPositionByClassification = () => {
   return (
     <BaseWidget>
       <BaseWidget.Header>
-        <Text>Posição por classificação</Text>
+        <Text><Trans>Posição por classificação</Trans></Text>
       </BaseWidget.Header>
       <BaseWidget.Content>
-        <Suspense>
-          <ChartGroupingPositionByClassificationDataRequest />
-        </Suspense>
+        <ErrorBoundary
+          fallbackRender={({ error }) => (
+            <ErrorCard title="Erro ao carregar posição por classificação..." error={error} />
+          )}
+        >
+          <Suspense fallback={<TablePlaceholder size="sm" />}>
+            <ChartGroupingPositionByClassificationDataRequest />
+          </Suspense>
+        </ErrorBoundary>
       </BaseWidget.Content>
     </BaseWidget>
   );

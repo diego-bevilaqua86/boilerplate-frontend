@@ -2,14 +2,16 @@
 //
 // Widget desktop para exibição do gráfico de liquidez do patrimônio.
 //
-// Arquitetura em duas camadas:
+// Arquitetura em três camadas:
 //   1. Camada de apresentação (ChartLiquidityByPeriod)
 //      — Estrutura visual estática: título, boundary de erro e loading.
 //
 //   2. Camada de dados (ChartLiquidityByPeriodDataRequest)
 //      — Busca os dados via useRequestHooks.
-//      — Instancia useLiquidityProvider e passa estado para o manager.
-//      — Delega renderização ao useChartLiquidityByPeriodManager.
+//      — Instancia useLiquidityProvider e passa estado para o View.
+//
+//   3. Camada de conteúdo (ChartLiquidityByPeriodView)
+//      — Estado, useMemo, handlers e JSX.
 //
 // Nota: useLiquidityProvider é instanciado aqui e compartilhado com
 // TableLiquiditySecurities via props quando ambos estão no mesmo template.
@@ -17,18 +19,19 @@
 // seu próprio provider — o estado é duplicado mas isolado por widget.
 
 import { Liquidity } from '@boilerplate-frontend/types';
-import { isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { isNullOrUndefined, numberFormatter, percentFormatter, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { ActionIcon, Group, SegmentedControl, Stack, Switch, Text } from '@mantine/core';
+import { BarChart } from '@mantine/charts';
+import { ActionIcon, Box, Button, Group, SegmentedControl, Stack, Switch, Text } from '@mantine/core';
 import { ChartBarIcon } from '@phosphor-icons/react';
-import { Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { useChartLiquidityByPeriodManager } from './useChartLiquidityByPeriodManager';
 import { useLiquidityProvider } from './useLiquidityProvider';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
@@ -56,7 +59,7 @@ export const ChartLiquidityByPeriod = () => {
 
 // ─── Camada de dados ──────────────────────────────────────────────────────────
 // Instancia useLiquidityProvider com os dados brutos.
-// Passa o estado para o manager que renderiza o gráfico correto.
+// Passa o estado para o View que renderiza o gráfico correto.
 
 const ChartLiquidityByPeriodDataRequest = () => {
   const { selectedGrouping } = useContentRequest();
@@ -69,18 +72,75 @@ const ChartLiquidityByPeriodDataRequest = () => {
 
   if (isNullOrUndefined(data)) return <EmptyWidget />;
 
-  return <ChartLiquidityByPeriodContent data={data} />;
+  return <ChartLiquidityByPeriodView data={data} />;
 };
 
 // ─── Camada de conteúdo ───────────────────────────────────────────────────────
 // Separada de DataRequest para poder instanciar useLiquidityProvider
 // somente após os dados estarem disponíveis (hooks não podem ser condicionais).
 
-const ChartLiquidityByPeriodContent = ({ data }: { data: Liquidity }) => {
-  const { _ } = useLingui();
+const ChartLiquidityByPeriodView = ({ data }: { data: Liquidity }) => {
+  const { _, i18n } = useLingui();
 
   const liquidity = useLiquidityProvider({ liquidityValues: data });
-  const { renderChart } = useChartLiquidityByPeriodManager({ data, liquidity });
+  const { selectedType, includeProvisions, labelData, selectedPeriod, setSelectedPeriod, setSelectedType, setIncludeProvisions } = liquidity;
+
+  // ── Gráfico de barras simples (currency, sem provisões) ──────────────────
+  const barData = useMemo(() =>
+    data.liquidityValues.map((v, i) => ({
+      period: labelData?.[i]?.label ?? `D+${v.lowestLiquidityDay}`,
+      value: v.value,
+      color: labelData?.[i]?.label === selectedPeriod ? 'blue.6' : 'gray.4',
+    })),
+  [data.liquidityValues, labelData, selectedPeriod]);
+
+  // ── Gráfico de barras com provisões (currency, com provisões) ────────────
+  const barWithProvisionsData = useMemo(() =>
+    data.liquidityProvisionsValues.map((v, i) => ({
+      period: labelData?.[i]?.label ?? `D+${v.lowestLiquidityDay}`,
+      ativos: v.value,
+      provisoes: v.provisionsValue,
+    })),
+  [data.liquidityProvisionsValues, labelData]);
+
+  // ── Gráfico cascata sem provisões (percentage, sem provisões) ────────────
+  const waterfallData = useMemo(() => {
+    const points = data.liquidityPercents.map((p, i) => ({
+      item: labelData?.[i]?.label ?? `D+${p.lowestLiquidityDay}`,
+      value: p.value * 100,
+      color: labelData?.[i]?.label === selectedPeriod ? 'blue.6' : 'gray.4',
+    }));
+
+    const total = data.liquidityPercents.reduce((acc, p) => acc + p.value * 100, 0);
+    return [
+      ...points,
+      { item: 'Total', value: total, standalone: true, color: 'teal.7' },
+    ];
+  }, [data.liquidityPercents, labelData, selectedPeriod]);
+
+  // ── Gráfico cascata com provisões (percentage, com provisões) ────────────
+  const waterfallWithProvisionsData = useMemo(() => {
+    const filtered = data.liquidityProvisionsPercents.filter(
+      (p) => p.lowestLiquidityDay !== null,
+    );
+    const points = filtered.map((p, i) => ({
+      item: labelData?.[i]?.label ?? `D+${p.lowestLiquidityDay}`,
+      value: p.value * 100,
+      color: labelData?.[i]?.label === selectedPeriod ? 'blue.6' : 'gray.4',
+    }));
+
+    const provisionValue = data.liquidityProvisionsPercents.find(
+      (p) => p.highestLiquidityDay === null && p.lowestLiquidityDay === null,
+    )?.value ?? 0;
+
+    const total = data.liquidityProvisionsPercents.reduce((acc, p) => acc + p.value * 100, 0);
+
+    return [
+      ...points,
+      { item: _(msg`Provisões`), value: provisionValue * 100, color: 'cyan.5' },
+      { item: 'Total', value: total, standalone: true, color: 'teal.7' },
+    ];
+  }, [_, data.liquidityProvisionsPercents, labelData, selectedPeriod]);
 
   return (
     <Stack gap={0} h="100%">
@@ -88,10 +148,10 @@ const ChartLiquidityByPeriodContent = ({ data }: { data: Liquidity }) => {
       <Group px="md" py="sm" justify="space-between">
         <SegmentedControl
           size="xs"
-          value={liquidity.selectedType}
-          onChange={(v) => liquidity.setSelectedType(v as 'currency' | 'percentage')}
+          value={selectedType}
+          onChange={(v) => setSelectedType(v as 'currency' | 'percentage')}
           data={[
-            { label: 'Valor', value: 'currency' },
+            { label: <Trans>Valor</Trans>, value: 'currency' },
             { label: '%', value: 'percentage' },
           ]}
         />
@@ -99,8 +159,8 @@ const ChartLiquidityByPeriodContent = ({ data }: { data: Liquidity }) => {
           <Switch
             size="xs"
             label={<Trans>Incluir provisões</Trans>}
-            checked={liquidity.includeProvisions}
-            onChange={(e) => liquidity.setIncludeProvisions(e.currentTarget.checked)}
+            checked={includeProvisions}
+            onChange={(e) => setIncludeProvisions(e.currentTarget.checked)}
           />
           <ActionIcon variant="default" size="sm">
             <ChartBarIcon weight="duotone" />
@@ -108,8 +168,86 @@ const ChartLiquidityByPeriodContent = ({ data }: { data: Liquidity }) => {
         </Group>
       </Group>
 
-      {/* Gráfico — renderizado pelo manager */}
-      {renderChart()}
+      {/* Gráfico */}
+      <Box px="md" pb="sm">
+        {selectedType === 'currency' && !includeProvisions && (
+          <BarChart
+            h={200}
+            data={barData}
+            dataKey="period"
+            series={[{ name: 'value', label: _(msg`Liquidez`), color: 'blue.6' }]}
+            getBarColor={(_, series) => series.color ?? 'blue.6'}
+            yAxisProps={{
+              tickFormatter: (v) => numberFormatter(v, 0, i18n.locale),
+            }}
+            withXAxis={false}
+            withLegend={false}
+          />
+        )}
+
+        {selectedType === 'currency' && includeProvisions && (
+          <BarChart
+            h={200}
+            data={barWithProvisionsData}
+            dataKey="period"
+            type="stacked"
+            series={[
+              { name: 'ativos', label: _(msg`Ativos`), color: 'blue.6' },
+              { name: 'provisoes', label: _(msg`Provisões`), color: 'cyan.4' },
+            ]}
+            yAxisProps={{
+              tickFormatter: (v) => numberFormatter(v, 0, i18n.locale),
+            }}
+            withXAxis={false}
+            withLegend
+          />
+        )}
+
+        {selectedType === 'percentage' && !includeProvisions && (
+          <BarChart
+            h={200}
+            data={waterfallData}
+            dataKey="item"
+            type="waterfall"
+            series={[{ name: 'value', label: _(msg`Liquidez (%)`), color: 'blue.6' }]}
+            yAxisProps={{
+              tickFormatter: (v) => percentFormatter(Number(v), 0, i18n.locale),
+            }}
+            withXAxis={false}
+            withLegend={false}
+          />
+        )}
+
+        {selectedType === 'percentage' && includeProvisions && (
+          <BarChart
+            h={200}
+            data={waterfallWithProvisionsData}
+            dataKey="item"
+            type="waterfall"
+            series={[{ name: 'value', label: _(msg`Liquidez c/ Provisões (%)`), color: 'blue.6' }]}
+            yAxisProps={{
+              tickFormatter: (v) => percentFormatter(Number(v), 0, i18n.locale),
+            }}
+            withXAxis={false}
+            withLegend={false}
+          />
+        )}
+
+        {/* Seletor de período */}
+        <Group gap={4} py="sm" wrap="wrap">
+          {labelData?.map((period) => (
+            <Button
+              key={period.label}
+              size="xs"
+              variant={period.label === selectedPeriod ? 'filled' : 'default'}
+              disabled={period.disabled}
+              onClick={() => setSelectedPeriod(period.label)}
+            >
+              {period.label}
+            </Button>
+          ))}
+        </Group>
+      </Box>
     </Stack>
   );
 };

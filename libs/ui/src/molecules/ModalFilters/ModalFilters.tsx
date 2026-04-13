@@ -1,4 +1,6 @@
 import { APIMapping } from '@boilerplate-frontend/types';
+import { msg } from '@lingui/core/macro';
+import { useLingui } from '@lingui/react';
 import { Button, Chip, Group, Modal, Stack, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 
@@ -25,6 +27,7 @@ export function ModalFilters<T extends Array<unknown>>({
   selectedValues,
   filterOptions,
 }: ModalFiltersProps<T>) {
+  const { _ } = useLingui();
   const [selected, setSelected] = useState<Array<string>>(selectedValues ?? []);
 
   useEffect(() => {
@@ -92,10 +95,10 @@ export function ModalFilters<T extends Array<unknown>>({
 
         <Group justify="flex-end" gap="xs" mt="sm">
           <Button variant="default" size="sm" onClick={handleClear}>
-            Limpar
+            {_(msg`Limpar`)}
           </Button>
           <Button size="sm" onClick={handleSubmit}>
-            Mostrar resultados
+            {_(msg`Mostrar resultados`)}
           </Button>
         </Group>
 
