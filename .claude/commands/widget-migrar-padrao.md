@@ -11,8 +11,8 @@ seguindo `CardTransactions` como referência canônica.
 
 Este comando aceita um nome de widget opcional:
 
-- `/refactor-widget` → fluxo totalmente guiado (vai perguntar tudo)
-- `/refactor-widget TableTransactions` → usa o nome direto e pula essa pergunta
+- `/widget-migrar-padrao` → fluxo totalmente guiado (vai perguntar tudo)
+- `/widget-migrar-padrao TableTransactions` → usa o nome direto e pula essa pergunta
 
 ---
 
@@ -42,8 +42,8 @@ Se o widget já foi fornecido no comando:
 
 ## 📌 Exemplo de uso
 
-/refactor-widget  
-/refactor-widget TableTransactions
+/widget-migrar-padrao
+/widget-migrar-padrao TableTransactions
 
 ---
 

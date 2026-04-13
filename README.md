@@ -1,82 +1,215 @@
-# BoilerplateFrontend
+# boilerplate-frontend
 
-<a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
+Monorepo Nx com aplicações e bibliotecas compartilhadas do ecossistema Beehus.
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is almost ready ✨.
+---
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## Pré-requisitos
 
-## Finish your CI setup
+- **Node 20** (recomendado via [nvm](https://github.com/nvm-sh/nvm))
+- **npm** (incluído com Node)
 
-[Click here to finish setting up your workspace!](https://cloud.nx.app/connect/AVxw0DfKFQ)
+---
 
+## Instalação
 
-## Run tasks
-
-To run the dev server for your app, use:
-
-```sh
-npx nx serve boilerplate-frontend
+```bash
+git clone <repo>
+cd boilerplate-frontend
+npm ci --legacy-peer-deps
 ```
 
-To create a production bundle:
+---
 
-```sh
-npx nx build boilerplate-frontend
+## Configuração de ambiente
+
+### Variáveis gerais
+
+Copie o arquivo `.env.serve` já presente na raiz do projeto. Ele contém:
+
+| Variável                  | Descrição                        |
+| ------------------------- | -------------------------------- |
+| `VITE_SERVER_DOMAIN`      | URL base da API                  |
+| `VITE_PUBLIC_ASSETS_DOMAIN` | CDN de assets públicos         |
+| `DOMAIN_UUID`             | Identificador do domínio         |
+
+### App de autenticação
+
+Crie o arquivo `apps/authentication/.env` com as credenciais Auth0:
+
+| Variável              | Descrição             |
+| --------------------- | --------------------- |
+| `VITE_AUTH0_DOMAIN`   | Domínio Auth0         |
+| `VITE_AUTH0_CLIENT_ID` | Client ID Auth0      |
+
+> Variáveis sensíveis são obtidas com o time.
+
+---
+
+## Rodando localmente
+
+```bash
+npx nx serve authentication    # app de autenticação
+npx nx serve admin             # app admin
+npx nx storybook ui            # Storybook da lib de componentes (porta 6006)
 ```
 
-To see all available targets to run for a project, run:
+---
 
-```sh
-npx nx show project boilerplate-frontend
+## Comandos principais
+
+Sempre prefira rodar no escopo da lib/app afetada — é mais rápido que rodar no monorepo inteiro.
+
+```bash
+# Escopo específico (recomendado)
+npx nx lint ui
+npx nx typecheck ui
+npx nx test ui
+npx nx storybook ui
+
+# Monorepo inteiro (use quando necessário)
+npx nx run-many -t lint
+npx nx run-many -t typecheck
+npx nx affected -t test        # roda só no que foi alterado
+
+# Testes e2e
+npx nx e2e admin-e2e
+npx nx e2e authentication-e2e
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+---
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## Estrutura do monorepo
 
-## Add new projects
+```
+apps/
+  admin/               — aplicação administrativa
+  admin-e2e/           — testes e2e do admin (Playwright)
+  authentication/      — aplicação de autenticação (Auth0)
+  authentication-e2e/  — testes e2e do authentication (Playwright)
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/react:app demo
+libs/
+  ui/                             — componentes, widgets e templates (atomic design)
+  utils/                          — contexts, hooks, constants, formatters, adapters
+  i18n/                           — traduções Lingui (pt, en, es)
+  types/                          — tipos TypeScript compartilhados
+  api-authentication-data-access/ — hooks e clients de API (auth)
+  api-client-data-access/         — hooks e clients de API (client)
 ```
 
-To generate a new library, use:
+---
 
-```sh
-npx nx g @nx/react:lib mylib
+## Stack
+
+| Responsabilidade    | Biblioteca                           |
+| ------------------- | ------------------------------------ |
+| Framework           | React 19 + TypeScript 5.8            |
+| Build               | Vite 7                               |
+| Monorepo            | Nx                                   |
+| UI e tema           | `@mantine/core`, `@mantine/charts`   |
+| Tabelas             | `@tanstack/react-table`              |
+| Roteamento          | TanStack Router                      |
+| Server state        | TanStack Query (`useSuspenseQuery`)  |
+| Autenticação        | Auth0 (`@auth0/auth0-react`)         |
+| Ícones              | `@phosphor-icons/react`              |
+| i18n                | Lingui 5.x (`@lingui/react`)         |
+| Testes unitários    | Vitest 3.x                           |
+| Testes e2e          | Playwright                           |
+| Documentação visual | Storybook 9                          |
+
+---
+
+## Arquitetura — conceitos-chave
+
+### Atomic design
+
+Componentes em `libs/ui` seguem a hierarquia: **átomos → moléculas → organismos → templates**.
+
+- `atoms/` — elementos primitivos (botões, badges, inputs)
+- `molecules/` — combinações simples de átomos com estado local limitado
+- `organisms/` — widgets completos com dados e lógica de negócio
+- `templates/` — layouts de grid que compõem widgets
+
+### Padrão de widget 3 camadas
+
+Todo widget (organismo) segue três camadas obrigatórias:
+
+1. **Apresentação** — `BaseWidget` + `ErrorBoundary` + `Suspense`. Sem dados, sem lógica.
+2. **Dados** — `useRequestHooks()` + `useContentRequest()`. Busca dados e suspende.
+3. **Conteúdo** — `useXxxManager()` + `XxxView`. Hook gerencia estado; View renderiza JSX puro.
+
+Documentação completa: [`libs/ui/docs/widget-architecture.md`](libs/ui/docs/widget-architecture.md)
+
+### RequestHooksContext
+
+Widgets em `libs/ui` não importam hooks de dados diretamente. Os hooks são injetados pelo app host via `RequestHooksProvider` e consumidos com `useRequestHooks()`. Isso permite que o mesmo widget funcione com fontes de dados diferentes e seja mockado no Storybook.
+
+```
+libs/utils/src/contexts/RequestHooksContext/
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+### ContentRequestContext
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Fornece dados de contexto do usuário (grouping, period, palette) para todos os widgets sem prop drilling.
 
+```tsx
+const { selectedGrouping, selectedPeriod, palette } = useContentRequest();
+```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```
+libs/utils/src/contexts/ContentRequestContext/
+```
 
-## Install Nx Console
+### TemplateNavigationContext
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+Permite que widgets abram um template filho (ex: detalhamento de ativo) sem conhecer o router da aplicação.
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```tsx
+const { navigateTo, navigateBack, currentParams } = useTemplateNavigation();
+navigateTo('security-details', { walletId, securityId });
+```
 
-## Useful links
+```
+libs/utils/src/contexts/TemplateNavigationContext/
+```
 
-Learn more:
+### widgetRegistry
 
-- [Learn more about this workspace setup](https://nx.dev/getting-started/tutorials/react-monorepo-tutorial?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+Mapa central de `string → ComponentType`. O `WidgetTemplate` usa o registry para renderizar cada posição do grid pelo identificador do layout.
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+```
+libs/ui/src/registry/widgetRegistry.tsx
+```
+
+---
+
+## Convenções
+
+- **TypeScript estrito** — sem `any` sem justificativa explícita
+- **Imports entre libs** — sempre via nome do pacote (`@boilerplate-frontend/utils`), nunca por caminhos relativos entre libs
+- **i18n obrigatório** — nunca strings hardcoded em UI; use sempre Lingui (`<Trans>`, `useLingui`)
+- **Utilitários React em `libs/utils`** devem ser hooks (`useXxx`) — ex: `useCurrencyFormatter`
+
+---
+
+## Comandos Claude
+
+O projeto inclui slash commands para Claude Code que automatizam tarefas recorrentes de desenvolvimento.
+Para usá-los, abra Claude Code na raiz do projeto e execute o comando no chat.
+
+| Comando | O que faz |
+| --- | --- |
+| `/pr-changelog` | Gera changelog estruturado da branch atual para uso em Pull Requests |
+| `/widget-migrar-padrao [Widget]` | Refatora um widget para a arquitetura de 3 camadas (padrão `CardTransactions`) |
+| `/widget-extrair-atoms [Widget]` | Extrai atoms e molecules reutilizáveis de um widget |
+| `/widget-validar [Widget]` | Audita se um widget segue corretamente a arquitetura padrão |
+
+Os arquivos dos comandos estão em `.claude/commands/`.
+
+---
+
+## Links úteis
+
+- Arquitetura de widgets: [`libs/ui/docs/widget-architecture.md`](libs/ui/docs/widget-architecture.md)
+- Arquitetura de componentes: [`libs/ui/docs/component-architecture.md`](libs/ui/docs/component-architecture.md)
+- Instruções para IA (Claude): [`CLAUDE.md`](CLAUDE.md)

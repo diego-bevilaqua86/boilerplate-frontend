@@ -9,8 +9,8 @@ seguindo padrões de design system e garantindo consistência com CardTransactio
 
 ## 🧾 Input
 
-- `/extract-atomic`
-- `/extract-atomic TableTransactions`
+- `/widget-extrair-atoms`
+- `/widget-extrair-atoms TableTransactions`
 
 ---
 

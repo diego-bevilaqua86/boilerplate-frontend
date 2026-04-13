@@ -9,8 +9,8 @@ e está consistente com CardTransactions.
 
 ## 🧾 Input
 
-- `/qa-widget`
-- `/qa-widget TableTransactions`
+- `/widget-validar`
+- `/widget-validar TableTransactions`
 
 ---
 
