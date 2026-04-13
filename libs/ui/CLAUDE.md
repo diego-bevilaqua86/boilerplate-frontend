@@ -98,7 +98,7 @@ libs/ui/src/
 
   molecules/
     BarChart, BaseTable, BaseWidget, DoughnutChart,
-    EmptyWidget, ErrorCard, FilterModal, LineChart, ModalFilters, SearchFilterBar, TableFilterHeader, TablePlaceholder
+    EmptyWidget, ErrorCard, FilterModal, LineChart, ModalFilters, SearchFilterBar, TableFilterHeader, TablePlaceholder, WithdrawalDepositSection
 
   organisms/<NomeWidget>/
     <NomeWidget>.tsx              ← composição das 3 camadas
