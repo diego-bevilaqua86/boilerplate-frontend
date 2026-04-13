@@ -6,8 +6,7 @@ import {
 import { currencyFormatter, isNullOrUndefined, percentFormatter, useContentRequest, useRequestHooks, useTemplateModal } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
-import { ActionIcon, Badge, Box, ScrollArea, Text } from '@mantine/core';
-import { ArrowDownIcon, ArrowUpIcon, CaretDownIcon, CaretRightIcon } from '@phosphor-icons/react';
+import { Box, ScrollArea, Text } from '@mantine/core';
 import {
   createColumnHelper,
   ExpandedState,
@@ -17,7 +16,9 @@ import {
 } from '@tanstack/react-table';
 import { Suspense, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { ExpandRowButton } from '../../atoms/ExpandRowButton/ExpandRowButton';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
+import { SignedValueBadge } from '../../atoms/SignedValueBadge/SignedValueBadge';
 import { TableSortingHeader } from '../../atoms/TableSortingHeader/TableSortingHeader';
 import { BaseTable } from '../../molecules/BaseTable/BaseTable';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
@@ -124,19 +125,7 @@ function TablePerformanceAnalysisByClassificationDetailsView({
         id: 'expandColumn',
         cell: ({ row }) => {
           if (!row.getCanExpand()) return null;
-          return (
-            <ActionIcon
-              variant="subtle"
-              color="gray"
-              size="sm"
-              onClick={(e) => {
-                e.stopPropagation();
-                row.toggleExpanded();
-              }}
-            >
-              {row.getIsExpanded() ? <CaretDownIcon size={12} /> : <CaretRightIcon size={12} />}
-            </ActionIcon>
-          );
+          return <ExpandRowButton isExpanded={row.getIsExpanded()} onToggle={row.toggleExpanded} />;
         },
       }),
 
@@ -233,12 +222,9 @@ function TablePerformanceAnalysisByClassificationDetailsView({
         ),
         cell: ({ getValue }) => (
           <SensitiveText isHidden={false} dotCount={4} dotSize={20}>
-            <Badge
-              color={getValue() >= 0 ? 'green.5' : 'red.5'}
-              leftSection={getValue() >= 0 ? <ArrowUpIcon size={14} /> : <ArrowDownIcon size={14} />}
-            >
+            <SignedValueBadge value={getValue()}>
               {currencyFormatter(getValue(), 2, i18n.locale, currency)}
-            </Badge>
+            </SignedValueBadge>
           </SensitiveText>
         ),
         footer: ({ table: { getPrePaginationRowModel } }) => {
@@ -264,12 +250,9 @@ function TablePerformanceAnalysisByClassificationDetailsView({
           />
         ),
         cell: ({ getValue }) => (
-          <Badge
-            color={getValue() >= 0 ? 'green.5' : 'red.5'}
-            leftSection={getValue() >= 0 ? <ArrowUpIcon size={14} /> : <ArrowDownIcon size={14} />}
-          >
+          <SignedValueBadge value={getValue()}>
             {percentFormatter(getValue(), 2, i18n.locale, 1)}
-          </Badge>
+          </SignedValueBadge>
         ),
         footer: ({ table: { getPrePaginationRowModel } }) => {
           const total = getPrePaginationRowModel().rows.reduce(
