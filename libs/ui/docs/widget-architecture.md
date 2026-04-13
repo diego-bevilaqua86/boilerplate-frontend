@@ -408,7 +408,7 @@ const TableWalletView = ({ data, selectedVariant, palette }) => {
 | ~~`CardGrossUpRentability`~~                       | ~~`useCardGrossUpRentabilityManager`~~                       | ✅ Concluído                                               |
 | ~~`CardPerformanceAnalysisEarningByClassification`~~  | ~~`useCardPerformanceAnalysisEarningByClassificationManager`~~  | ✅ Concluído                                               |
 | ~~`ChartPerformanceAnalysisEarningByClassification`~~ | ~~`useChartPerformanceAnalysisEarningByClassificationManager`~~ | ✅ Concluído                                               |
-| `TablePerformanceAnalysisByClassificationDetails` | `usePerformanceAnalysisByClassificationDetailsTable`        | Deletar hook de tabela; JSX de colunas vai para View       |
+| ~~`TablePerformanceAnalysisByClassificationDetails`~~ | ~~`usePerformanceAnalysisByClassificationDetailsTable`~~ | ✅ Concluído |
 | `TablePerformanceAnalysisEarningByClassification` | `usePerformanceAnalysisEarningByClassificationTable`        | Deletar hook de tabela; JSX de colunas vai para View       |
 
 ✅ **Concluído:** `CardTransactions` — referência canônica do novo padrão.
