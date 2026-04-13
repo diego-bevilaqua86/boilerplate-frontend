@@ -27,7 +27,7 @@ export const Loading: Story = {
     <RequestHooksProvider
       {...providerProps}
       useFetchGrossUpRentability={() => {
-        throw new Promise(() => {});
+        throw new Promise(() => undefined);
       }}
     >
       <CardGrossUpRentability />
