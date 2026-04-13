@@ -1,3 +1,4 @@
+export * from './atoms/ChartTickButton/ChartTickButton';
 export * from './atoms/DetailRow/DetailRow';
 export * from './atoms/FilterButton/FilterButton';
 export * from './atoms/SensitiveText/SensitiveText';

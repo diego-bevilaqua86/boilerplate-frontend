@@ -9,8 +9,8 @@ import {
 } from '@boilerplate-frontend/utils';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { BarChart } from '@mantine/charts';
-import { Button, Group, SegmentedControl, Stack, Text } from '@mantine/core';
-import { ArrowCircleUpRightIcon } from '@phosphor-icons/react';
+import { Group, SegmentedControl, Stack, Text } from '@mantine/core';
+import { ChartTickButton } from '../../atoms/ChartTickButton/ChartTickButton';
 import { GenericTableData } from '@boilerplate-frontend/types';
 import { Suspense, useEffect, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -109,34 +109,6 @@ const ChartPerformanceAnalysisEarningByClassificationView = ({
     return percentFormatter(value, 2, i18n.locale);
   }
 
-  function CustomTick({ x, y, payload }: { x?: number; y?: number; payload?: { value: string } }) {
-    const value = payload?.value ?? '';
-    const disabled = ['Ganhos/Despesas', 'Saldo em conta', 'Total'].includes(value);
-    return (
-      <g transform={`translate(${x},${y})`}>
-        <foreignObject
-          x={(-barWidth + 16) / 2}
-          y={4}
-          width={barWidth - 16}
-          height={28}
-          style={{ overflow: 'visible' }}
-        >
-          <Button
-            variant="default"
-            style={{ width: '100%' }}
-            disabled={disabled}
-            onClick={() => handleOpen('performance-details', { classification: value })}
-            rightSection={!disabled ? <ArrowCircleUpRightIcon size={16} /> : null}
-          >
-            <Text size="sm" truncate="end">
-              {value}
-            </Text>
-          </Button>
-        </foreignObject>
-      </g>
-    );
-  }
-
   return (
     <Stack ref={chartContainerRef}>
       <Group>
@@ -164,7 +136,13 @@ const ChartPerformanceAnalysisEarningByClassificationView = ({
           gridAxis="none"
           withYAxis={false}
           xAxisProps={{
-            tick: <CustomTick />,
+            tick: (
+              <ChartTickButton
+                barWidth={barWidth}
+                disabledValues={['Ganhos/Despesas', 'Saldo em conta', 'Total']}
+                onClick={(value) => handleOpen('performance-details', { classification: value })}
+              />
+            ),
             height: 52,
           }}
         />
