@@ -8,8 +8,7 @@ import {
 import { currencyFormatter, isNullOrUndefined, percentFormatter, useContentRequest, useRequestHooks, useTemplateModal } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
-import { Badge, Box, Flex, RingProgress, ScrollArea, Text } from '@mantine/core';
-import { ArrowDownIcon, ArrowUpIcon } from '@phosphor-icons/react';
+import { Box, Flex, ScrollArea, Text } from '@mantine/core';
 import {
   ColumnSort,
   createColumnHelper,
@@ -18,6 +17,8 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { Suspense, useCallback, useMemo, useState } from 'react';
+import { PLRingProgress } from '../../atoms/PLRingProgress/PLRingProgress';
+import { SignedValueBadge } from '../../atoms/SignedValueBadge/SignedValueBadge';
 import { ErrorBoundary } from 'react-error-boundary';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 import TableActionButtons from '../../atoms/TableActionButtons/TableActionButtons';
@@ -127,21 +128,6 @@ function TablePerformanceAnalysisEarningByClassificationView({
     [handleOpen],
   );
 
-  const progressData = useCallback(
-    (plPercent: number | null) => {
-      if (isNullOrUndefined(plPercent)) return { value: 0, color: 'brand.5' };
-      const value = plPercent * 100;
-      const color = value >= 0 ? 'brand.5' : 'red.5';
-
-      return {
-        value,
-        color,
-        tooltip: percentFormatter(plPercent, 2, i18n.locale),
-      };
-    },
-    [i18n.locale],
-  );
-
   const columns = useMemo(
     () => [
       columnBuilder.accessor('classificationOrSecurity', {
@@ -154,13 +140,7 @@ function TablePerformanceAnalysisEarningByClassificationView({
         ),
         cell: ({ getValue, row }) => (
           <Flex align={'center'} gap={8}>
-            <RingProgress
-              size={40}
-              thickness={4}
-              roundCaps
-              sections={[progressData(row.original.plPercent)]}
-              transitionDuration={600}
-            />
+            <PLRingProgress plPercent={row.original.plPercent} />
             <span className="ms-2">{getValue()}</span>
           </Flex>
         ),
@@ -230,13 +210,9 @@ function TablePerformanceAnalysisEarningByClassificationView({
         ),
         cell: ({ getValue }) => (
           <SensitiveText isHidden={false}>
-            <Badge
-              // autoContrast
-              color={getValue() >= 0 ? 'green.5' : 'red.5'}
-              leftSection={getValue() >= 0 ? <ArrowUpIcon size={14} /> : <ArrowDownIcon size={14} />}
-            >
+            <SignedValueBadge value={getValue()}>
               {currencyFormatter(getValue(), 2, i18n.locale, currency)}
-            </Badge>
+            </SignedValueBadge>
           </SensitiveText>
         ),
         footer: ({ table: { getPrePaginationRowModel } }) => {
@@ -257,12 +233,9 @@ function TablePerformanceAnalysisEarningByClassificationView({
           />
         ),
         cell: ({ getValue }) => (
-          <Badge
-            color={getValue() >= 0 ? 'green.5' : 'red.5'}
-            leftSection={getValue() >= 0 ? <ArrowUpIcon size={14} /> : <ArrowDownIcon size={14} />}
-          >
+          <SignedValueBadge value={getValue()}>
             {percentFormatter(getValue(), 2, i18n.locale, 1)}
-          </Badge>
+          </SignedValueBadge>
         ),
         footer: ({ table: { getPrePaginationRowModel } }) => {
           const total = getPrePaginationRowModel().rows.reduce((sum, row) => sum + row.original.contributionYield, 0);
@@ -280,7 +253,7 @@ function TablePerformanceAnalysisEarningByClassificationView({
           ),
       }),
     ],
-    [_, i18n.locale, currency, onAction, progressData],
+    [_, i18n.locale, currency, onAction],
   );
 
   const table = useReactTable<ClassificationTableItem>({

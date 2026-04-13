@@ -1,7 +1,8 @@
-import { currencyFormatter, isNullOrUndefined, percentFormatter } from '@boilerplate-frontend/utils';
+import { currencyFormatter, percentFormatter } from '@boilerplate-frontend/utils';
 import { Trans, useLingui } from '@lingui/react/macro';
-import { Divider, Group, Paper, RingProgress, Stack, Text } from '@mantine/core';
+import { Divider, Group, Paper, Stack, Text } from '@mantine/core';
 import { DetailRow } from '../../atoms/DetailRow/DetailRow';
+import { PLRingProgress } from '../../atoms/PLRingProgress/PLRingProgress';
 
 type CardPerformanceEarningItemProps = {
   classLabel: string;
@@ -23,19 +24,11 @@ export const CardPerformanceEarningItem = ({
   currency,
 }: CardPerformanceEarningItemProps) => {
   const { i18n } = useLingui();
-  const plPercentValue = isNullOrUndefined(plPercent) ? 0 : plPercent * 100;
-  const ringColor = plPercentValue >= 0 ? 'brand.5' : 'red.5';
 
   return (
     <Paper withBorder radius="md">
       <Group px="md" pt="sm" pb="xs" gap="sm" wrap="nowrap">
-        <RingProgress
-          size={40}
-          thickness={4}
-          roundCaps
-          sections={[{ value: plPercentValue, color: ringColor }]}
-          transitionDuration={600}
-        />
+        <PLRingProgress plPercent={plPercent} />
         <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
           <Text size="sm" fw={600} lineClamp={1}>
             {classLabel}
