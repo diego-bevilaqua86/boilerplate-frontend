@@ -10,6 +10,7 @@
 
 import { TransactionPopulated } from '@boilerplate-frontend/types';
 import { dateFormatter, isNullOrUndefined, useCurrencyFormatters } from '@boilerplate-frontend/utils';
+import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Badge, Button, Divider, Modal, SimpleGrid, Stack, Table, Text, Textarea } from '@mantine/core';
@@ -39,7 +40,7 @@ const SummaryRow = ({ label, children, colSpan }: { label: string; children: Rea
 // ─── Componente principal ─────────────────────────────────────────────────────
 
 export const ModalTransactionDetails = ({ opened, onClose, transaction }: ModalTransactionDetailsProps) => {
-  const { i18n } = useLingui();
+  const { i18n, _ } = useLingui();
   const { currencyFormatter } = useCurrencyFormatters({
     locale: i18n.locale,
     currency: transaction?.currencyId ?? 'BRL',
@@ -71,13 +72,13 @@ export const ModalTransactionDetails = ({ opened, onClose, transaction }: ModalT
             <Table withRowBorders={false} verticalSpacing={4}>
               <Table.Tbody>
                 <Table.Tr>
-                  <SummaryRow label={'Carteira'}>{transaction.walletId?.name ?? '-'}</SummaryRow>
-                  <SummaryRow label={'Instituição financeira'}>{transaction.entityId?.name ?? '-'}</SummaryRow>
+                  <SummaryRow label={_(msg`Carteira`)}>{transaction.walletId?.name ?? '-'}</SummaryRow>
+                  <SummaryRow label={_(msg`Instituição financeira`)}>{transaction.entityId?.name ?? '-'}</SummaryRow>
                 </Table.Tr>
 
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={0}>
-                  <SummaryRow label={'Ativo'}>{transaction.securityId?.beehusName ?? '-'}</SummaryRow>
-                  <SummaryRow label={'Operação'}>
+                  <SummaryRow label={_(msg`Ativo`)}>{transaction.securityId?.beehusName ?? '-'}</SummaryRow>
+                  <SummaryRow label={_(msg`Operação`)}>
                     <Badge variant="light" styles={{ root: { ...styles } }} size="sm">
                       {screenLabel}
                     </Badge>
@@ -85,15 +86,15 @@ export const ModalTransactionDetails = ({ opened, onClose, transaction }: ModalT
                 </SimpleGrid>
 
                 <Table.Tr>
-                  <SummaryRow label={'Data liquidação'}>
+                  <SummaryRow label={_(msg`Data liquidação`)}>
                     {transaction?.liquidationDate ? dateFormatter(transaction.liquidationDate, i18n.locale) : '-'}
                   </SummaryRow>
-                  <SummaryRow label={'Saldo'}>
+                  <SummaryRow label={_(msg`Saldo`)}>
                     {transaction?.balance ? currencyFormatter(transaction.balance) : '-'}
                   </SummaryRow>
                 </Table.Tr>
 
-                <SummaryRow label={'Descrição'} colSpan={2}>
+                <SummaryRow label={_(msg`Descrição`)} colSpan={2}>
                   {transaction?.description ?? '-'}
                 </SummaryRow>
               </Table.Tbody>

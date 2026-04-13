@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import CardTransactions from './CardTransactions';
+import { CardTransactions } from './CardTransactions';
 
 describe('CardTransactions', () => {
   it('should render successfully', () => {

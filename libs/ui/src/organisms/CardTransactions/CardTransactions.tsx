@@ -15,7 +15,7 @@
 //      — useMemo inline para sort + filter.
 //      — JSX completo.
 //
-// Chave no registry: 'card-withdrawal-deposits'
+// Chave no registry: 'card-transactions'
 
 import { getTransactionMappings, TransactionPopulated } from '@boilerplate-frontend/types';
 import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
@@ -67,7 +67,6 @@ const CardTransactionsDataRequest = () => {
   const { data } = useFetchTransactions({
     groupingId: selectedGrouping,
     period: selectedPeriod,
-    select: (data: any) => data,
   });
 
   if (isNullOrUndefined(data)) return <EmptyWidget />;

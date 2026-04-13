@@ -19,7 +19,7 @@ import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { ModalFilters } from '../../molecules/ModalFilters/ModalFilters';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { ModalTransactionDetails } from '../TableTransactions/ModalTransactionDetails';
+import { ModalTransactionDetails } from '../../molecules/ModalTransactionDetails/ModalTransactionDetails';
 import { useTransactionsTable } from '../TableTransactions/useTransactionsTable';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
