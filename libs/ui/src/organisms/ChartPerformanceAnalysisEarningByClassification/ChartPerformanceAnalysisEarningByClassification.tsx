@@ -23,6 +23,7 @@ import { useChartPerformanceAnalysisEarningByClassificationAdapter } from './use
 // ─── Camada 1 — Apresentação ─────────────────────────────────────────────────
 
 export const ChartPerformanceAnalysisEarningByClassification = () => {
+  const { t } = useLingui();
   return (
     <BaseWidget>
       <BaseWidget.Header>
@@ -33,7 +34,7 @@ export const ChartPerformanceAnalysisEarningByClassification = () => {
       <BaseWidget.Content>
         <ErrorBoundary
           fallbackRender={({ error }) => (
-            <ErrorCard title="Erro ao carregar rentabilidade por classificação..." error={error} />
+            <ErrorCard title={t`Erro ao carregar rentabilidade por classificação...`} error={error} />
           )}
         >
           <Suspense fallback={<TablePlaceholder size="lg" />}>
@@ -76,7 +77,7 @@ const ChartPerformanceAnalysisEarningByClassificationView = ({
   data: GenericTableData;
   currency: string;
 }) => {
-  const { i18n } = useLingui();
+  const { i18n, t } = useLingui();
   const { handleOpen } = useTemplateModal();
   const [formatType, setFormatType] = useState<'currency' | 'percentage'>('currency');
   const [barWidth, setBarWidth] = useState(160);
@@ -131,7 +132,7 @@ const ChartPerformanceAnalysisEarningByClassificationView = ({
           withBarValueLabel
           tooltipAnimationDuration={200}
           getBarColor={(value) => (value > 0 ? 'brand.4' : 'red.8')}
-          series={[{ name: 'value', color: 'violet.6', label: 'Ganhos' }]}
+          series={[{ name: 'value', color: 'violet.6', label: t`Ganhos` }]}
           tickLine="none"
           gridAxis="none"
           withYAxis={false}
@@ -139,7 +140,7 @@ const ChartPerformanceAnalysisEarningByClassificationView = ({
             tick: (
               <ChartTickButton
                 barWidth={barWidth}
-                disabledValues={['Ganhos/Despesas', 'Saldo em conta', 'Total']}
+                disabledValues={[t`Ganhos/Despesas`, t`Saldo em conta`, t`Total`]}
                 onClick={(value) => handleOpen('performance-details', { classification: value })}
               />
             ),

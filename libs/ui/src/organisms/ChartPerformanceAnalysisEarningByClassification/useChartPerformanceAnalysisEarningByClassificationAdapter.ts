@@ -1,11 +1,14 @@
 import { GenericTableData, HierarchicalData } from '@boilerplate-frontend/types';
 import { isNullOrUndefined } from '@boilerplate-frontend/utils';
+import { useLingui } from '@lingui/react/macro';
 import { useMemo } from 'react';
 
 export const useChartPerformanceAnalysisEarningByClassificationAdapter = (
   data: GenericTableData,
   displayOptions: 'currency' | 'percentage',
 ) => {
+  const { t, i18n } = useLingui();
+
   const earningsByClassificationChartData = useMemo(() => {
     const itemKey =
       displayOptions === 'currency' ? 'accFinancialEarningsInTargetFx' : 'percentualSampleDataInTargetFx';
@@ -13,19 +16,19 @@ export const useChartPerformanceAnalysisEarningByClassificationAdapter = (
       switch (item.variable1) {
         case 'gainsExpenses':
           return {
-            label: 'Ganhos/Despesas',
+            label: t`Ganhos/Despesas`,
             value: prepareValue(item[itemKey]),
             color: setColor(item[itemKey]),
           };
         case 'cashAccount':
           return {
-            label: 'Saldo em conta',
+            label: t`Saldo em conta`,
             value: prepareValue(item[itemKey]),
             color: setColor(item[itemKey]),
           };
         case 'provision':
           return {
-            label: 'Provisões',
+            label: t`Provisões`,
             value: prepareValue(item[itemKey]),
             color: setColor(item[itemKey]),
           };
@@ -45,13 +48,13 @@ export const useChartPerformanceAnalysisEarningByClassificationAdapter = (
       return acc;
     }, 0);
     chartData.push({
-      label: 'Total',
+      label: t`Total`,
       value: total,
       color: 'brand.4',
     });
 
     return chartData;
-  }, [data.hierarchicalData, displayOptions]);
+  }, [data.hierarchicalData, displayOptions, i18n.locale]);
 
   return { earningsByClassificationChartData };
 };
