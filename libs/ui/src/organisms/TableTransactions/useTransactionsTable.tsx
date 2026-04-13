@@ -25,7 +25,7 @@ import {
 import { useMemo, useState } from 'react';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 import { TableSortingHeader } from '../../atoms/TableSortingHeader/TableSortingHeader';
-import { transactionTypesMappingStyles } from './transactionStyleMapping';
+import { transactionTypesMappingStyles } from '../../molecules/TransactionItem/transactionStyleMapping';
 
 const columnBuilder = createColumnHelper<TransactionPopulated>();
 

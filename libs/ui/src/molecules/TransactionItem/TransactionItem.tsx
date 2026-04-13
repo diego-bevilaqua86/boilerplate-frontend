@@ -9,7 +9,7 @@
 //   SensitiveText    → mantido (átomo interno)
 
 import { TransactionPopulated } from '@boilerplate-frontend/types';
-import { currencyFormatter, dateFormatter } from '@boilerplate-frontend/utils';
+import { dateFormatter, useCurrencyFormatters } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
@@ -17,7 +17,7 @@ import { ActionIcon, Badge, Box, Divider, Group, Paper, Stack, Text, Tooltip } f
 import { ChatTextIcon } from '@phosphor-icons/react';
 import { DetailRow } from '../../atoms/DetailRow/DetailRow';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
-import { transactionTypesMappingStyles } from '../TableTransactions/transactionStyleMapping';
+import { transactionTypesMappingStyles } from './transactionStyleMapping';
 
 type TransactionItemProps = {
   transaction: TransactionPopulated;
@@ -26,6 +26,10 @@ type TransactionItemProps = {
 
 export const TransactionItem = ({ transaction, onOpenModalTransactionDetails }: TransactionItemProps) => {
   const { i18n, _ } = useLingui();
+  const { currencyFormatter } = useCurrencyFormatters({
+    locale: i18n.locale,
+    currency: transaction.currencyId ?? 'BRL',
+  });
   const { screenLabel, styles } = transactionTypesMappingStyles(transaction.beehusTransactionType);
 
   return (
@@ -66,7 +70,7 @@ export const TransactionItem = ({ transaction, onOpenModalTransactionDetails }: 
 
         <DetailRow label={<Trans>Saldo</Trans>}>
           <SensitiveText dotCount={4} dotSize={20} isHidden={false}>
-            <Text size="sm">{currencyFormatter(transaction.balance, 2, i18n.locale, transaction.currencyId)}</Text>
+            <Text size="sm">{currencyFormatter(transaction.balance)}</Text>
           </SensitiveText>
         </DetailRow>
 

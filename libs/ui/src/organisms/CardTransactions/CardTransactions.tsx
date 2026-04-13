@@ -32,8 +32,8 @@ import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { SearchFilterBar } from '../../molecules/SearchFilterBar/SearchFilterBar';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { ModalTransactionDetails } from '../TableTransactions/ModalTransactionDetails';
-import { TransactionItem } from './TransactionItem';
+import { ModalTransactionDetails } from '../../molecules/ModalTransactionDetails/ModalTransactionDetails';
+import { TransactionItem } from '../../molecules/TransactionItem/TransactionItem';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 

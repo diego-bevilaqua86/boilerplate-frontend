@@ -9,11 +9,11 @@
 //   isMobile                  → removido — responsividade via SimpleGrid
 
 import { TransactionPopulated } from '@boilerplate-frontend/types';
-import { currencyFormatter, dateFormatter, isNullOrUndefined } from '@boilerplate-frontend/utils';
+import { dateFormatter, isNullOrUndefined, useCurrencyFormatters } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Badge, Button, Divider, Modal, SimpleGrid, Stack, Table, Text, Textarea } from '@mantine/core';
-import { transactionTypesMappingStyles } from './transactionStyleMapping';
+import { transactionTypesMappingStyles } from '../TransactionItem/transactionStyleMapping';
 
 export type ModalTransactionDetailsProps = {
   opened: boolean;
@@ -40,6 +40,10 @@ const SummaryRow = ({ label, children, colSpan }: { label: string; children: Rea
 
 export const ModalTransactionDetails = ({ opened, onClose, transaction }: ModalTransactionDetailsProps) => {
   const { i18n } = useLingui();
+  const { currencyFormatter } = useCurrencyFormatters({
+    locale: i18n.locale,
+    currency: transaction?.currencyId ?? 'BRL',
+  });
 
   // transactionTypesMappingStyles retorna { screenLabel, color }
   // após migração — se ainda retornar { styles }, adaptar aqui
@@ -85,9 +89,7 @@ export const ModalTransactionDetails = ({ opened, onClose, transaction }: ModalT
                     {transaction?.liquidationDate ? dateFormatter(transaction.liquidationDate, i18n.locale) : '-'}
                   </SummaryRow>
                   <SummaryRow label={'Saldo'}>
-                    {transaction?.balance
-                      ? currencyFormatter(transaction.balance, 2, i18n.locale, transaction.currencyId)
-                      : '-'}
+                    {transaction?.balance ? currencyFormatter(transaction.balance) : '-'}
                   </SummaryRow>
                 </Table.Tr>
 

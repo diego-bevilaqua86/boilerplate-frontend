@@ -33,7 +33,7 @@ import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TableScrollList } from '../../molecules/TableScrollList/TableScrollList';
 import { TableFilterHeader } from '../../molecules/TableFilterHeader/TableFilterHeader';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
-import { ModalTransactionDetails } from './ModalTransactionDetails';
+import { ModalTransactionDetails } from '../../molecules/ModalTransactionDetails/ModalTransactionDetails';
 import { useTransactionsTable } from './useTransactionsTable';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
