@@ -2,13 +2,14 @@ import { WithdrawalDepositsOverPeriods } from '@boilerplate-frontend/types';
 import { isNullOrUndefined, monthFormatter, useCurrencyFormatters, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Badge, Divider, Stack, Text } from '@mantine/core';
+import { Badge, Divider, Stack } from '@mantine/core';
 import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
 import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
+import { WithdrawalDepositSection } from '../../molecules/WithdrawalDepositSection/WithdrawalDepositSection';
 
 // ─── Camada de apresentação ───────────────────────────────────────────────────
 
@@ -71,19 +72,19 @@ const TableWithdrawalDepositsView = ({ data }: { data: WithdrawalDepositsOverPer
     <Stack p="md" gap="sm">
       <Badge color="gray">{monthFormatter(data.finalDate, i18n.locale)}</Badge>
       <Divider />
-      <Stack gap="xs">
-        <Text><Trans>Aportes</Trans></Text>
-        <Text fw={700}>{currencyFormatter(monthDeposits)}</Text>
-        <Text size="xs"><Trans>Em 12 meses</Trans></Text>
-        <Text fw={700}>{currencyFormatter(twelveMonthsDeposits)}</Text>
-      </Stack>
+      <WithdrawalDepositSection
+        title={<Trans>Aportes</Trans>}
+        currentValue={currencyFormatter(monthDeposits)}
+        periodLabel={<Trans>Em 12 meses</Trans>}
+        periodValue={currencyFormatter(twelveMonthsDeposits)}
+      />
       <Divider />
-      <Stack gap="xs">
-        <Text><Trans>Resgates</Trans></Text>
-        <Text fw={700}>{currencyFormatter(monthWithdrawals)}</Text>
-        <Text size="xs"><Trans>Em 12 meses</Trans></Text>
-        <Text fw={700}>{currencyFormatter(twelveMonthsWithdrawals)}</Text>
-      </Stack>
+      <WithdrawalDepositSection
+        title={<Trans>Resgates</Trans>}
+        currentValue={currencyFormatter(monthWithdrawals)}
+        periodLabel={<Trans>Em 12 meses</Trans>}
+        periodValue={currencyFormatter(twelveMonthsWithdrawals)}
+      />
     </Stack>
   );
 };
