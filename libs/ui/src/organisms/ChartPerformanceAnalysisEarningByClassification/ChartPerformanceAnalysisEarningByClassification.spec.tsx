@@ -1,10 +1,14 @@
 import { render } from '@testing-library/react';
-
-import ChartPerformanceAnalysisEarningByClassification from './ChartPerformanceAnalysisEarningByClassification';
+import { ChartPerformanceAnalysisEarningByClassification } from './ChartPerformanceAnalysisEarningByClassification';
 
 describe('ChartPerformanceAnalysisEarningByClassification', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<ChartPerformanceAnalysisEarningByClassification />);
-    expect(baseElement).toBeTruthy();
+    const { container } = render(<ChartPerformanceAnalysisEarningByClassification />);
+    expect(container.firstChild).not.toBeNull();
+  });
+
+  it('should render error fallback when providers are absent', () => {
+    const { queryByText } = render(<ChartPerformanceAnalysisEarningByClassification />);
+    expect(queryByText('Erro ao carregar rentabilidade por classificação...')).not.toBeNull();
   });
 });
