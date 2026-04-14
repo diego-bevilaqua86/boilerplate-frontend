@@ -13,7 +13,7 @@ const config: LinguiConfig = {
         '<rootDir>/libs/utils/src',
         '<rootDir>/libs/api-authentication-data-access/src',
         '<rootDir>/libs/api-client-data-access/src',
-        '<rootDir>/apps/authentcation/src',
+        '<rootDir>/apps/authentication/src',
       ],
     },
   ],

@@ -1,46 +1,77 @@
-import { useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { PerformanceOverPeriods } from '@boilerplate-frontend/types';
+import { isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
+import { Trans } from '@lingui/react/macro';
 import { Box, Text } from '@mantine/core';
-import { FC, Suspense } from 'react';
+import { Suspense, useMemo } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
+import { EmptyWidget } from '../../molecules/EmptyWidget/EmptyWidget';
+import { ErrorCard } from '../../molecules/ErrorCard/ErrorCard';
 import { LineChart } from '../../molecules/LineChart/LineChart';
-import { lineChartDataMock } from '../../molecules/LineChart/mock';
+import { TablePlaceholder } from '../../molecules/TablePlaceholder/TablePlaceholder';
 
-export const PerformanceOverPeriod: FC<unknown> = () => {
+// ─── Camada de apresentação ───────────────────────────────────────────────────
+
+export const PerformanceOverPeriod = () => {
   return (
     <BaseWidget>
       <BaseWidget.Header>
-        <Text>Performance no período</Text>
+        <Text><Trans>Performance no período</Trans></Text>
       </BaseWidget.Header>
       <BaseWidget.Content>
-        <Suspense>
-          <PerformanceOverPeriodDataRequest />
-        </Suspense>
+        <ErrorBoundary
+          fallbackRender={({ error }) => (
+            <ErrorCard title="Erro ao carregar performance..." error={error} />
+          )}
+        >
+          <Suspense fallback={<TablePlaceholder size="sm" />}>
+            <PerformanceOverPeriodDataRequest />
+          </Suspense>
+        </ErrorBoundary>
       </BaseWidget.Content>
     </BaseWidget>
   );
 };
 
-const PerformanceOverPeriodDataRequest: FC<unknown> = () => {
-  const { selectedGrouping } = useContentRequest();
+// ─── Camada de dados ──────────────────────────────────────────────────────────
+
+const PerformanceOverPeriodDataRequest = () => {
+  const { selectedGrouping, selectedPeriod } = useContentRequest();
   const { useFetchPerformanceOverPeriod } = useRequestHooks();
 
   const { data } = useFetchPerformanceOverPeriod({
     groupingId: selectedGrouping,
-    period: '2025',
+    period: selectedPeriod,
   });
 
-  console.log(data);
+  if (isNullOrUndefined(data) || data.dates.length === 0) return <EmptyWidget />;
 
-  const chartProps = {
-    data: lineChartDataMock,
-    dataKey: 'itemLabel',
-    seriesKeys: ['ItemA', 'ItemB', 'ItemC'],
-    seriesLabels: ['Série A', 'Série B', 'Série C'],
-    seriesColors: ['brand.0', 'brand.2', 'brand.4'],
-  };
+  return <PerformanceOverPeriodView data={data} />;
+};
+
+// ─── Camada de conteúdo ───────────────────────────────────────────────────────
+
+const PerformanceOverPeriodView = ({ data }: { data: PerformanceOverPeriods }) => {
+  const chartData = useMemo(() =>
+    data.dates.map((date, index) => {
+      const point: Record<string, unknown> = { date };
+      data.performance.forEach((p) => {
+        const key = p.refersTo ?? p.securityId ?? '';
+        if (key) point[key] = p.values[index] ?? null;
+      });
+      return point;
+    }),
+  [data]);
+
+  const seriesKeys = useMemo(() =>
+    data.performance
+      .map((p) => p.refersTo ?? p.securityId)
+      .filter((k): k is string => k !== null),
+  [data]);
+
   return (
-    <Box w={'100%'} h={320}>
-      <LineChart {...chartProps} />
+    <Box w="100%" h={320}>
+      <LineChart data={chartData} dataKey="date" seriesKeys={seriesKeys} />
     </Box>
   );
 };

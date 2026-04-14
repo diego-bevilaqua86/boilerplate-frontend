@@ -9,7 +9,13 @@ export type BaseWidgetProps = {};
 
 const BaseWidgetRoot: FC<PropsWithChildren<BaseWidgetProps>> = ({ children }) => {
   return (
-    <Card shadow={'xs'} radius={'sm'} w={'100%'} h={'100%'}>
+    <Card
+      shadow="xs"
+      radius="sm"
+      w="100%"
+      h="100%"
+      style={{ display: 'flex', flexDirection: 'column' }}
+    >
       {children}
     </Card>
   );
