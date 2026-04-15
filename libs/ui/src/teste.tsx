@@ -1,3 +1,0 @@
-const icons = {
-  arrowUp: <>lucideIcon</>,
-};

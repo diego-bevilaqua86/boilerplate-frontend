@@ -5,7 +5,7 @@
 //   TableSortingHeader → atoms/TableSortingHeader
 //   TooltipCustom      → Tooltip + ActionIcon
 //   TableActionButtons → ActionIcon
-//   BsChatSquareText   → MessageSquare (@phosphor-icons/react)
+//   BsChatSquareText   → MessageSquare (lucide-react)
 //   Stack direction    → Group (Mantine)
 //   useClientCustomizationStore → useContentRequest (currency via contexto)
 
