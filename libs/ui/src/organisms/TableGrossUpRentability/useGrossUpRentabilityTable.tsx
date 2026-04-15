@@ -2,7 +2,7 @@
 import { getGrossUpMappings, GrossUpRentability } from '@boilerplate-frontend/types';
 import { percentFormatter } from '@boilerplate-frontend/utils';
 import { ActionIcon, Tooltip } from '@mantine/core';
-import { InfoIcon } from '@phosphor-icons/react';
+import { Info } from 'lucide-react';
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -123,7 +123,7 @@ export const useGrossUpRentabilityTable = ({ dataSource, pageSize = 10 }: UseGro
         cell: ({ getValue }) => (
           <Tooltip label={`Alíquota utilizada para o prazo de 180 até 3260 dias.`}>
             <ActionIcon variant="transparent" size="xs">
-              <InfoIcon size={16} />
+              <Info size={16} />
             </ActionIcon>
           </Tooltip>
         ),

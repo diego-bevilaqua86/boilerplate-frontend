@@ -1,14 +1,14 @@
 import { Group, Text, UnstyledButton } from '@mantine/core';
-import { ArrowDownIcon, ArrowUpIcon, Minus, MinusIcon } from '@phosphor-icons/react';
+import { ArrowDown, ArrowUp, Minus } from 'lucide-react';
 import { SortDirection } from '@tanstack/react-table';
 import { HTMLAttributes, useMemo } from 'react';
 
 type SortingArrowDirection = SortDirection | false;
 
 const arrowMap: Record<SortDirection | 'false', JSX.Element> = {
-  asc:   <ArrowUpIcon size={14} weight="bold" />,
-  desc:  <ArrowDownIcon size={14} weight="bold" />,
-  false: <MinusIcon size={14} />,
+  asc:   <ArrowUp size={14} strokeWidth={2.5} />,
+  desc:  <ArrowDown size={14} strokeWidth={2.5} />,
+  false: <Minus size={14} />,
 };
 
 export type TableSortingHeaderProps = HTMLAttributes<HTMLDivElement> & {
@@ -27,6 +27,7 @@ export const TableSortingHeader = ({
     () => arrowMap[String(sortDirection) as keyof typeof arrowMap] ?? <Minus size={14} />,
     [sortDirection],
   );
+
 
   return (
     <UnstyledButton onClick={onToggleSorting} {...rest}>

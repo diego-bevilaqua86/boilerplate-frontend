@@ -17,7 +17,7 @@ Esta lib contém todos os componentes visuais reutilizáveis do monorepo. É con
 - Mantine 8.x (`@mantine/core`, `@mantine/charts`) — UI e tema; atenção: APIs diferem das versões 6/7
 - `react-grid-layout` — grid responsivo dos templates
 - `@tanstack/react-table` — tabelas
-- `@phosphor-icons/react` — ícones
+- `lucide-react` — ícones
 - `@lingui/react` 5.x + `@lingui/core` — i18n (com SWC plugin — requer `.swcrc` na raiz)
 - Storybook — documentação visual e testes (em `.storybook/`)
 

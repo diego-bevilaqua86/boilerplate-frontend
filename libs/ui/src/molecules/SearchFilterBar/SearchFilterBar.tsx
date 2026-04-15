@@ -1,5 +1,5 @@
 import { Group, TextInput } from '@mantine/core';
-import { MagnifyingGlassIcon } from '@phosphor-icons/react';
+import { Search } from 'lucide-react';
 import { FilterModal, FilterModalProps } from '../FilterModal/FilterModal';
 
 export type SearchFilterBarProps<T extends Array<unknown>> = {
@@ -19,7 +19,7 @@ export function SearchFilterBar<T extends Array<unknown>>({
     <Group px="md" py="sm" gap="xs">
       <TextInput
         placeholder={placeholder}
-        leftSection={<MagnifyingGlassIcon size={14} />}
+        leftSection={<Search size={14} />}
         defaultValue={defaultValue}
         onChange={onChange}
         style={{ flex: 1 }}

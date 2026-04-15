@@ -10,7 +10,7 @@ import { isEmptyArr, isNullOrUndefined, useRequestHooks, useTemplateModal } from
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Badge, Box, Group, ScrollArea, Stack, Text, Tooltip } from '@mantine/core';
 import { useToggle } from '@mantine/hooks';
-import { FunnelIcon } from '@phosphor-icons/react';
+import { Filter } from 'lucide-react';
 import { Suspense, useMemo, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseTable } from '../../molecules/BaseTable/BaseTable';
@@ -174,7 +174,7 @@ const SecurityDetailsTransactionsView = ({ data }: { data: Array<TransactionPopu
                 onClick={() => toggleFiltersModal()}
                 disabled={isNullOrUndefined(data) || isEmptyArr(data)}
               >
-                <FunnelIcon size={14} />
+                <Filter size={14} />
               </ActionIcon>
             </Tooltip>
           </Group>

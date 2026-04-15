@@ -3,7 +3,7 @@ import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } fro
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Box, Group, Paper, ScrollArea, Text } from '@mantine/core';
-import { ChartLineUpIcon } from '@phosphor-icons/react';
+import { TrendingUp } from 'lucide-react';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseTable } from '../../molecules/BaseTable/BaseTable';
@@ -58,7 +58,7 @@ const TableGrossUpRentabilityDataRequest = () => {
           <Trans>Rentabilidade com Gross Up</Trans>
         </Text>
         <ActionIcon variant="default">
-          <ChartLineUpIcon weight="duotone" />
+          <TrendingUp />
         </ActionIcon>
       </Group>
       <Box px="md" pb="md">

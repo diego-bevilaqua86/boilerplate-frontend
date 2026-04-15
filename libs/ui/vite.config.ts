@@ -15,6 +15,9 @@ export default defineConfig(() => ({
   // worker: {
   //  plugins: [ nxViteTsPaths() ],
   // },
+  optimizeDeps: {
+    include: ['lucide-react'],
+  },
   test: {
     watch: false,
     globals: true,

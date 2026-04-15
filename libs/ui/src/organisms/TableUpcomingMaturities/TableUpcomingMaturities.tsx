@@ -2,7 +2,7 @@
 import { UpcomingMaturities } from '@boilerplate-frontend/types';
 import { isEmptyArr, isNullOrUndefined, useContentRequest, useRequestHooks } from '@boilerplate-frontend/utils';
 import { ActionIcon, Badge, Box, Group, Paper, Stack, Text } from '@mantine/core';
-import { ChartLineUpIcon, FunnelIcon } from '@phosphor-icons/react';
+import { TrendingUp, Filter } from 'lucide-react';
 import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseTable } from '../../molecules/BaseTable/BaseTable';
@@ -65,10 +65,10 @@ const TableUpcomingMaturitiesDataRequest = () => {
               disabled={isNullOrUndefined(data) || isEmptyArr(data)}
                onClick={() => toggleModal()}
             >
-              <FunnelIcon weight="duotone" />
+              <Filter />
             </ActionIcon>
             <ActionIcon variant="default">
-              <ChartLineUpIcon weight="duotone" />
+              <TrendingUp />
             </ActionIcon>
           </Group>
         </Group>

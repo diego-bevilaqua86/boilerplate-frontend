@@ -4,7 +4,7 @@ import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Badge, Box, Divider, Group, Paper, Stack, Text, Tooltip } from '@mantine/core';
-import { InfoIcon } from '@phosphor-icons/react';
+import { Info } from 'lucide-react';
 import { DetailRow } from '../../atoms/DetailRow/DetailRow';
 
 type CardGrossUpBySecurityItemProps = {
@@ -41,7 +41,7 @@ export const CardGrossUpBySecurityItem = ({ item }: CardGrossUpBySecurityItemPro
             <Text size="sm">{percentFormatter(item.incomeTax, 1)}</Text>
             <Tooltip label={_(msg`Alíquota utilizada para o prazo de 180 até 3260 dias.`)} position="top">
               <ActionIcon variant="transparent" size="xs">
-                <InfoIcon size={14} />
+                <Info size={14} />
               </ActionIcon>
             </Tooltip>
           </Group>

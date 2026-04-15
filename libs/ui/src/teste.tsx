@@ -1,0 +1,3 @@
+const icons = {
+  arrowUp: <>lucideIcon</>,
+};

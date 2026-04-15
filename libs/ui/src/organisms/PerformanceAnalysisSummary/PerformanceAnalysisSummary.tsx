@@ -11,7 +11,7 @@ import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { Group, Paper, Stack, Text, ThemeIcon } from '@mantine/core';
-import { ArrowUpIcon, ChartLineUpIcon } from '@phosphor-icons/react';
+import { ArrowUp, TrendingUp } from 'lucide-react';
 import { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
@@ -76,14 +76,14 @@ function PerformanceAnalysisSummaryContent({ data, currency }: PerformanceAnalys
       <Stack gap={4} style={{ flex: '0 0 auto' }}>
         <Group gap="xs" align="center" wrap="nowrap">
           <ThemeIcon color="teal" size="md" radius="sm" variant="light">
-            <ArrowUpIcon size={14} />
+            <ArrowUp size={14} />
           </ThemeIcon>
           <Text fw={700} size="lg">
             {data.classificationOrSecurity}
           </Text>
         </Group>
         <Group gap={4} align="center">
-          <ChartLineUpIcon size={14} color="var(--mantine-color-teal-6)" />
+          <TrendingUp size={14} color="var(--mantine-color-teal-6)" />
           <Text size="xs" c="teal" fw={500}>
             {percentFormatter(data.rentability, 1, i18n.locale, 100)} <Trans>Rentabilidade</Trans>
           </Text>

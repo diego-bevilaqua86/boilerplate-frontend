@@ -5,7 +5,7 @@
 //   TableSortingHeader → atoms/TableSortingHeader
 //   TooltipCustom      → Tooltip + ActionIcon
 //   TableActionButtons → ActionIcon
-//   BsChatSquareText   → ChatTextIcon (@phosphor-icons/react)
+//   BsChatSquareText   → MessageSquare (@phosphor-icons/react)
 //   Stack direction    → Group (Mantine)
 //   useClientCustomizationStore → useContentRequest (currency via contexto)
 
@@ -14,7 +14,7 @@ import { currencyFormatter, dateFormatter } from '@boilerplate-frontend/utils';
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { ActionIcon, Badge, Group, Text, Tooltip } from '@mantine/core';
-import { ChatTextIcon } from '@phosphor-icons/react';
+import { MessageSquare } from 'lucide-react';
 import {
   ColumnSort,
   createColumnHelper,
@@ -124,7 +124,7 @@ export const useTransactionsTable = ({ data, onOpenDetailsModal, currency }: Use
             {row.original.description && (
               <Tooltip label={row.original.description} withArrow>
                 <ActionIcon variant="subtle" color="gray" size="sm">
-                  <ChatTextIcon size={16} />
+                  <MessageSquare size={16} />
                 </ActionIcon>
               </Tooltip>
             )}
@@ -133,7 +133,7 @@ export const useTransactionsTable = ({ data, onOpenDetailsModal, currency }: Use
             {row.original.comment && onOpenDetailsModal && (
               <Tooltip label={_(msg`Comentário do gestor`)} withArrow>
                 <ActionIcon variant="subtle" color="blue" size="sm" onClick={() => onOpenDetailsModal(row.original)}>
-                  <ChatTextIcon size={16} weight="fill" />
+                  <MessageSquare size={16} />
                 </ActionIcon>
               </Tooltip>
             )}

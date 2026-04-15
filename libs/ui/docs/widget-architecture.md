@@ -41,7 +41,7 @@ Host (aplicação)
 | Grid responsivo              | `react-grid-layout`                |
 | UI e tema                    | `@mantine/core`, `@mantine/charts` |
 | Tabelas                      | `@tanstack/react-table`            |
-| Ícones                       | `@phosphor-icons/react`            |
+| Ícones                       | `lucide-react`                     |
 | i18n                         | `@lingui/react`, `@lingui/core`    |
 | Testes / documentação visual | Storybook                          |
 

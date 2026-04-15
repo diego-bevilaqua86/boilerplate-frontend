@@ -1,7 +1,7 @@
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { ActionIcon, Tooltip } from '@mantine/core';
-import { FunnelIcon } from '@phosphor-icons/react';
+import { Filter } from 'lucide-react';
 
 export type FilterButtonProps = {
   onClick: () => void;
@@ -16,7 +16,7 @@ export const FilterButton = ({ onClick, hasActiveFilters = false, disabled = fal
   return (
     <Tooltip label={label ?? _(msg`Filtrar`)} withArrow>
       <ActionIcon variant={hasActiveFilters ? 'filled' : 'default'} size={size} onClick={onClick} disabled={disabled}>
-        <FunnelIcon size={14} />
+        <Filter size={14} />
       </ActionIcon>
     </Tooltip>
   );

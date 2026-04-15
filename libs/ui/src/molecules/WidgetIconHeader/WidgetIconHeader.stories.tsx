@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ChartLineUp } from '@phosphor-icons/react';
+import { TrendingUp } from 'lucide-react';
 import { withMantineProvider } from '../../storybook/decorators/withMantineProvider';
 import { withI18NProvider } from '../../storybook/decorators/withI18NProvider';
 import { WidgetIconHeader } from './WidgetIconHeader';
@@ -17,7 +17,7 @@ export const Default: Story = {
   render: () => (
     <WidgetIconHeader
       title="Gross up por ativo"
-      icon={<ChartLineUp weight="duotone" />}
+      icon={<TrendingUp />}
     />
   ),
 };

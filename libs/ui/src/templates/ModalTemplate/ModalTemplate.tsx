@@ -24,7 +24,7 @@
 import { DEFAULT_BREAKPOINTS, DEFAULT_COLS, isNullOrUndefined, useTemplateModal } from '@boilerplate-frontend/utils';
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Box, Group, Modal, Text, Tooltip } from '@mantine/core';
-import { ArrowLeftIcon } from '@phosphor-icons/react';
+import { ArrowLeft } from 'lucide-react';
 import { FC } from 'react';
 import { Breakpoints, ResponsiveLayouts } from 'react-grid-layout';
 import { WidgetTemplate } from '../WidgetTemplate/WidgetTemplate';
@@ -68,7 +68,7 @@ export const ModalTemplate: FC<ModalTemplateProps> = ({
         <Group gap="sm">
           <Tooltip label={<Trans>Voltar</Trans>} withArrow>
             <ActionIcon variant="subtle" color="blue" size="md" onClick={handleClose}>
-              <ArrowLeftIcon size={18} />
+              <ArrowLeft size={18} />
             </ActionIcon>
           </Tooltip>
           <Text fw={600} size="sm">
