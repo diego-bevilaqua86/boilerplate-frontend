@@ -111,7 +111,7 @@ libs/
 | Roteamento          | TanStack Router                      |
 | Server state        | TanStack Query (`useSuspenseQuery`)  |
 | Autenticação        | Auth0 (`@auth0/auth0-react`)         |
-| Ícones              | `@phosphor-icons/react`              |
+| Ícones              | `lucide-react`                       |
 | i18n                | Lingui 5.x (`@lingui/react`)         |
 | Testes unitários    | Vitest 3.x                           |
 | Testes e2e          | Playwright                           |

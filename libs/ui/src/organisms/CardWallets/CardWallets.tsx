@@ -50,7 +50,7 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
-import { CaretRightIcon } from '@phosphor-icons/react';
+import { ChevronRight } from 'lucide-react';
 import { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { DetailRow } from '../../atoms/DetailRow/DetailRow';
@@ -333,7 +333,7 @@ const InvestmentLeafItem = ({
         </SensitiveText>
       </Stack>
       <Stack gap={2} align="flex-end">
-        <CaretRightIcon size={14} />
+        <ChevronRight size={14} />
         <Text size="xs" fw={600}>
           {percentFormatter(row.percentage, 2, locale)}
         </Text>

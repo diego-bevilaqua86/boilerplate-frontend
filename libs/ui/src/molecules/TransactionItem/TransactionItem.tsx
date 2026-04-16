@@ -14,7 +14,7 @@ import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Badge, Box, Divider, Group, Paper, Stack, Text, Tooltip } from '@mantine/core';
-import { ChatTextIcon } from '@phosphor-icons/react';
+import { MessageSquare } from 'lucide-react';
 import { DetailRow } from '../../atoms/DetailRow/DetailRow';
 import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 import { transactionTypesMappingStyles } from './transactionStyleMapping';
@@ -43,7 +43,7 @@ export const TransactionItem = ({ transaction, onOpenModalTransactionDetails }: 
         {transaction.comment && (
           <Tooltip label={_(msg`Comentário do gestor`)} withArrow>
             <ActionIcon variant="subtle" color="blue" size="sm" onClick={onOpenModalTransactionDetails}>
-              <ChatTextIcon size={16} weight="fill" />
+              <MessageSquare size={16} />
             </ActionIcon>
           </Tooltip>
         )}

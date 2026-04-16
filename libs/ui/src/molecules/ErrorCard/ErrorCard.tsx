@@ -1,5 +1,5 @@
 import { BoxComponentProps, Center, Paper, Stack, Text, ThemeIcon } from '@mantine/core';
-import { WarningIcon } from '@phosphor-icons/react';
+import { AlertTriangle } from 'lucide-react';
 import { FC } from 'react';
 
 export type ErrorCardProps = BoxComponentProps & {
@@ -16,7 +16,7 @@ export const ErrorCard: FC<ErrorCardProps> = ({ title, message, error, ...rest }
       <Center>
         <Stack align="center" gap="xs">
           <ThemeIcon color="red" variant="light" size="xl" radius="xl">
-            <WarningIcon size={32}  weight="duotone" />
+            <AlertTriangle size={32} />
           </ThemeIcon>
           <Text fw={600} c="red">{title}</Text>
           <Text size="sm" c="dimmed" ta="center">

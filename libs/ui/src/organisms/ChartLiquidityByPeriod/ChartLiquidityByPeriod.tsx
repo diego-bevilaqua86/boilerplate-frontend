@@ -25,7 +25,7 @@ import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { BarChart } from '@mantine/charts';
 import { ActionIcon, Box, Button, Group, SegmentedControl, Stack, Switch, Text } from '@mantine/core';
-import { ChartBarIcon } from '@phosphor-icons/react';
+import { BarChart2 } from 'lucide-react';
 import { Suspense, useMemo } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
@@ -163,7 +163,7 @@ const ChartLiquidityByPeriodView = ({ data }: { data: Liquidity }) => {
             onChange={(e) => setIncludeProvisions(e.currentTarget.checked)}
           />
           <ActionIcon variant="default" size="sm">
-            <ChartBarIcon weight="duotone" />
+            <BarChart2 />
           </ActionIcon>
         </Group>
       </Group>

@@ -5,7 +5,7 @@ import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Box, Group, RingProgress, Text } from '@mantine/core';
-import { CaretDownIcon, CaretRightIcon } from '@phosphor-icons/react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import {
   createColumnHelper,
   ExpandedState,
@@ -70,7 +70,7 @@ export const useInvestmentPositionTable = ({
                 row.toggleExpanded();
               }}
             >
-              {row.getIsExpanded() ? <CaretDownIcon size={12} /> : <CaretRightIcon size={12} />}
+              {row.getIsExpanded() ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
             </ActionIcon>
           );
         },

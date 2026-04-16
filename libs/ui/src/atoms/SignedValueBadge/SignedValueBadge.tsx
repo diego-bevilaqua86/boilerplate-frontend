@@ -1,5 +1,5 @@
 import { Badge } from '@mantine/core';
-import { ArrowDownIcon, ArrowUpIcon } from '@phosphor-icons/react';
+import { ArrowDown, ArrowUp } from 'lucide-react';
 
 type SignedValueBadgeProps = {
   value: number;
@@ -11,7 +11,7 @@ export function SignedValueBadge({ value, children }: SignedValueBadgeProps) {
   return (
     <Badge
       color={isPositive ? 'green.5' : 'red.5'}
-      leftSection={isPositive ? <ArrowUpIcon size={14} /> : <ArrowDownIcon size={14} />}
+      leftSection={isPositive ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
     >
       {children}
     </Badge>

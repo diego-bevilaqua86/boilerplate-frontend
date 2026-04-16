@@ -1,5 +1,5 @@
 import { Button, Text } from '@mantine/core';
-import { ArrowCircleUpRightIcon } from '@phosphor-icons/react';
+import { ArrowUpRight } from 'lucide-react';
 
 interface ChartTickButtonProps {
   x?: number;
@@ -35,7 +35,7 @@ export const ChartTickButton = ({
           style={{ width: '100%' }}
           disabled={disabled}
           onClick={() => onClick?.(value)}
-          rightSection={!disabled ? <ArrowCircleUpRightIcon size={16} /> : null}
+          rightSection={!disabled ? <ArrowUpRight size={16} /> : null}
         >
           <Text size="sm" truncate="end">
             {value}

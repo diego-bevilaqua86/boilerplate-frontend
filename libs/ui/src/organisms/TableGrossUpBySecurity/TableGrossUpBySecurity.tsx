@@ -23,7 +23,7 @@ import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
 import { ActionIcon, Badge, Group, ScrollArea, Tooltip } from '@mantine/core';
-import { ChartLineUp, Info } from '@phosphor-icons/react';
+import { TrendingUp, Info } from 'lucide-react';
 import {
   createColumnHelper,
   getCoreRowModel,
@@ -48,7 +48,7 @@ export const TableGrossUpBySecurity = () => (
     <BaseWidget.Header>
       <WidgetIconHeader
         title={<Trans>Gross up por ativo</Trans>}
-        icon={<ChartLineUp weight="duotone" />}
+        icon={<TrendingUp />}
       />
     </BaseWidget.Header>
     <BaseWidget.Content>
@@ -173,6 +173,7 @@ const TableGrossUpBySecurityView = ({ data }: { data: Array<GrossUpBySecurity> }
             >
               <ActionIcon variant="transparent" size="xs">
                 <Info size={16} />
+
               </ActionIcon>
             </Tooltip>
           </Group>

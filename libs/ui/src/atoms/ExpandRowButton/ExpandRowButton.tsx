@@ -1,5 +1,5 @@
 import { ActionIcon } from '@mantine/core';
-import { CaretDownIcon, CaretRightIcon } from '@phosphor-icons/react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
 type ExpandRowButtonProps = {
   isExpanded: boolean;
@@ -17,7 +17,7 @@ export function ExpandRowButton({ isExpanded, onToggle }: ExpandRowButtonProps) 
         onToggle();
       }}
     >
-      {isExpanded ? <CaretDownIcon size={12} /> : <CaretRightIcon size={12} />}
+      {isExpanded ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
     </ActionIcon>
   );
 }
