@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { BarChart2, TrendingUp, Wallet } from 'lucide-react';
+import { ArrowLeftRight, BarChart2, Calendar } from 'lucide-react';
 import { TabGroupTemplate } from './TabGroupTemplate';
 
 const meta: Meta<typeof TabGroupTemplate> = {
@@ -7,9 +7,9 @@ const meta: Meta<typeof TabGroupTemplate> = {
   title: 'UI/Molecules/TabGroupTemplate',
   args: {
     tabs: [
-      { label: 'Carteira', value: 'carteira', layouts: {} },
-      { label: 'Rentabilidade', value: 'rentabilidade', layouts: {} },
-      { label: 'Movimentações', value: 'movimentacoes', layouts: {} },
+      { label: 'Movimentações', value: 'movimentacoes', icon: ArrowLeftRight, layouts: {} },
+      { label: 'Liquidez',      value: 'liquidez',      icon: BarChart2,      layouts: {} },
+      { label: 'Vencimentos',   value: 'vencimentos',   icon: Calendar,       layouts: {} },
     ],
   },
 };
@@ -19,18 +19,8 @@ type Story = StoryObj<typeof TabGroupTemplate>;
 
 export const Default: Story = {};
 
-export const ComIcones: Story = {
-  args: {
-    tabs: [
-      { label: 'Carteira', value: 'carteira', icon: Wallet, layouts: {} },
-      { label: 'Rentabilidade', value: 'rentabilidade', icon: TrendingUp, layouts: {} },
-      { label: 'Movimentações', value: 'movimentacoes', icon: BarChart2, layouts: {} },
-    ],
-  },
-};
-
 export const SegundaAtiva: Story = {
   args: {
-    defaultValue: 'rentabilidade',
+    defaultValue: 'liquidez',
   },
 };
