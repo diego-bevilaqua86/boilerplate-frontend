@@ -31,7 +31,7 @@ import { useRenderWidget } from '../../hooks/useRenderWidget';
 
 type BreakpointKey = 'desktop' | 'tablet' | 'mobile';
 
-type WidgetTemplateProps = {
+export type WidgetTemplateProps = {
   layouts: ResponsiveLayouts<BreakpointKey>;
   breakpoints?: Breakpoints<BreakpointKey>;
   cols?: Breakpoints<BreakpointKey>;
