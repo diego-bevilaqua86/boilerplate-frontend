@@ -11,6 +11,7 @@ export type ContentRequestProviderProps = PropsWithChildren<{
   initialSelectedPeriod: PeriodType;
   initialPalette: Array<string>;
   availableTemplates: Array<string>;
+  initialIsSensitiveMode?: boolean;
 }>;
 
 const ContentRequestContext = createContext<ContentRequestContextValue | null>(null);
@@ -23,6 +24,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
   initialSelectedPeriod,
   initialPalette,
   availableTemplates,
+  initialIsSensitiveMode = false,
   children,
 }) => {
   const [selectedClient] = useState<string | undefined>(initialSelectedClient);
@@ -31,6 +33,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
   const [selectedPeriod, setSelectedPeriod] = useState<PeriodType>(initialSelectedPeriod);
   const [selectedTemplate, setSelectedTemplate] = useState<string>(initialSelectedTemplate);
   const [palette, setPalette] = useState<Array<string>>(initialPalette);
+  const [isSensitiveMode] = useState<boolean>(initialIsSensitiveMode);
 
   const handleSelectedPeriod = (period: PeriodType) => {
     setSelectedPeriod(period);
@@ -49,6 +52,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
       selectedPeriod,
       selectedTemplate,
       palette,
+      isSensitiveMode,
       handleTemplateChange,
       handleSelectedPeriod,
     }),
@@ -60,6 +64,7 @@ export const ContentRequestProvider: FC<ContentRequestProviderProps> = ({
       selectedGroupingSummary,
       selectedPeriod,
       palette,
+      isSensitiveMode,
     ],
   );
 
