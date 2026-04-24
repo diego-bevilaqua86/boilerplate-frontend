@@ -1,3 +1,4 @@
+export * from './atoms/TabButton/TabButton';
 export * from './atoms/ChartTickButton/ChartTickButton';
 export * from './atoms/DetailRow/DetailRow';
 export * from './atoms/FilterButton/FilterButton';
@@ -20,6 +21,8 @@ export * from './molecules/PeriodSummaryRow/PeriodSummaryRow';
 export * from './molecules/SearchFilterBar/SearchFilterBar';
 export * from './molecules/TablePlaceholder/TablePlaceholder';
 export * from './molecules/TableRecordBar/TableRecordBar';
+export * from './molecules/TabGroup/TabGroup';
+export * from './templates/TabWidgetTemplate/TabWidgetTemplate';
 export * from './molecules/WidgetIconHeader/WidgetIconHeader';
 export * from './molecules/WithdrawalDepositSection/WithdrawalDepositSection';
 export * from './organisms/CardGrossUpBySecurity/CardGrossUpBySecurity';
