@@ -82,6 +82,7 @@ export type BaseWidgetProps = {
   isLoading: boolean;
   error: string | null;
   isStatic: boolean; // Se true, o widget não pode ser arrastado no grid
+  sensitiveText: boolean; // Se true, valores sensíveis são mascarados
 };
 
 export type WidgetRegistry = Map<string, ComponentType<BaseWidgetProps>>;

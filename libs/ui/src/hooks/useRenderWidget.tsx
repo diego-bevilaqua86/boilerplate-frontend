@@ -19,7 +19,7 @@
 import { LayoutItem } from 'react-grid-layout';
 import { BaseWidgetProps, widgetRegistry } from '../registry/widgetRegistry';
 
-export function useRenderWidget() {
+export function useRenderWidget(sensitiveText = false) {
   const renderWidget = (item: LayoutItem) => {
     const Component = widgetRegistry.get(item.i);
 
@@ -32,6 +32,7 @@ export function useRenderWidget() {
       isLoading: false,
       error: null,
       isStatic: item.static ?? false,
+      sensitiveText,
     };
 
     return (

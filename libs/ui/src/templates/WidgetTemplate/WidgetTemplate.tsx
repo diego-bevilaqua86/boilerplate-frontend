@@ -35,6 +35,7 @@ export type WidgetTemplateProps = {
   layouts: ResponsiveLayouts<BreakpointKey>;
   breakpoints?: Breakpoints<BreakpointKey>;
   cols?: Breakpoints<BreakpointKey>;
+  sensitiveText?: boolean;
 };
 
 const resolveBreakpoint = (width: number): BreakpointKey => {
@@ -54,9 +55,10 @@ export const WidgetTemplate: FC<WidgetTemplateProps> = ({
   layouts,
   breakpoints = DEFAULT_BREAKPOINTS,
   cols = DEFAULT_COLS,
+  sensitiveText = false,
 }) => {
   const { width, containerRef, mounted } = useContainerWidth();
-  const { renderWidget } = useRenderWidget();
+  const { renderWidget } = useRenderWidget(sensitiveText);
 
   const [currentBreakpoint, setCurrentBreakpoint] = useState<BreakpointKey>(() => resolveBreakpoint(width));
 
