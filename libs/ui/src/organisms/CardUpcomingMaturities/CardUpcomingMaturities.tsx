@@ -20,9 +20,10 @@ import { isEmptyArr, useContentRequest, useRequestHooks } from '@boilerplate-fro
 import { msg } from '@lingui/core/macro';
 import { useLingui } from '@lingui/react';
 import { Trans } from '@lingui/react/macro';
-import { Stack, Text } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
 import { useDebouncedState } from '@mantine/hooks';
 import { Suspense, useMemo, useState } from 'react';
+import { ActiveFilterBadge } from '../../atoms/ActiveFilterBadge/ActiveFilterBadge';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BaseWidget } from '../../molecules/BaseWidget/BaseWidget';
 import { CardScrollList } from '../../molecules/CardScrollList/CardScrollList';
@@ -58,22 +59,29 @@ export const CardUpcomingMaturities = () => (
 // ─── Camada de dados ──────────────────────────────────────────────────────────
 
 const CardUpcomingMaturitiesDataRequest = () => {
-  const { selectedGrouping, selectedGroupingSummary } = useContentRequest();
+  const { selectedGrouping, selectedGroupingSummary, isSensitiveMode } = useContentRequest();
   const { useFetchUpcomingMaturities } = useRequestHooks();
-  const { _ } = useLingui();
 
-  const { data } = useFetchUpcomingMaturities({ groupingId: selectedGrouping, select: (data) => data });
+  const { data } = useFetchUpcomingMaturities({ groupingId: selectedGrouping });
 
   if (isEmptyArr(data)) {
-    return <EmptyWidget message={_(msg`Não há vencimentos futuros.`)} />;
+    return <EmptyWidget />;
   }
 
-  return <CardUpcomingMaturitiesView data={data} currency={selectedGroupingSummary?.currency} />;
+  return <CardUpcomingMaturitiesView data={data} currency={selectedGroupingSummary?.currency} isSensitiveMode={isSensitiveMode} />;
 };
 
 // ─── Camada de view ───────────────────────────────────────────────────────────
 
-const CardUpcomingMaturitiesView = ({ data, currency }: { data: Array<UpcomingMaturities>; currency: string | undefined }) => {
+const CardUpcomingMaturitiesView = ({
+  data,
+  currency,
+  isSensitiveMode,
+}: {
+  data: Array<UpcomingMaturities>;
+  currency: string | undefined;
+  isSensitiveMode: boolean;
+}) => {
   const { _ } = useLingui();
   const [searchInput, setSearchInput] = useDebouncedState('', 50);
   const [selectedItems, setSelectedItems] = useState<Array<string>>([]);
@@ -94,6 +102,7 @@ const CardUpcomingMaturitiesView = ({ data, currency }: { data: Array<UpcomingMa
     <Stack gap={0}>
       <SearchFilterBar
         placeholder={_(msg`Pesquisar vencimentos...`)}
+        defaultValue={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
         filtersProps={{
           onSubmit: setSelectedItems,
@@ -104,9 +113,21 @@ const CardUpcomingMaturitiesView = ({ data, currency }: { data: Array<UpcomingMa
         }}
       />
 
+      {selectedItems.length > 0 && (
+        <Group gap='xs' px='sm' pb='xs'>
+          {selectedItems.map((item) => (
+            <ActiveFilterBadge
+              key={item}
+              label={item}
+              onRemove={() => setSelectedItems((prev) => prev.filter((i) => i !== item))}
+            />
+          ))}
+        </Group>
+      )}
+
       <CardScrollList isEmpty={isEmptyArr(filteredData)} emptyMessage={_(msg`Sem informações para esta pesquisa...`)}>
         {filteredData.map((item, idx) => (
-          <UpcomingMaturitiesCard key={`${item.securityName}-${idx}`} data={item} currency={currency} />
+          <UpcomingMaturitiesCard key={`${item.securityName}-${idx}`} data={item} currency={currency} isSensitiveMode={isSensitiveMode} />
         ))}
       </CardScrollList>
     </Stack>

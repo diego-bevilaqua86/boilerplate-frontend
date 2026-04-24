@@ -9,9 +9,10 @@ import { SensitiveText } from '../../atoms/SensitiveText/SensitiveText';
 export type UpcomingMaturitiesCardProps = {
   data: UpcomingMaturities;
   currency?: string;
+  isSensitiveMode: boolean;
 };
 
-export const UpcomingMaturitiesCard = ({ data, currency }: UpcomingMaturitiesCardProps) => {
+export const UpcomingMaturitiesCard = ({ data, currency, isSensitiveMode }: UpcomingMaturitiesCardProps) => {
   const { i18n } = useLingui();
   const { currencyFormatter, currencyPartsFormatter } = useCurrencyFormatters({ locale: i18n.locale, currency });
 
@@ -39,7 +40,7 @@ export const UpcomingMaturitiesCard = ({ data, currency }: UpcomingMaturitiesCar
             </>
           }
         >
-          <SensitiveText dotCount={4} dotSize={14} dotColor="var(--mantine-color-dimmed)" isHidden={false}>
+          <SensitiveText dotCount={4} dotSize={14} dotColor="var(--mantine-color-dimmed)" isHidden={isSensitiveMode}>
             <Text size="sm">{currencyFormatter(data.balance, 2)}</Text>
           </SensitiveText>
         </DetailRow>

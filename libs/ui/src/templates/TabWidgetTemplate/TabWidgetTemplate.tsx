@@ -15,9 +15,10 @@ export type TabWidgetTemplateTab = TabGroupTab & {
 export type TabWidgetTemplateProps = {
   tabs: TabWidgetTemplateTab[];
   defaultValue?: string;
+  sensitiveText?: boolean;
 };
 
-export const TabWidgetTemplate: FC<TabWidgetTemplateProps> = ({ tabs, defaultValue }) => {
+export const TabWidgetTemplate: FC<TabWidgetTemplateProps> = ({ tabs, defaultValue, sensitiveText }) => {
   const [activeValue, setActiveValue] = useState(defaultValue ?? tabs[0]?.value ?? '');
   const activeTab = tabs.find((t) => t.value === activeValue);
 
@@ -30,6 +31,7 @@ export const TabWidgetTemplate: FC<TabWidgetTemplateProps> = ({ tabs, defaultVal
           layouts={activeTab.layouts}
           breakpoints={activeTab.breakpoints}
           cols={activeTab.cols}
+          sensitiveText={sensitiveText}
         />
       )}
     </Stack>

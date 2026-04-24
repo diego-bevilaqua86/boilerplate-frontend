@@ -11,6 +11,7 @@ export type ContentRequestContextValue = {
   selectedTemplate: string;
   selectedPeriod: PeriodType;
   palette: Array<string>;
+  isSensitiveMode: boolean;
   handleTemplateChange: (template: string) => void | Promise<void>;
   handleSelectedPeriod: (period: PeriodType) => void;
 };
