@@ -19,17 +19,16 @@ export const BeehusTheme = createTheme({
   // Object of colors, key is color name, value is an array of at least 10 strings (colors)
   colors: {
     brand: [
-      '#66500E',
+      '#fffdf6',
+      '#fef9e9',
+      '#fbebba',
+      '#f9e199',
+      '#f6d36b',
+      '#f5cb4e',
+      '#f2be22',
+      '#dcad1f',
+      '#ac8718',
       '#856913',
-      '#AC8718',
-      '#DCAD1F',
-      '#F2BE22',
-      '#F5CB4E',
-      '#F6D36B',
-      '#F9E199',
-      '#FBEBBA',
-      '#FEF9E9',
-      '#FFFDF6',
     ],
   },
 

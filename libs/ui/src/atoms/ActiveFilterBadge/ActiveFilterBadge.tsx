@@ -1,21 +1,11 @@
-import { Badge, Text } from '@mantine/core';
+import { Pill, PillProps } from '@mantine/core';
 
-interface ActiveFilterBadgeProps {
+export interface ActiveFilterBadgeProps extends PillProps {
   label: string;
-  onRemove: () => void;
 }
 
-export const ActiveFilterBadge = ({ label, onRemove }: ActiveFilterBadgeProps) => (
-  <Badge
-    variant="light"
-    size="sm"
-    style={{ cursor: 'pointer' }}
-    rightSection={
-      <Text size="xs" onClick={onRemove}>
-        ×
-      </Text>
-    }
-  >
+export const ActiveFilterBadge = ({ label, onRemove, ...props }: ActiveFilterBadgeProps) => (
+  <Pill withRemoveButton {...props}>
     {label}
-  </Badge>
+  </Pill>
 );
